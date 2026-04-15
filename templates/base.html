@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Oreca Group — Dashboard CA{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+  .tb-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .tb-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border, #e2e8f0);
+    background: #fff;
+    color: var(--text-primary, #1e293b);
+    font-size: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    font-family: inherit;
+    transition: all .12s;
+  }
+  .tb-action-btn:hover {
+    border-color: var(--accent, #E11D48);
+    color: var(--accent, #E11D48);
+  }
+  .pdf-export-banner {
+    display: none;
+  }
+  {% if export_mode %}
+  body.export-mode {
+    display: block;
+    background: #fff;
+  }
+  body.export-mode .sidebar,
+  body.export-mode .topbar,
+  body.export-mode .db-widget-handle,
+  body.export-mode .db-widget-resize {
+    display: none !important;
+  }
+  body.export-mode .main {
+    margin-left: 0;
+    min-height: auto;
+  }
+  body.export-mode .content {
+    padding: 22px 24px 28px;
+    background: #fff;
+  }
+  body.export-mode .pdf-export-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 12px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+  }
+  body.export-mode .pdf-export-note {
+    font-size: 12px;
+    color: #475569;
+  }
+  @media print {
+    body.export-mode .pdf-export-banner {
+      display: none !important;
+    }
+    body.export-mode .content {
+      padding: 0;
+    }
+  }
+  {% endif %}
+  @media print {
+    .sidebar,
+    .topbar,
+    .tb-actions,
+    .db-widget-handle,
+    .db-widget-resize {
+      display: none !important;
+    }
+    body {
+      background: #fff !important;
+      display: block;
+    }
+    .main {
+      margin-left: 0 !important;
+      min-height: auto !important;
+    }
+    .content {
+      padding: 0 !important;
+      background: #fff !important;
+    }
+    a {
+      text-decoration: none !important;
+    }
+  }
+  </style>
+</head>
+<body class="{% if export_mode %}export-mode{% endif %}">
+
+  <!-- ── Sidebar ──────────────────────────────────────────────────────────── -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <img src="{{ url_for('static', filename='img/oreca-logo.jpeg') }}"
+           alt="Oreca Group"
+           style="width:72px;opacity:.85;display:block;margin:0 auto 10px;">
+      <div class="logo-title">Oreca Group</div>
+      <div class="logo-sub">Dashboard CA</div>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Analyses</div>
+
+      <a href="{{ url_for('dashboard') }}"
+         class="nav-item {% if request.path == '/' %}active{% endif %}">
+        <span class="nav-icon">◧</span> Vue Globale
+      </a>
+
+      <a href="{{ url_for('marques') }}"
+         class="nav-item {% if request.path == '/marques' %}active{% endif %}">
+        <span class="nav-icon">⬡</span> Par Marque
+      </a>
+
+      <a href="{{ url_for('restaurants') }}"
+         class="nav-item {% if request.path == '/restaurants' %}active{% endif %}">
+        <span class="nav-icon">≡</span> Classement
+      </a>
+
+      <a href="{{ url_for('produits') }}"
+         class="nav-item {% if request.path == '/produits' %}active{% endif %}">
+        <span class="nav-icon">🛒</span> Produits
+      </a>
+
+      <div class="sidebar-sep"></div>
+      <div class="nav-section-label">Données</div>
+
+      <a href="{{ url_for('donnees') }}"
+         class="nav-item {% if request.path in ['/donnees', '/saisie'] %}active{% endif %}">
+        <span class="nav-icon">✎</span> Saisie CA
+      </a>
+
+      <a href="{{ url_for('import_produits') }}"
+         class="nav-item {% if request.path == '/import-produits' %}active{% endif %}">
+        <span class="nav-icon">📥</span> Import Produits
+      </a>
+
+      <a href="{{ url_for('objectifs') }}"
+         class="nav-item {% if request.path == '/objectifs' %}active{% endif %}">
+        <span class="nav-icon">◎</span> Objectifs
+      </a>
+
+      <div class="sidebar-sep"></div>
+      <div class="nav-section-label">Suivi</div>
+
+      <a href="{{ url_for('historique') }}"
+         class="nav-item {% if request.path == '/historique' %}active{% endif %}">
+        <span class="nav-icon">⏱</span> Historique
+      </a>
+
+      <a href="{{ url_for('calendrier') }}"
+         class="nav-item {% if request.path == '/calendrier' %}active{% endif %}">
+        <span class="nav-icon">▦</span> Calendrier
+      </a>
+
+      <div class="sidebar-sep"></div>
+      <div class="nav-section-label">Restaurants</div>
+
+      <style>
+      /* ── Sidebar restaurants (fond sombre) ───────────────── */
+      .sb-resto-scroll {
+        overflow-y: auto; max-height: 260px;
+        padding-bottom: 6px;
+        scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent;
+      }
+      .sb-resto-scroll::-webkit-scrollbar { width: 3px; }
+      .sb-resto-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 3px; }
+
+      .sb-brand-group { margin-bottom: 1px; }
+
+      .sb-brand-toggle {
+        display: flex; align-items: center; justify-content: space-between;
+        width: 100%; background: none; border: none; cursor: pointer;
+        padding: 5px 12px 4px; font-family: inherit;
+        border-radius: 7px; transition: background .12s;
+      }
+      .sb-brand-toggle:hover { background: rgba(255,255,255,.07); }
+      .sb-brand-toggle-left { display: flex; align-items: center; gap: 7px; }
+      .sb-brand-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+      .sb-brand-name {
+        font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+        letter-spacing: .07em; color: rgba(255,255,255,.45);
+      }
+      .sb-brand-count {
+        font-size: 9px; font-weight: 700; color: rgba(255,255,255,.35);
+        background: rgba(255,255,255,.08); padding: 1px 6px; border-radius: 10px;
+      }
+      .sb-chevron {
+        font-size: 9px; color: rgba(255,255,255,.3);
+        transition: transform .15s; display: block;
+      }
+      .sb-brand-group.open .sb-chevron { transform: rotate(90deg); }
+
+      .sb-brand-links { display: none; }
+      .sb-brand-group.open .sb-brand-links { display: block; }
+
+      .sb-resto-link {
+        display: block; padding: 5px 12px 5px 28px;
+        font-size: .8rem; color: rgba(255,255,255,.5);
+        text-decoration: none; border-radius: 7px; margin: 1px 0;
+        transition: background .12s, color .12s;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .sb-resto-link:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.85); }
+      .sb-resto-link.active { color: #fff; font-weight: 600; background: rgba(255,255,255,.1); }
+      </style>
+
+      <div class="sb-resto-scroll">
+      {% set brands = [
+        ('Chamas Tacos',  '#E28F0A'),
+        ("O'Cheese",      '#D82E2E'),
+        ('Delys Station', '#DB29C9'),
+      ] %}
+
+      {% for brand_name, brand_color in brands %}
+        {% set brand_id = 'sb-brand-' ~ loop.index %}
+        {% set brand_restos = restaurants | selectattr('brand', 'equalto', brand_name) | list %}
+        {# Auto-open if current page belongs to this brand #}
+        {% set is_open = request.path.startswith('/restaurant/') and brand_restos | selectattr('profil_id', 'defined') | map(attribute='profil_id') | map('string') | list | join(',') %}
+
+        <div class="sb-brand-group" id="{{ brand_id }}">
+          <button class="sb-brand-toggle" onclick="sbToggle('{{ brand_id }}')">
+            <div class="sb-brand-toggle-left">
+              <div class="sb-brand-dot" style="background:{{ brand_color }};"></div>
+              <span class="sb-brand-name">{{ brand_name }}</span>
+              <span class="sb-brand-count">{{ brand_restos | length }}</span>
+            </div>
+            <span class="sb-chevron">›</span>
+          </button>
+          <div class="sb-brand-links">
+            {% for r in brand_restos %}
+              {% if r.profil_id %}
+              <a href="/restaurant/{{ r.profil_id }}"
+                 class="sb-resto-link {% if request.path == '/restaurant/' ~ r.profil_id %}active{% endif %}"
+                 style="{% if request.path == '/restaurant/' ~ r.profil_id %}border-left:2.5px solid {{ brand_color }};padding-left:27px;{% endif %}">
+                {{ r.name }}
+              </a>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+      </div>{# /sb-resto-scroll #}
+    </div>{# /sidebar-nav #}
+
+    <style>
+    .sb-user {
+      padding: 12px 14px 10px;
+      border-top: 1px solid rgba(255,255,255,.07);
+      margin-top: 6px;
+    }
+    .sb-user-info {
+      font-size: 10.5px; color: rgba(255,255,255,.4);
+      margin-bottom: 8px; line-height: 1.4;
+    }
+    .sb-user-name { font-weight: 700; color: rgba(255,255,255,.7); }
+    .sb-logout {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; padding: 7px 12px;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 7px; color: rgba(255,255,255,.5);
+      font-size: 11.5px; font-weight: 600; font-family: inherit;
+      text-decoration: none; cursor: pointer;
+      transition: background .12s, color .12s;
+    }
+    .sb-logout:hover { background: rgba(255,255,255,.1); color: rgba(255,255,255,.85); }
+    </style>
+
+    <div class="sb-user">
+      <div class="sb-user-info">
+        Connecté en tant que<br>
+        <span class="sb-user-name">{{ current_user.id }} · {{ USERS[current_user.id].role if current_user.is_authenticated and current_user.id in USERS else '' }}</span>
+      </div>
+      <a href="{{ url_for('logout') }}" class="sb-logout">↪ Se déconnecter</a>
+    </div>
+
+    <script>
+    (function() {
+      const STORE = 'oreca_sb_open';
+      function sbLoad() {
+        try { return new Set(JSON.parse(localStorage.getItem(STORE) || '[]')); }
+        catch { return new Set(); }
+      }
+      function sbSave(s) {
+        try { localStorage.setItem(STORE, JSON.stringify([...s])); } catch {}
+      }
+
+      // Open groups that contain the active link, or were previously opened
+      const open = sbLoad();
+      document.querySelectorAll('.sb-brand-group').forEach(g => {
+        const hasActive = g.querySelector('.sb-resto-link.active');
+        if (hasActive || open.has(g.id)) g.classList.add('open');
+      });
+
+      window.sbToggle = function(id) {
+        const g = document.getElementById(id);
+        const s = sbLoad();
+        if (g.classList.toggle('open')) s.add(id);
+        else s.delete(id);
+        sbSave(s);
+      };
+    })();
+    </script>
+  </nav>
+
+  <!-- ── Main ─────────────────────────────────────────────────────────────── -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-title">{% block page_title %}Dashboard{% endblock %}</div>
+      <div class="tb-actions">
+        {% block page_actions %}{% endblock %}
+        <div class="topbar-meta">
+          Nov 2024 – Avr 2025
+          <span class="topbar-sep">·</span>
+          24 restaurants
+          <span class="topbar-sep">·</span>
+          3 marques
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      {% if export_mode %}
+      <div class="pdf-export-banner">
+        <div class="pdf-export-note">Version prête pour la réunion. Utilisez “Enregistrer en PDF” dans la fenêtre d’impression.</div>
+        <button class="tb-action-btn" type="button" onclick="window.print()">Imprimer / PDF</button>
+      </div>
+      {% endif %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+</body>
+{% if export_mode %}
+<script>
+window.addEventListener('load', () => {
+  setTimeout(() => window.print(), 250);
+});
+</script>
+{% endif %}
+</html>

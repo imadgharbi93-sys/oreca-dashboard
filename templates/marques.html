@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% block title %}Par Marque — Oreca Group{% endblock %}
+{% block page_title %}Analyse par Marque{% endblock %}
+
+{% block content %}
+
+{# ── Top row : best-brand card + 3 brand KPIs ──────────────────────────────── #}
+<div class="grid-3" style="margin-bottom:24px;align-items:stretch;">
+
+  <div class="best-card">
+    <div>
+      <div class="bc-label">Meilleure marque — {{ last_month_label }}</div>
+      <div class="bc-brand" style="color:{{ brand_colors[best_brand] }};">{{ best_brand }}</div>
+      <div class="bc-ca">{{ best_brand_ca | fr_number }} €</div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.4);margin-top:4px;">CA du mois</div>
+    </div>
+    <div class="bc-crown">👑</div>
+  </div>
+
+  {% for brand, total in brand_total_all.items() %}
+  {% set slug = 'chamas' if 'Chamas' in brand else ('ocheese' if 'Cheese' in brand else 'delys') %}
+  <div class="kpi-card" style="border-left:4px solid {{ brand_colors[brand] }};display:flex;flex-direction:column;gap:8px;">
+    <div>
+      <span class="badge badge-{{ slug }}">{{ brand }}</span>
+    </div>
+    <div class="kpi-value" style="font-size:1.5rem;">{{ total | fr_number }} €</div>
+    <div class="kpi-sub">{{ brand_counts[brand] }} restaurants · {{ market_share[brand] }}% du marché</div>
+    <div>
+      <div style="font-size:.68rem;color:var(--text-muted);margin-bottom:4px;">Moy. {{ brand_avg[brand] | fr_number }} €/resto/mois</div>
+      <div class="progress">
+        <div class="progress-fill" style="width:{{ market_share[brand] }}%;background:{{ brand_colors[brand] }};"></div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{# ── Charts row ────────────────────────────────────────────────────────────── #}
+<div class="grid-2" style="margin-bottom:24px;">
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">CA mensuel par marque — 6 mois</div>
+    </div>
+    <div class="card-body">
+      <div class="chart-wrap"><canvas id="groupedBar"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">CA moyen par restaurant / mois</div>
+    </div>
+    <div class="card-body">
+      <div class="chart-wrap"><canvas id="hBar"></canvas></div>
+    </div>
+  </div>
+</div>
+
+{# ── Market share table ────────────────────────────────────────────────────── #}
+<div class="card">
+  <div class="card-header">
+    <div class="card-title">Parts de marché & performance — récapitulatif</div>
+  </div>
+  <div class="card-body" style="padding-top:10px;">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Marque</th>
+            <th>Restaurants</th>
+            <th>CA Total (6 mois)</th>
+            <th>Moy./resto/mois</th>
+            <th style="min-width:200px;">Part de marché</th>
+            <th>CA {{ last_month_label }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for brand in brand_total_all %}
+          {% set slug = 'chamas' if 'Chamas' in brand else ('ocheese' if 'Cheese' in brand else 'delys') %}
+          <tr>
+            <td><span class="badge badge-{{ slug }}">{{ brand }}</span></td>
+            <td style="font-weight:600;">{{ brand_counts[brand] }}</td>
+            <td style="font-weight:700;">{{ brand_total_all[brand] | fr_number }} €</td>
+            <td>{{ brand_avg[brand] | fr_number }} €</td>
+            <td>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div style="flex:1;height:6px;background:#e2e8f0;border-radius:3px;">
+                  <div style="height:100%;width:{{ market_share[brand] }}%;background:{{ brand_colors[brand] }};border-radius:3px;"></div>
+                </div>
+                <span style="font-weight:700;min-width:38px;font-size:.82rem;">{{ market_share[brand] }}%</span>
+              </div>
+            </td>
+            <td style="font-weight:600;">{{ last_month_totals[brand] | fr_number }} €</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{# ── Chart.js ──────────────────────────────────────────────────────────────── #}
+<script>
+const MONTHS       = {{ months | tojson }};
+const LABELS       = {{ month_labels | tojson }};
+const BRAND_MON    = {{ brand_monthly | tojson }};
+const BRAND_COLORS = {{ brand_colors | tojson }};
+const BRAND_AVG    = {{ brand_avg | tojson }};
+
+// Grouped bar
+new Chart(document.getElementById('groupedBar'), {
+  type: 'bar',
+  data: {
+    labels: LABELS,
+    datasets: Object.entries(BRAND_MON).map(([b, monthly]) => ({
+      label: b,
+      data: MONTHS.map(m => monthly[m] || 0),
+      backgroundColor: BRAND_COLORS[b] + 'cc',
+      borderColor:     BRAND_COLORS[b],
+      borderWidth: 1,
+      borderRadius: 4,
+    }))
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'top', labels: { font: { size: 11 }, padding: 12, usePointStyle: true } },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${new Intl.NumberFormat('fr-BE').format(ctx.parsed.y)} €`
+        }
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+      y: {
+        grid: { color: '#f1f5f9' },
+        ticks: { callback: v => (v / 1000).toFixed(0) + 'k €', font: { size: 11 } }
+      }
+    }
+  }
+});
+
+// Horizontal bar — avg CA per restaurant
+new Chart(document.getElementById('hBar'), {
+  type: 'bar',
+  data: {
+    labels: Object.keys(BRAND_AVG),
+    datasets: [{
+      label: 'CA moyen/resto/mois',
+      data: Object.values(BRAND_AVG).map(v => Math.round(v)),
+      backgroundColor: Object.keys(BRAND_AVG).map(b => BRAND_COLORS[b] + 'cc'),
+      borderColor:     Object.keys(BRAND_AVG).map(b => BRAND_COLORS[b]),
+      borderWidth: 1,
+      borderRadius: 6,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: ctx => ` ${new Intl.NumberFormat('fr-BE').format(ctx.parsed.x)} €`
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: { color: '#f1f5f9' },
+        ticks: { callback: v => (v / 1000).toFixed(0) + 'k €', font: { size: 11 } }
+      },
+      y: { grid: { display: false }, ticks: { font: { size: 12, weight: '600' } } }
+    }
+  }
+});
+</script>
+{% endblock %}

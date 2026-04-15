@@ -1,0 +1,3192 @@
+{% extends 'base.html' %}
+{% block title %}Vue Globale — Oreca Group{% endblock %}
+{% block page_title %}Vue Globale{% endblock %}
+{% block page_actions %}
+<a class="tb-action-btn" href="{{ url_for('dashboard', export='pdf') }}" target="_blank" rel="noopener">Exporter PDF</a>
+{% endblock %}
+
+{% block content %}
+<style>
+/* ── Dashboard-specific ────────────────────────────────────────────────────── */
+.db-section { margin-bottom: 22px; }
+.db-board {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.db-widget {
+  position: relative;
+  min-width: 0;
+  grid-column: span var(--widget-col, 12) !important;
+}
+.db-widget.dragging {
+  opacity: .45;
+}
+.db-widget.drop-target {
+  outline: 2px dashed var(--accent);
+  outline-offset: 4px;
+}
+.db-widget.is-draggable .db-kpi,
+.db-widget.is-draggable .db-brand-card,
+.db-widget.is-draggable .db-card,
+.db-widget.is-draggable .al-block {
+  transition: box-shadow .15s, transform .15s;
+}
+.db-widget.is-draggable:hover .db-kpi,
+.db-widget.is-draggable:hover .db-brand-card,
+.db-widget.is-draggable:hover .db-card,
+.db-widget.is-draggable:hover .al-block {
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .08);
+}
+.db-widget-handle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(148, 163, 184, .35);
+  background: rgba(255,255,255,.92);
+  color: var(--text-muted);
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .9rem;
+  cursor: grab;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, .08);
+  user-select: none;
+}
+.db-widget-handle:active { cursor: grabbing; }
+.db-widget-handle:hover {
+  color: var(--accent);
+  border-color: rgba(225, 29, 72, .28);
+}
+.db-widget-handle.kpi-handle {
+  top: 12px;
+}
+.db-widget-title {
+  position: absolute;
+  left: 14px;
+  top: -10px;
+  padding: 2px 8px;
+  background: #fff5f7;
+  color: #be123c;
+  border: 1px solid #fecdd3;
+  border-radius: 999px;
+  font-size: .62rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  z-index: 5;
+}
+.db-widget-col-2 { grid-column: span 2; }
+.db-widget-col-4 { grid-column: span 4; }
+.db-widget-col-5 { grid-column: span 5; }
+.db-widget-col-6 { grid-column: span 6; }
+.db-widget-col-7 { grid-column: span 7; }
+.db-widget-col-8 { grid-column: span 8; }
+.db-widget-col-12 { grid-column: 1 / -1; }
+.db-widget-resize {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 20;
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(148, 163, 184, .32);
+  background:
+    linear-gradient(135deg, transparent 0 42%, rgba(148,163,184,.85) 42% 50%, transparent 50% 100%),
+    linear-gradient(135deg, transparent 0 60%, rgba(148,163,184,.75) 60% 68%, transparent 68% 100%),
+    rgba(255,255,255,.94);
+  cursor: nwse-resize;
+  box-shadow: 0 4px 10px rgba(15, 23, 42, .08);
+}
+.db-widget-resize:hover {
+  border-color: rgba(225, 29, 72, .28);
+}
+.db-widget-body {
+  height: 100%;
+}
+.db-widget-content {
+  min-height: var(--widget-height, auto);
+  height: 100%;
+}
+.db-widget-content.has-fixed-height {
+  min-height: var(--widget-height, 280px);
+}
+.db-chart-wrap {
+  position: relative;
+  height: var(--chart-height, 260px);
+}
+.db-widget-resizing {
+  user-select: none;
+  cursor: nwse-resize;
+}
+.db-widget-resizing * {
+  user-select: none;
+}
+
+/* ── Filter bar ──────────────────────────────────────────────────────────── */
+.db-filterbar {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  position: sticky;
+  top: 49px;
+  z-index: 90;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  margin-bottom: 14px;
+}
+.fb-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; }
+.fb-counter { font-size: .72rem; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+
+/* Brand buttons */
+.fb-brand {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid var(--bc, #ccc);
+  background: transparent;
+  color: var(--bc, #666);
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .15s;
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 5px;
+}
+.fb-brand:hover, .fb-brand.active { background: var(--bc, #666); color: #fff; }
+.fb-chevron { font-size: .6rem; transition: transform .15s; }
+.fb-brand.open .fb-chevron { transform: rotate(180deg); }
+
+/* Dropdown */
+.fb-dropdown-wrap { position: relative; }
+.fb-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background: #fff;
+  border: 1.5px solid var(--dc, var(--border));
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  min-width: 200px;
+  max-width: 260px;
+  z-index: 200;
+  overflow: hidden;
+}
+.fb-dropdown.open { display: block; }
+.fb-date-drop { left: auto; right: 0; min-width: 180px; }
+.fb-drop-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--border);
+}
+.fb-drop-all, .fb-drop-none {
+  padding: 2px 8px; border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #f8fafc; color: var(--text-muted);
+  font-size: .65rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: all .1s;
+}
+.fb-drop-all:hover  { background: #e0fce7; color: #1D9E75; border-color: #1D9E75; }
+.fb-drop-none:hover { background: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
+.fb-drop-list { padding: 8px 0; max-height: 260px; overflow-y: auto; }
+
+/* Checkbox / radio rows */
+.fb-check-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 6px 14px; cursor: pointer;
+  font-size: .78rem; color: var(--text-primary);
+  transition: background .1s;
+}
+.fb-check-row:hover { background: #f8fafc; }
+.fb-check-row input { display: none; }
+.fb-check-box {
+  width: 16px; height: 16px; border-radius: 4px;
+  border: 1.5px solid var(--border); background: #fff;
+  flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  transition: all .12s;
+}
+.fb-check-row input:checked ~ .fb-check-box {
+  background: var(--rc, #E11D48); border-color: var(--rc, #E11D48);
+}
+.fb-check-row input:checked ~ .fb-check-box::after {
+  content: '✓'; font-size: .65rem; color: #fff; font-weight: 800;
+}
+.fb-radio-row .fb-check-box { border-radius: 50%; }
+.fb-check-label { flex: 1; line-height: 1.3; }
+
+/* Date button */
+.fb-date-btn {
+  padding: 5px 12px; border-radius: 20px;
+  border: 1.5px solid var(--border); background: #fff;
+  color: var(--text-primary); font-size: .78rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all .15s;
+  display: flex; align-items: center; gap: 5px; white-space: nowrap;
+}
+.fb-date-btn:hover, .fb-date-btn.open { border-color: var(--accent); color: var(--accent); }
+
+/* Search */
+.fb-search-wrap { position: relative; }
+.fb-search {
+  padding: 5px 28px 5px 10px;
+  border: 1px solid var(--border); border-radius: 20px;
+  font-size: .78rem; font-family: inherit; color: var(--text-primary);
+  outline: none; width: 170px; transition: border-color .15s;
+}
+.fb-search:focus { border-color: var(--accent); }
+.fb-clear {
+  position: absolute; right: 8px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  font-size: .68rem; color: var(--text-muted); display: none;
+}
+
+/* (old resto/month filter CSS removed) */
+
+/* ── Period modal ────────────────────────────────────────────────────────── */
+.pm-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.5); z-index: 500;
+  align-items: center; justify-content: center;
+}
+.pm-overlay.open { display: flex; }
+.pm-modal {
+  width: 860px; max-width: 95vw; max-height: 90vh;
+  background: #fff; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+  display: flex; flex-direction: column;
+  transform: scale(.95); transition: transform .15s ease;
+}
+.pm-overlay.open .pm-modal { transform: scale(1); }
+.pm-header {
+  background: #E11D48; color: #fff;
+  padding: 15px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.pm-header-title { font-size: .94rem; font-weight: 800; }
+.pm-close {
+  background: none; border: none; color: #fff;
+  font-size: 1.1rem; cursor: pointer; line-height: 1;
+  padding: 3px 7px; border-radius: 5px; font-family: inherit;
+  transition: background .12s;
+}
+.pm-close:hover { background: rgba(255,255,255,.2); }
+.pm-body { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+.pm-left {
+  width: 210px; flex-shrink: 0;
+  background: #F9FAFB; border-right: 1px solid var(--border);
+  overflow-y: auto; padding: 10px 0;
+}
+.pm-quick-btn {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; padding: 8px 14px;
+  background: none; border: none; border-left: 3px solid transparent;
+  text-align: left; font-family: inherit; font-size: .78rem;
+  color: var(--text-primary); cursor: pointer; transition: background .1s;
+}
+.pm-quick-btn:hover { background: #f1f5f9; }
+.pm-quick-btn.active {
+  background: #fff0f3; border-left-color: #E11D48;
+  font-weight: 600; color: #be123c;
+}
+.pm-qb-dot {
+  width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0;
+  background: #E11D48; opacity: 0;
+}
+.pm-quick-btn.active .pm-qb-dot { opacity: 1; }
+.pm-right {
+  flex: 1; display: flex; flex-direction: column;
+  overflow: hidden; padding: 16px 18px; gap: 10px;
+}
+.pm-cals {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px; flex: 1; overflow-y: auto; min-height: 0;
+}
+.pm-cal-wrap { display: flex; flex-direction: column; gap: 8px; }
+.pm-cal-nav {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.pm-cal-arr {
+  background: none; border: 1px solid var(--border);
+  border-radius: 5px; padding: 2px 9px; cursor: pointer;
+  font-size: 1rem; color: var(--text-muted);
+  transition: all .12s; font-family: inherit; line-height: 1.5;
+}
+.pm-cal-arr:hover { border-color: #E11D48; color: #E11D48; }
+.pm-cal-year {
+  font-size: .88rem; font-weight: 700; color: var(--text-primary);
+}
+.pm-cal-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.pm-cal-day {
+  padding: 7px 4px; border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .78rem; cursor: pointer; user-select: none; transition: all .1s;
+}
+.pm-cal-day:hover:not(.pm-day-nodata) { background: #fee2e2; color: #E11D48; }
+.pm-day-sel   { background: #E11D48 !important; color: #fff !important; font-weight: 700; border-radius: 7px; }
+.pm-day-range { background: #FEE2E2; color: #be123c; }
+.pm-day-nodata { color: #d1d5db !important; cursor: not-allowed; pointer-events: none; }
+.pm-range-hint {
+  font-size: .72rem; color: var(--text-muted); text-align: center;
+  padding: 4px 0; flex-shrink: 0;
+}
+.pm-footer {
+  padding: 12px 18px; border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: flex-end;
+  gap: 10px; flex-shrink: 0; background: #fff;
+}
+.pm-btn-cancel {
+  padding: 8px 20px; border-radius: 8px;
+  border: 1px solid var(--border); background: #f8fafc;
+  color: var(--text-muted); font-size: .83rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all .12s;
+}
+.pm-btn-cancel:hover { background: #f1f5f9; }
+.pm-btn-apply {
+  padding: 8px 20px; border-radius: 8px; border: none;
+  background: #E11D48; color: #fff;
+  font-size: .83rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: background .12s;
+}
+.pm-btn-apply:hover { background: #be123c; }
+@media (max-width: 700px) {
+  .pm-modal { max-width: 100vw; max-height: 100vh; border-radius: 0; }
+  .pm-body { flex-direction: column; }
+  .pm-left { width: 100%; border-right: none; border-bottom: 1px solid var(--border); max-height: 180px; }
+  .pm-cals { grid-template-columns: 1fr; }
+}
+
+/* ── Alertes ─────────────────────────────────────────────────────────────── */
+.al-block {
+  background: #F9FAFB; border: 0.5px solid #E5E7EB;
+  border-radius: 12px; padding: 14px 16px; margin-bottom: 20px;
+}
+.al-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.al-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.al-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: #E5E7EB; color: var(--text-muted);
+  font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: 20px; margin-left: 7px;
+}
+.al-close-all {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  background: none; border: 1px solid #E5E7EB; border-radius: 6px;
+  padding: 3px 10px; cursor: pointer; font-family: inherit;
+  transition: all .12s;
+}
+.al-close-all:hover { background: #f1f5f9; color: var(--text-primary); }
+.al-list { display: flex; flex-direction: column; }
+.al-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid #F3F4F6;
+  overflow: hidden;
+  transition: opacity .2s ease, max-height .2s ease, padding .2s ease;
+  max-height: 60px;
+}
+.al-item:last-child { border-bottom: none; }
+.al-item.hiding { opacity: 0; max-height: 0; padding: 0; pointer-events: none; }
+.al-icon {
+  flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; color: #fff; line-height: 1;
+}
+.al-icon.danger  { background: #E11D48; }
+.al-icon.warning { background: #E8A000; }
+.al-icon.success { background: #1D9E75; }
+.al-msg { font-size: 12.5px; color: var(--text-primary); flex: 1; min-width: 0; }
+.al-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.al-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700;
+  white-space: nowrap;
+}
+.al-badge.chamas  { background: rgba(216,90,48,.12);  color: #D85A30; }
+.al-badge.ocheese { background: rgba(55,138,221,.12); color: #378ADD; }
+.al-badge.delys   { background: rgba(99,153,34,.12);  color: #639922; }
+.al-date { font-size: 10px; color: #9CA3AF; white-space: nowrap; }
+.al-dismiss {
+  flex-shrink: 0; background: none; border: none;
+  color: #9CA3AF; font-size: 14px; cursor: pointer; padding: 2px 4px;
+  line-height: 1; transition: color .1s; font-family: inherit;
+}
+.al-dismiss:hover { color: var(--text-primary); }
+.al-revoir {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; font-size: 12.5px; color: var(--text-muted);
+}
+.al-revoir-btn {
+  font-size: 11px; font-weight: 600; color: var(--text-muted);
+  background: none; border: 1px solid #E5E7EB; border-radius: 6px;
+  padding: 4px 12px; cursor: pointer; font-family: inherit;
+  transition: all .12s; white-space: nowrap;
+}
+.al-revoir-btn:hover { background: #f1f5f9; color: var(--text-primary); }
+.al-more {
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+}
+.al-more-btn {
+  font-size: 11px; font-weight: 700;
+  color: #be123c;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .12s;
+}
+.al-more-btn:hover {
+  background: #ffe4e6;
+  border-color: #fda4af;
+}
+
+/* ── Panneau Analyser le mois ────────────────────────────────────────────── */
+.ap-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.35); z-index: 400;
+}
+.ap-overlay.open { display: block; }
+.ap-panel {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 380px; max-width: 95vw;
+  background: #fff; box-shadow: -4px 0 24px rgba(0,0,0,.13);
+  display: flex; flex-direction: column;
+  transform: translateX(100%); transition: transform .25s ease;
+  z-index: 401;
+}
+.ap-overlay.open .ap-panel { transform: none; }
+.ap-panel-hd {
+  background: #E11D48; color: #fff;
+  padding: 16px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.ap-panel-title { font-size: .9rem; font-weight: 800; }
+.ap-panel-close {
+  background: none; border: none; color: #fff;
+  font-size: 1.1rem; cursor: pointer; padding: 3px 7px;
+  border-radius: 5px; font-family: inherit; transition: background .12s;
+}
+.ap-panel-close:hover { background: rgba(255,255,255,.2); }
+.ap-panel-body { flex: 1; overflow-y: auto; padding: 16px 18px; }
+.ap-section-title {
+  font-size: .65rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .07em; margin: 14px 0 6px;
+}
+.ap-section-title:first-child { margin-top: 0; }
+.ap-section-title.pos { color: #1D9E75; }
+.ap-section-title.neg { color: #E11D48; }
+.ap-section-title.warn { color: #E8A000; }
+.ap-item {
+  font-size: 12.5px; color: var(--text-primary);
+  padding: 6px 0; border-bottom: 1px solid #F3F4F6;
+  display: flex; align-items: flex-start; gap: 7px; line-height: 1.4;
+}
+.ap-item:last-child { border-bottom: none; }
+.ap-dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; margin-top: 5px; }
+.ap-dot.pos  { background: #1D9E75; }
+.ap-dot.neg  { background: #E11D48; }
+.ap-dot.warn { background: #E8A000; }
+.ap-empty { font-size: 12px; color: var(--text-muted); padding: 6px 0; }
+.ap-loading { font-size: 12.5px; color: var(--text-muted); padding: 20px 0; text-align: center; }
+
+/* Bouton Analyser dans la filterbar */
+.fb-analyse-btn {
+  padding: 6px 14px; background: #fff;
+  border: 1.5px solid #E11D48; border-radius: 8px;
+  color: #E11D48; font-size: .78rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: all .12s;
+  white-space: nowrap; flex-shrink: 0;
+}
+.fb-analyse-btn:hover { background: #E11D48; color: #fff; }
+.fb-layout-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--text-primary);
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .12s;
+  white-space: nowrap;
+}
+.fb-layout-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* KPI grid */
+.db-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.db-kpi {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: box-shadow .15s;
+}
+.db-kpi:hover { box-shadow: 0 3px 10px rgba(0,0,0,.1); }
+.db-kpi-icon { font-size: 1.2rem; }
+.db-kpi-lbl { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-muted); }
+.db-kpi-val { font-size: 1.6rem; font-weight: 800; color: var(--text-primary); letter-spacing: -.03em; line-height: 1; }
+.db-kpi-sub { font-size: .7rem; color: var(--text-muted); }
+.db-growth {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: .72rem; font-weight: 700; padding: 1px 7px;
+  border-radius: 10px;
+}
+.db-growth.pos { background: rgba(29,158,117,.1); color: #1D9E75; }
+.db-growth.neg { background: rgba(225,29,72,.08); color: #E11D48; }
+.db-growth.neu { background: #f1f5f9; color: var(--text-muted); }
+.db-prog-bar { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.db-prog-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width .5s; }
+
+/* M-1 comparison */
+.db-kpi-evol { font-size: 12px; margin-top: 3px; font-weight: 600; }
+.db-kpi-evol.pos { color: #1D9E75; }
+.db-kpi-evol.neg { color: #E11D48; }
+.db-kpi-evol.inv-pos { color: #E11D48; }   /* hausse = mauvais (Food/Labor/Prime) */
+.db-kpi-evol.inv-neg { color: #1D9E75; }   /* baisse = bonne nouvelle */
+.db-kpi-evol.neu { color: var(--text-muted); }
+.db-kpi-m1 { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* Cost KPI row */
+.db-cost-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.db-prime-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 6px; }
+.db-prime-fill { height: 100%; border-radius: 3px; transition: width .5s; }
+
+/* Brand cards */
+.db-brand-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.db-brand-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--bc, #ccc);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  padding: 18px 20px;
+  position: relative;
+  transition: box-shadow .15s;
+  overflow: hidden;
+}
+.db-brand-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,.1); }
+.db-brand-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  gap: 10px;
+  align-items: start;
+}
+.db-brand-main {
+  min-width: 0;
+}
+.db-best-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: #FEF3C7; color: #92400E;
+  font-size: .62rem; font-weight: 800;
+  padding: 2px 8px; border-radius: 10px;
+  letter-spacing: .04em;
+}
+.db-brand-name { font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 4px; }
+.db-brand-ca { font-size: 1.7rem; font-weight: 800; letter-spacing: -.03em; line-height: 1; }
+.db-brand-spark {
+  position: relative;
+  align-self: stretch;
+  min-height: 82px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(248,250,252,.9) 0%, rgba(241,245,249,.55) 100%);
+  border: 1px solid rgba(226,232,240,.85);
+  padding: 8px 10px 6px;
+}
+.db-brand-spark canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.db-brand-spark-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: .68rem;
+  color: #94a3b8;
+}
+.db-brand-meta { display: flex; gap: 14px; margin-top: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+.db-brand-meta-item { font-size: .72rem; color: var(--text-muted); }
+.db-brand-meta-item strong { color: var(--text-primary); }
+/* Charts CEO */
+.db-chart-full { margin-bottom: 18px; }
+.db-charts-2col {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.db-chart-radar { margin-bottom: 18px; max-width: 680px; }
+@media (max-width: 900px) { .db-charts-2col { grid-template-columns: 1fr; } }
+
+/* Rankings + Heatmap */
+.db-rank-heat {
+  display: grid;
+  grid-template-columns: 40fr 60fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.db-podium { display: flex; flex-direction: column; gap: 8px; }
+.db-podium-sep { font-size: .62rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); padding: 4px 0; }
+.db-podium-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fafafa;
+  transition: background .12s;
+}
+.db-podium-row:hover { background: #f1f5f9; }
+.db-medal { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .8rem; font-weight: 800; flex-shrink: 0; }
+.db-medal-1 { background: #FEF3C7; color: #92400E; }
+.db-medal-2 { background: #e9ecef; color: #495057; }
+.db-medal-3 { background: #fdebd0; color: #784212; }
+.db-medal-f { background: #fee2e2; color: #b91c1c; }
+.db-podium-info { flex: 1; min-width: 0; }
+.db-podium-name { font-size: .82rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.db-podium-ca { font-size: .78rem; font-weight: 700; margin-top: 1px; }
+
+/* Heatmap */
+.db-heatmap {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+}
+.db-hm-cell {
+  border-radius: 7px;
+  padding: 8px 6px;
+  text-align: center;
+  font-size: .62rem;
+  font-weight: 600;
+  cursor: default;
+  transition: transform .12s, box-shadow .12s;
+  position: relative;
+}
+.db-hm-cell:hover { transform: scale(1.08); box-shadow: 0 3px 8px rgba(0,0,0,.15); z-index: 10; }
+.db-hm-name { line-height: 1.2; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.db-hm-ca { font-size: .58rem; margin-top: 3px; opacity: .8; }
+.db-hm-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: #1e293b; color: #fff;
+  padding: 6px 10px; border-radius: 6px;
+  font-size: .72rem; white-space: nowrap;
+  z-index: 99; pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+}
+.db-hm-tooltip::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: #1e293b;
+}
+.db-hm-cell:hover .db-hm-tooltip { display: block; }
+
+/* Table */
+.db-table-wrap { overflow-x: auto; }
+.db-table { width: 100%; border-collapse: collapse; font-size: .82rem; }
+.db-table th {
+  padding: 9px 14px; text-align: left;
+  background: #f8fafc;
+  border-bottom: 1px solid var(--border);
+  font-size: .63rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-muted);
+  white-space: nowrap; cursor: pointer; user-select: none;
+}
+.db-table th:hover { background: #f1f5f9; color: var(--text-primary); }
+.db-table th.sorted { color: var(--accent); }
+.db-table th .sort-icon { margin-left: 4px; opacity: .4; }
+.db-table th.sorted .sort-icon { opacity: 1; }
+.db-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.db-table tr:last-child td { border-bottom: none; }
+.db-table tr:hover td { background: #fafafa; }
+.db-table tr.dimmed td { opacity: .3; }
+.db-obj-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 10px;
+  font-size: .68rem; font-weight: 700;
+}
+.db-obj-badge.green { background: rgba(99,153,34,.12); color: #4e7a1a; }
+.db-obj-badge.orange { background: rgba(232,160,0,.12); color: #a86800; }
+.db-obj-badge.red { background: rgba(225,29,72,.08); color: #be123c; }
+
+/* Card */
+.db-card {
+  background: #fff;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.db-card-hd {
+  padding: 16px 20px 0;
+  font-size: .65rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .07em;
+  color: var(--text-muted);
+}
+.db-card-bd { padding: 14px 20px 20px; }
+
+@media (max-width: 1280px) {
+  .db-widget-col-2 { grid-column: span 3; }
+  .db-widget-col-4 { grid-column: span 6; }
+  .db-widget-col-5 { grid-column: span 6; }
+  .db-widget-col-6 { grid-column: span 6; }
+  .db-widget-col-7 { grid-column: span 12; }
+  .db-widget-col-8 { grid-column: span 12; }
+  .db-kpi-grid { grid-template-columns: repeat(3,1fr); }
+  .db-cost-grid { grid-template-columns: 1fr 1fr; }
+  .db-brand-grid { grid-template-columns: 1fr 1fr; }
+  .db-charts-2col, .db-rank-heat { grid-template-columns: 1fr; }
+  .db-brand-top { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .db-board { grid-template-columns: 1fr; }
+  .db-widget-col-2,
+  .db-widget-col-4,
+  .db-widget-col-5,
+  .db-widget-col-6,
+  .db-widget-col-7,
+  .db-widget-col-8,
+  .db-widget-col-12 { grid-column: 1 / -1; }
+  .db-widget-handle {
+    width: 30px;
+    height: 30px;
+    top: 8px;
+    right: 8px;
+  }
+  .db-widget-resize { display: none; }
+  .db-kpi-grid { grid-template-columns: repeat(2,1fr); }
+  .db-cost-grid { grid-template-columns: 1fr; }
+  .db-brand-grid { grid-template-columns: 1fr; }
+  .db-heatmap { grid-template-columns: repeat(4,1fr); }
+  .db-brand-spark { min-height: 72px; }
+}
+</style>
+
+{# ════════════════════════════════════════════════════════════════════════════
+   BARRE DE FILTRES UNIFIÉE
+   ════════════════════════════════════════════════════════════════════════════ #}
+<div class="db-filterbar" id="filterbar">
+
+  {# Bouton Toutes #}
+  <button class="fb-brand active" data-brand="all" style="--bc:#E11D48;"
+          onclick="setBrand('all')">Toutes</button>
+
+  {# Boutons marque avec dropdown restos #}
+  {% for m in marques_data %}
+  <div class="fb-dropdown-wrap" id="wrap-{{ loop.index0 }}">
+    <button class="fb-brand" data-brand="{{ m.nom }}" style="--bc:{{ m.couleur }};"
+            onclick="toggleDropdown({{ loop.index0 }}, '{{ m.nom | replace("'", "\\'") }}')">
+      {{ m.nom }} <span class="fb-chevron">▾</span>
+    </button>
+    <div class="fb-dropdown" id="drop-{{ loop.index0 }}" style="--dc:{{ m.couleur }};">
+      <div class="fb-drop-header">
+        <span style="font-size:.65rem;font-weight:700;text-transform:uppercase;
+                     letter-spacing:.06em;color:{{ m.couleur }};">{{ m.nom }}</span>
+        <button class="fb-drop-all" onclick="selectAllBrand('{{ m.nom | replace("'", "\\'") }}')">Tous</button>
+        <button class="fb-drop-none" onclick="clearBrandRestos('{{ m.nom | replace("'", "\\'") }}')">Aucun</button>
+      </div>
+      <div class="fb-drop-list">
+        {% for r in restaurants if r.brand == m.nom %}
+        <label class="fb-check-row" style="--rc:{{ m.couleur }};">
+          <input type="checkbox" class="fb-check" value="{{ r.id }}"
+                 data-brand="{{ m.nom }}" onchange="onCheckChange()">
+          <span class="fb-check-box"></span>
+          <span class="fb-check-label">
+            {{ r.name | replace("Chamas Tacos ", "") | replace("Chamas ", "") | replace("O'Cheese ", "") | replace("Delys Station ", "") | replace("Delys ", "") }}
+          </span>
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <div class="fb-sep"></div>
+
+  {# Recherche #}
+  <div class="fb-search-wrap">
+    <input id="search-inp" class="fb-search" type="text"
+           placeholder="Rechercher un restaurant…"
+           oninput="setSearch(this.value)">
+    <button class="fb-clear" id="search-clear" onclick="clearSearch()">✕</button>
+  </div>
+
+  <div class="fb-sep"></div>
+
+  {# Bouton période unique → modale #}
+  <div style="margin-left:auto;">
+    <button class="fb-date-btn" id="btn-period" onclick="openPeriodModal()">
+      📅 <span id="period-btn-lbl">Mois actuel</span> <span class="fb-chevron">▾</span>
+    </button>
+  </div>
+
+  {# Compteur #}
+  <div class="fb-counter" id="filter-counter">{{ nb_restaurants }} restaurants · {{ mois_actuel_lbl }}</div>
+
+  <button class="fb-layout-btn" type="button" onclick="resetDashboardLayout()">Réinitialiser la vue</button>
+
+</div>
+
+{# ════════════════════════════════════════════════════════════════════════════
+   MODALE SÉLECTION DE PÉRIODE
+   ════════════════════════════════════════════════════════════════════════════ #}
+<div class="pm-overlay" id="pm-overlay" onclick="pmOverlayClick(event)">
+  <div class="pm-modal" id="pm-modal">
+    <div class="pm-header">
+      <span class="pm-header-title">Sélectionner une période</span>
+      <button class="pm-close" onclick="closePeriodModal()">✕</button>
+    </div>
+    <div class="pm-body">
+      {# Left — raccourcis rapides #}
+      <div class="pm-left" id="pm-quick-list"></div>
+      {# Right — double calendrier #}
+      <div class="pm-right">
+        <div class="pm-cals" id="pm-cals"></div>
+        <div class="pm-range-hint" id="pm-range-hint">Cliquez un mois pour le sélectionner, deux mois pour une plage</div>
+      </div>
+    </div>
+    <div class="pm-footer">
+      <button class="pm-btn-cancel" onclick="closePeriodModal()">Annuler</button>
+      <button class="pm-btn-apply" id="pm-btn-apply" onclick="applyModal()">Appliquer</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="db-board" id="dashboard-board">
+
+{# ════════════════════════════════════════════════════════════════════════════
+   ZONE ALERTES + ANALYSE — rendue dynamiquement en JS
+   ════════════════════════════════════════════════════════════════════════════ #}
+<div class="db-widget db-widget-col-12 is-draggable" data-widget-id="alerts" data-default-order="1" data-resize-mode="height" data-default-height="120">
+  <span class="db-widget-title">Modulable</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce bloc">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce bloc"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+    <div class="al-block" id="al-block" style="display:none;">
+      <div class="al-header">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="al-title" id="al-title">Analyse du mois</span>
+          <span class="al-count" id="al-count">0</span>
+        </div>
+      </div>
+      <div class="al-list" id="al-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="db-widget db-widget-col-2 is-draggable" data-widget-id="kpi-ca" data-default-order="2">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">💰</div>
+    <div class="db-kpi-lbl" id="kpi1-lbl">CA Groupe — {{ mois_actuel_lbl }}</div>
+    <div class="db-kpi-val" id="kpi1-val">{{ ca_total_mois | fr_number }} €</div>
+    {% if mois_prec_lbl %}
+      {% if croissance_groupe > 0 %}
+      <div class="db-kpi-evol pos" id="kpi1-evol">↑ +{{ croissance_groupe }}% vs {{ mois_prec_lbl }}</div>
+      {% elif croissance_groupe < 0 %}
+      <div class="db-kpi-evol neg" id="kpi1-evol">↓ {{ croissance_groupe }}% vs {{ mois_prec_lbl }}</div>
+      {% else %}
+      <div class="db-kpi-evol neu" id="kpi1-evol">→ 0% vs {{ mois_prec_lbl }}</div>
+      {% endif %}
+      <div class="db-kpi-m1" id="kpi1-m1">{{ mois_prec_lbl }} : {{ ca_total_mois_prec | fr_number }} €</div>
+    {% else %}
+      <div class="db-kpi-evol neu" id="kpi1-evol">Pas de données M-1</div>
+      <div class="db-kpi-m1" id="kpi1-m1"></div>
+    {% endif %}
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-2 is-draggable" data-widget-id="kpi-cumule" data-default-order="3">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">📈</div>
+    <div class="db-kpi-lbl">CA Cumulé 2026</div>
+    <div class="db-kpi-val" id="kpi2-val">{{ ca_cumule_annee | fr_number }} €</div>
+    <div class="db-kpi-sub" id="kpi2-sub">Jan → {{ mois_actuel_lbl }}</div>
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-2 is-draggable" data-widget-id="kpi-ticket" data-default-order="4">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">🧾</div>
+    <div class="db-kpi-lbl" id="kpi3-lbl">Ticket moyen — {{ mois_actuel_lbl }}</div>
+    {% if ticket_moyen_groupe is not none %}
+    <div class="db-kpi-val" id="kpi3-val">{{ ticket_moyen_groupe | string | replace('.', ',') }} €</div>
+    {% else %}
+    <div class="db-kpi-val" id="kpi3-val" style="font-size:1rem;color:var(--text-muted);font-weight:500;">—</div>
+    {% endif %}
+    <div class="db-kpi-sub" id="kpi3-sub">par commande</div>
+    {% if ticket_moyen_evolution_pct is not none and mois_prec_lbl %}
+      {% if ticket_moyen_evolution_pct > 0 %}
+      <div class="db-kpi-evol pos" id="kpi3-evol">↑ +{{ ticket_moyen_evolution_pct }}% vs {{ mois_prec_lbl }}</div>
+      {% elif ticket_moyen_evolution_pct < 0 %}
+      <div class="db-kpi-evol neg" id="kpi3-evol">↓ {{ ticket_moyen_evolution_pct }}% vs {{ mois_prec_lbl }}</div>
+      {% else %}
+      <div class="db-kpi-evol neu" id="kpi3-evol">→ 0% vs {{ mois_prec_lbl }}</div>
+      {% endif %}
+      <div class="db-kpi-m1" id="kpi3-m1">{{ mois_prec_lbl }} : {{ ticket_moyen_groupe_prec | string | replace('.', ',') }} €</div>
+    {% elif mois_prec_lbl %}
+      <div class="db-kpi-evol neu" id="kpi3-evol">Pas de données M-1</div>
+      <div class="db-kpi-m1" id="kpi3-m1"></div>
+    {% else %}
+      <div class="db-kpi-evol neu" id="kpi3-evol" style="display:none;"></div>
+      <div class="db-kpi-m1" id="kpi3-m1"></div>
+    {% endif %}
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-2 is-draggable" data-widget-id="kpi-best" data-default-order="5">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">🏆</div>
+    <div class="db-kpi-lbl">Meilleur restaurant</div>
+    {% if meilleur_restaurant %}
+    <div class="db-kpi-val" id="kpi4-val" style="font-size:1rem;font-weight:700;">
+      {{ meilleur_restaurant.nom }}
+    </div>
+    <div class="db-kpi-sub">
+      {{ meilleur_restaurant.ca | fr_number }} €
+      {% if meilleur_restaurant.croissance is not none %}
+        &nbsp;
+        {% if meilleur_restaurant.croissance >= 0 %}
+        <span style="color:#1D9E75;font-weight:700;">▲ {{ meilleur_restaurant.croissance }}%</span>
+        {% else %}
+        <span style="color:#E11D48;font-weight:700;">▼ {{ meilleur_restaurant.croissance | abs }}%</span>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% else %}
+    <div class="db-kpi-val" style="font-size:1rem;color:var(--text-muted);">—</div>
+    {% endif %}
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-2 is-draggable" data-widget-id="kpi-marge" data-default-order="6">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">📊</div>
+    <div class="db-kpi-lbl" id="kpi6-lbl">Marge brute — {{ mois_actuel_lbl }}</div>
+    {% if marge_brute_groupe is not none %}
+    <div class="db-kpi-val" id="kpi6-val" style="color:{% if marge_brute_groupe > 20 %}#166534{% elif marge_brute_groupe >= 10 %}#92400e{% else %}#991b1b{% endif %};">{{ marge_brute_groupe | string | replace('.', ',') }} %</div>
+    {% else %}
+    <div class="db-kpi-val" id="kpi6-val" style="font-size:1rem;color:var(--text-muted);font-weight:500;">—</div>
+    {% endif %}
+    <div class="db-kpi-sub" id="kpi6-sub">{{ ('Moyenne sur ' ~ nb_restos_marge ~ ' restaurant' ~ ('s' if nb_restos_marge > 1 else '')) if nb_restos_marge > 0 else 'saisir les charges' }}</div>
+    {% if marge_brute_evolution_pts is not none and marge_brute_groupe_prec and marge_brute_groupe_prec != 0 and mois_prec_lbl %}
+      {% set mb_evol_pct = ((marge_brute_groupe - marge_brute_groupe_prec) / marge_brute_groupe_prec * 100) | round(1) %}
+      {% if mb_evol_pct > 0 %}
+      <div class="db-kpi-evol pos" id="kpi6-evol">↑ +{{ mb_evol_pct | string | replace('.', ',') }}% (de {{ marge_brute_groupe_prec | string | replace('.', ',') }}% à {{ marge_brute_groupe | string | replace('.', ',') }}%)</div>
+      {% elif mb_evol_pct < 0 %}
+      <div class="db-kpi-evol neg" id="kpi6-evol">↓ {{ mb_evol_pct | string | replace('.', ',') }}% (de {{ marge_brute_groupe_prec | string | replace('.', ',') }}% à {{ marge_brute_groupe | string | replace('.', ',') }}%)</div>
+      {% else %}
+      <div class="db-kpi-evol neu" id="kpi6-evol">→ 0% (de {{ marge_brute_groupe_prec | string | replace('.', ',') }}% à {{ marge_brute_groupe | string | replace('.', ',') }}%)</div>
+      {% endif %}
+      <div class="db-kpi-m1" id="kpi6-m1">{{ mois_prec_lbl }} : {{ marge_brute_groupe_prec | string | replace('.', ',') }} %</div>
+    {% elif mois_prec_lbl %}
+      <div class="db-kpi-evol neu" id="kpi6-evol">Pas de données M-1</div>
+      <div class="db-kpi-m1" id="kpi6-m1"></div>
+    {% else %}
+      <div class="db-kpi-evol neu" id="kpi6-evol" style="display:none;"></div>
+      <div class="db-kpi-m1" id="kpi6-m1"></div>
+    {% endif %}
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-2 is-draggable" data-widget-id="kpi-actifs" data-default-order="7">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">🍴</div>
+    <div class="db-kpi-lbl">Restaurants actifs</div>
+    <div class="db-kpi-val" id="kpi5-val">{{ nb_restos_actifs }} <span style="font-size:1rem;color:var(--text-muted);font-weight:500;">/ {{ nb_restaurants }}</span></div>
+    <div class="db-prog-bar">
+      <div class="db-prog-fill" id="kpi5-bar"
+           style="width:{{ (nb_restos_actifs / nb_restaurants * 100) | round(0) }}%;"></div>
+    </div>
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-4 is-draggable" data-widget-id="kpi-food-cost" data-default-order="8">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">🥩</div>
+    <div class="db-kpi-lbl" id="kpi-fc-lbl">Food Cost — {{ mois_actuel_lbl }}</div>
+    {% if food_cost_groupe is not none %}
+    <div class="db-kpi-val" id="kpi-fc-val" style="color:{% if food_cost_groupe < 30 %}#639922{% elif food_cost_groupe <= 35 %}#E8A000{% else %}#E11D48{% endif %};">{{ food_cost_groupe | string | replace('.', ',') }} %</div>
+    {% else %}
+    <div class="db-kpi-val" id="kpi-fc-val" style="font-size:1rem;color:var(--text-muted);font-weight:500;">—</div>
+    {% endif %}
+    <div class="db-kpi-sub" id="kpi-fc-sub">Idéal &lt; 35%{% if nb_restos_food_cost > 0 %} · {{ nb_restos_food_cost }} resto{{ 's' if nb_restos_food_cost > 1 }}{% endif %}</div>
+    {% if food_cost_evolution_pts is not none and food_cost_groupe_prec and food_cost_groupe_prec != 0 and mois_prec_lbl %}
+      {% set fc_evol_pct = ((food_cost_groupe - food_cost_groupe_prec) / food_cost_groupe_prec * 100) | round(1) %}
+      {% if fc_evol_pct > 0 %}
+      <div class="db-kpi-evol inv-pos" id="kpi-fc-evol">↑ +{{ fc_evol_pct | string | replace('.', ',') }}% (de {{ food_cost_groupe_prec | string | replace('.', ',') }}% à {{ food_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% elif fc_evol_pct < 0 %}
+      <div class="db-kpi-evol inv-neg" id="kpi-fc-evol">↓ {{ fc_evol_pct | string | replace('.', ',') }}% (de {{ food_cost_groupe_prec | string | replace('.', ',') }}% à {{ food_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% else %}
+      <div class="db-kpi-evol neu" id="kpi-fc-evol">→ 0% (de {{ food_cost_groupe_prec | string | replace('.', ',') }}% à {{ food_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% endif %}
+      <div class="db-kpi-m1" id="kpi-fc-m1">{{ mois_prec_lbl }} : {{ food_cost_groupe_prec | string | replace('.', ',') }} %</div>
+    {% elif mois_prec_lbl %}
+      <div class="db-kpi-evol neu" id="kpi-fc-evol">Pas de données M-1</div>
+      <div class="db-kpi-m1" id="kpi-fc-m1"></div>
+    {% else %}
+      <div class="db-kpi-evol neu" id="kpi-fc-evol" style="display:none;"></div>
+      <div class="db-kpi-m1" id="kpi-fc-m1"></div>
+    {% endif %}
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-4 is-draggable" data-widget-id="kpi-labor-cost" data-default-order="9">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">👥</div>
+    <div class="db-kpi-lbl" id="kpi-lc-lbl">Labor Cost — {{ mois_actuel_lbl }}</div>
+    {% if labor_cost_groupe is not none %}
+    <div class="db-kpi-val" id="kpi-lc-val" style="color:{% if labor_cost_groupe < 30 %}#639922{% elif labor_cost_groupe <= 35 %}#E8A000{% else %}#E11D48{% endif %};">{{ labor_cost_groupe | string | replace('.', ',') }} %</div>
+    {% else %}
+    <div class="db-kpi-val" id="kpi-lc-val" style="font-size:1rem;color:var(--text-muted);font-weight:500;">—</div>
+    {% endif %}
+    <div class="db-kpi-sub" id="kpi-lc-sub">Idéal &lt; 35%{% if nb_restos_labor_cost > 0 %} · {{ nb_restos_labor_cost }} resto{{ 's' if nb_restos_labor_cost > 1 }}{% endif %}</div>
+    {% if labor_cost_evolution_pts is not none and labor_cost_groupe_prec and labor_cost_groupe_prec != 0 and mois_prec_lbl %}
+      {% set lc_evol_pct = ((labor_cost_groupe - labor_cost_groupe_prec) / labor_cost_groupe_prec * 100) | round(1) %}
+      {% if lc_evol_pct > 0 %}
+      <div class="db-kpi-evol inv-pos" id="kpi-lc-evol">↑ +{{ lc_evol_pct | string | replace('.', ',') }}% (de {{ labor_cost_groupe_prec | string | replace('.', ',') }}% à {{ labor_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% elif lc_evol_pct < 0 %}
+      <div class="db-kpi-evol inv-neg" id="kpi-lc-evol">↓ {{ lc_evol_pct | string | replace('.', ',') }}% (de {{ labor_cost_groupe_prec | string | replace('.', ',') }}% à {{ labor_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% else %}
+      <div class="db-kpi-evol neu" id="kpi-lc-evol">→ 0% (de {{ labor_cost_groupe_prec | string | replace('.', ',') }}% à {{ labor_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% endif %}
+      <div class="db-kpi-m1" id="kpi-lc-m1">{{ mois_prec_lbl }} : {{ labor_cost_groupe_prec | string | replace('.', ',') }} %</div>
+    {% elif mois_prec_lbl %}
+      <div class="db-kpi-evol neu" id="kpi-lc-evol">Pas de données M-1</div>
+      <div class="db-kpi-m1" id="kpi-lc-m1"></div>
+    {% else %}
+      <div class="db-kpi-evol neu" id="kpi-lc-evol" style="display:none;"></div>
+      <div class="db-kpi-m1" id="kpi-lc-m1"></div>
+    {% endif %}
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-4 is-draggable" data-widget-id="kpi-prime-cost" data-default-order="10">
+  <button class="db-widget-handle kpi-handle" type="button" draggable="true" title="Déplacer ce KPI">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-kpi">
+    <div class="db-kpi-icon">⚖️</div>
+    <div class="db-kpi-lbl" id="kpi-pc-lbl">Prime Cost — {{ mois_actuel_lbl }}</div>
+    {% if prime_cost_groupe is not none %}
+    <div class="db-kpi-val" id="kpi-pc-val" style="color:{% if prime_cost_groupe < 55 %}#639922{% elif prime_cost_groupe <= 65 %}#E8A000{% else %}#E11D48{% endif %};">{{ prime_cost_groupe | string | replace('.', ',') }} %</div>
+    {% else %}
+    <div class="db-kpi-val" id="kpi-pc-val" style="font-size:1rem;color:var(--text-muted);font-weight:500;">—</div>
+    {% endif %}
+    <div class="db-prime-bar"><div class="db-prime-fill" id="kpi-pc-bar" style="width:{% if prime_cost_groupe is not none %}{{ [prime_cost_groupe, 100]|min }}{% else %}0{% endif %}%;background:{% if prime_cost_groupe is not none %}{% if prime_cost_groupe < 55 %}#639922{% elif prime_cost_groupe <= 65 %}#E8A000{% else %}#E11D48{% endif %}{% else %}#e2e8f0{% endif %};"></div></div>
+    <div class="db-kpi-sub" id="kpi-pc-sub">Idéal &lt; 60%</div>
+    {% if prime_cost_evolution_pts is not none and prime_cost_groupe_prec and prime_cost_groupe_prec != 0 and mois_prec_lbl %}
+      {% set pc_evol_pct = ((prime_cost_groupe - prime_cost_groupe_prec) / prime_cost_groupe_prec * 100) | round(1) %}
+      {% if pc_evol_pct > 0 %}
+      <div class="db-kpi-evol inv-pos" id="kpi-pc-evol">↑ +{{ pc_evol_pct | string | replace('.', ',') }}% (de {{ prime_cost_groupe_prec | string | replace('.', ',') }}% à {{ prime_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% elif pc_evol_pct < 0 %}
+      <div class="db-kpi-evol inv-neg" id="kpi-pc-evol">↓ {{ pc_evol_pct | string | replace('.', ',') }}% (de {{ prime_cost_groupe_prec | string | replace('.', ',') }}% à {{ prime_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% else %}
+      <div class="db-kpi-evol neu" id="kpi-pc-evol">→ 0% (de {{ prime_cost_groupe_prec | string | replace('.', ',') }}% à {{ prime_cost_groupe | string | replace('.', ',') }}%)</div>
+      {% endif %}
+      <div class="db-kpi-m1" id="kpi-pc-m1">{{ mois_prec_lbl }} : {{ prime_cost_groupe_prec | string | replace('.', ',') }} %</div>
+    {% elif mois_prec_lbl %}
+      <div class="db-kpi-evol neu" id="kpi-pc-evol">Pas de données M-1</div>
+      <div class="db-kpi-m1" id="kpi-pc-m1"></div>
+    {% else %}
+      <div class="db-kpi-evol neu" id="kpi-pc-evol" style="display:none;"></div>
+      <div class="db-kpi-m1" id="kpi-pc-m1"></div>
+    {% endif %}
+  </div></div>
+</div>
+
+{% for m in marques_data %}
+{% set brand_dom_id = m.nom | lower | replace("'", "") | replace(" ", "-") %}
+<div class="db-widget db-widget-col-4 is-draggable" data-widget-id="brand-{{ loop.index0 }}" data-default-order="{{ 11 + loop.index0 }}">
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer cette carte">⋮⋮</button>
+  <div class="db-widget-body">
+  <div class="db-brand-card" style="--bc:{{ m.couleur }};" data-brand-card="{{ m.nom }}">
+    <span class="db-best-badge" id="brand-best-{{ brand_dom_id }}" {% if not m.best %}style="display:none;"{% endif %}>👑 Meilleure</span>
+    <div class="db-brand-top">
+      <div class="db-brand-main">
+        <div class="db-brand-name">{{ m.nom }}</div>
+        <div class="db-brand-ca" id="brand-ca-{{ brand_dom_id }}" style="color:{{ m.couleur }};">{{ m.ca_mois | fr_number }} €</div>
+        <div style="margin-top:4px;" id="brand-growth-{{ brand_dom_id }}">
+      {% if m.ca_mois_prec %}
+        {% if m.croissance > 0 %}
+        <span class="db-growth pos">▲ +{{ m.croissance }}% vs {{ mois_prec_lbl }}</span>
+        {% elif m.croissance < 0 %}
+        <span class="db-growth neg">▼ {{ m.croissance }}% vs {{ mois_prec_lbl }}</span>
+        {% else %}
+        <span class="db-growth neu">— 0% vs {{ mois_prec_lbl }}</span>
+        {% endif %}
+      {% else %}
+        <span class="db-growth neu">Pas de données M-1</span>
+      {% endif %}
+        </div>
+        <div class="db-kpi-m1" id="brand-m1-{{ brand_dom_id }}" style="margin-top:2px;">
+          {% if m.ca_mois_prec and mois_prec_lbl %}{{ mois_prec_lbl }} : {{ m.ca_mois_prec | fr_number }} €{% endif %}
+        </div>
+      </div>
+      <div class="db-brand-spark">
+        <canvas id="brand-spark-{{ brand_dom_id }}" width="132" height="82"></canvas>
+        <div class="db-brand-spark-empty" id="brand-spark-empty-{{ brand_dom_id }}" style="display:none;">Aucune donnée</div>
+      </div>
+    </div>
+    <div class="db-brand-meta">
+      <div class="db-brand-meta-item">
+        Moy./resto : <strong id="brand-avg-{{ brand_dom_id }}">{{ m.ca_moyen | fr_number }} €</strong>
+      </div>
+      <div class="db-brand-meta-item">
+        Part marché : <strong id="brand-share-{{ brand_dom_id }}">{{ m.part_marche }}%</strong>
+      </div>
+      <div class="db-brand-meta-item" id="brand-count-{{ brand_dom_id }}">
+        {{ m.nb_restaurants }} restaurants
+      </div>
+    </div>
+  </div></div>
+</div>
+{% endfor %}
+
+<div class="db-widget db-widget-col-12 is-draggable" data-widget-id="chart-combo" data-default-order="20" data-resize-mode="both" data-default-height="330">
+  <span class="db-widget-title">Graphique</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce graphique">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce graphique"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+  <div class="db-card">
+    <div class="db-card-hd">CA mensuel par marque &amp; total groupe</div>
+    <div class="db-card-bd">
+      <div class="db-chart-wrap" style="--chart-height:240px;"><canvas id="comboChart"></canvas></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="db-widget db-widget-col-6 is-draggable" data-widget-id="chart-top-restos" data-default-order="21" data-resize-mode="both" data-default-height="350">
+  <span class="db-widget-title">Graphique</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce graphique">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce graphique"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+  <div class="db-card">
+    <div class="db-card-hd" id="classement-bar-title">Top restaurants — {{ mois_actuel_lbl }}</div>
+    <div class="db-card-bd">
+      <div class="db-chart-wrap" style="--chart-height:260px;"><canvas id="barClassementChart"></canvas></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="db-widget db-widget-col-6 is-draggable" data-widget-id="chart-ca-restaurants" data-default-order="22" data-resize-mode="both" data-default-height="350">
+  <span class="db-widget-title">Graphique</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce graphique">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce graphique"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+  <div class="db-card">
+    <div class="db-card-hd" id="ca-restaurants-title">CA par restaurant — {{ mois_actuel_lbl }}</div>
+    <div class="db-card-bd">
+      <div class="db-chart-wrap" style="--chart-height:260px;"><canvas id="caRestaurantsChart"></canvas></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="db-widget db-widget-col-6 is-draggable" data-widget-id="chart-waterfall" data-default-order="23" data-resize-mode="both" data-default-height="350">
+  <span class="db-widget-title">Graphique</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce graphique">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce graphique"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+  <div class="db-card" id="waterfall-card">
+    <div class="db-card-hd" id="waterfall-title">Contribution croissance vs M-1</div>
+    <div class="db-card-bd" id="waterfall-bd">
+      <div class="db-chart-wrap" style="--chart-height:260px;"><canvas id="waterfallChart"></canvas></div>
+      <div id="waterfall-empty" style="display:none;text-align:center;padding:40px 0;font-size:.85rem;color:#94a3b8;">
+        Données insuffisantes pour le calcul
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="db-widget db-widget-col-6 is-draggable" data-widget-id="chart-radar" data-default-order="24" data-resize-mode="both" data-default-height="370">
+  <span class="db-widget-title">Graphique</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce graphique">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce graphique"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+  <div class="db-card db-chart-radar">
+    <div class="db-card-hd" id="radar-title">Performance par marque — {{ mois_actuel_lbl }}</div>
+    <div class="db-card-bd">
+      <div class="db-chart-wrap" style="--chart-height:280px;"><canvas id="radarChart"></canvas></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="db-widget db-widget-col-5 is-draggable" data-widget-id="ranking" data-default-order="25" data-resize-mode="both" data-default-height="420">
+  <span class="db-widget-title">Classement</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce bloc">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce bloc"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+  <div class="db-card">
+    <div class="db-card-hd" id="classement-title">Classement — {{ mois_actuel_lbl }}</div>
+    <div class="db-card-bd">
+      <div class="db-podium">
+        <div class="db-podium-sep">🏆 Top 3</div>
+        {% for r in top3 %}
+        {% set slug = 'chamas' if 'Chamas' in r.brand else ('ocheese' if 'Cheese' in r.brand else 'delys') %}
+        <div class="db-podium-row">
+          <div class="db-medal db-medal-{{ loop.index }}">{{ loop.index }}</div>
+          <div class="db-podium-info">
+            <div class="db-podium-name">{{ r.name }}</div>
+            <span class="badge badge-{{ slug }}" style="font-size:.62rem;">{{ r.brand }}</span>
+          </div>
+          <div style="text-align:right;">
+            <div class="db-podium-ca" style="color:{{ brand_colors[r.brand] }};">
+              {{ r.ca_mois | fr_number }} €
+            </div>
+            {% if r.croissance is not none %}
+            <div style="font-size:.68rem;{% if r.croissance >= 0 %}color:#1D9E75;{% else %}color:#E11D48;{% endif %}font-weight:700;">
+              {% if r.croissance >= 0 %}▲{% else %}▼{% endif %} {{ r.croissance | abs }}%
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="db-podium-sep" style="margin-top:10px;">⚠️ Flop 3</div>
+        {% for r in flop3 %}
+        {% set slug = 'chamas' if 'Chamas' in r.brand else ('ocheese' if 'Cheese' in r.brand else 'delys') %}
+        <div class="db-podium-row">
+          <div class="db-medal db-medal-f" style="font-size:.7rem;">{{ r.rank }}</div>
+          <div class="db-podium-info">
+            <div class="db-podium-name">{{ r.name }}</div>
+            <span class="badge badge-{{ slug }}" style="font-size:.62rem;">{{ r.brand }}</span>
+          </div>
+          <div style="text-align:right;">
+            <div class="db-podium-ca" style="color:#94a3b8;">{{ r.ca_mois | fr_number }} €</div>
+            {% if r.croissance is not none %}
+            <div style="font-size:.68rem;{% if r.croissance >= 0 %}color:#1D9E75;{% else %}color:#E11D48;{% endif %}font-weight:700;">
+              {% if r.croissance >= 0 %}▲{% else %}▼{% endif %} {{ r.croissance | abs }}%
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-7 is-draggable" data-widget-id="heatmap" data-default-order="26" data-resize-mode="both" data-default-height="420">
+  <span class="db-widget-title">Graphique</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce bloc">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce bloc"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+  <div class="db-card">
+    <div class="db-card-hd" id="heatmap-title">Heatmap CA — {{ mois_actuel_lbl }}</div>
+    <div class="db-card-bd">
+      <div class="db-heatmap" id="heatmap"></div>
+      <div style="display:flex;gap:12px;margin-top:14px;flex-wrap:wrap;">
+        <span style="font-size:.68rem;display:flex;align-items:center;gap:5px;">
+          <span style="width:10px;height:10px;border-radius:3px;background:#1D9E75;display:inline-block;"></span>CA élevé
+        </span>
+        <span style="font-size:.68rem;display:flex;align-items:center;gap:5px;">
+          <span style="width:10px;height:10px;border-radius:3px;background:#E8A000;display:inline-block;"></span>CA moyen
+        </span>
+        <span style="font-size:.68rem;display:flex;align-items:center;gap:5px;">
+          <span style="width:10px;height:10px;border-radius:3px;background:#E11D48;display:inline-block;"></span>CA faible
+        </span>
+        <span style="font-size:.68rem;display:flex;align-items:center;gap:5px;">
+          <span style="width:10px;height:10px;border-radius:3px;background:#e2e8f0;display:inline-block;"></span>Non encodé
+        </span>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<div class="db-widget db-widget-col-12 is-draggable" data-widget-id="table" data-default-order="27" data-resize-mode="both" data-default-height="420">
+  <span class="db-widget-title">Tableau</span>
+  <button class="db-widget-handle" type="button" draggable="true" title="Déplacer ce tableau">⋮⋮</button>
+  <button class="db-widget-resize" type="button" title="Redimensionner ce tableau"></button>
+  <div class="db-widget-body db-widget-content has-fixed-height">
+  <div class="db-card">
+    <div class="db-card-hd" id="table-title">
+      Tableau complet — <span id="table-count">{{ tous_restos | length }}</span> restaurants
+    </div>
+    <div class="db-card-bd" style="padding-top:10px;">
+      <div class="db-table-wrap">
+        <table class="db-table" id="main-table">
+          <thead>
+            <tr>
+              <th onclick="sortTable('rank')"    data-col="rank">    # <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('name')"    data-col="name">    Restaurant <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('brand')"   data-col="brand">   Marque <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('ca_mois')" data-col="ca_mois"> CA mois <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('ca_mois_prec')" data-col="ca_mois_prec">Mois préc. <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('croissance')" data-col="croissance">Croissance <span class="sort-icon">↕</span></th>
+              <th onclick="sortTable('taux')"    data-col="taux">    Objectif <span class="sort-icon">↕</span></th>
+            </tr>
+          </thead>
+          <tbody id="main-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+</div>
+
+{# ════════════════════════════════════════════════════════════════════════════
+   JAVASCRIPT
+   ════════════════════════════════════════════════════════════════════════════ #}
+<script>
+/* ── Données ──────────────────────────────────────────────────────────────── */
+const DATA = {{ data_json | tojson | safe }};
+const MONTHS       = DATA.months;
+const LABELS       = DATA.month_labels;
+const BRAND_COLORS = DATA.brand_colors;
+const RESTOS       = DATA.restaurants;
+const EVOL         = DATA.evolution;
+const BRAND_NAMES  = Object.keys(BRAND_COLORS);
+
+/* ── État ─────────────────────────────────────────────────────────────────── */
+const STATE = {
+  search:      '',
+  months:      [DATA.mois_actuel],      // always an array of month strings
+  periodLabel: 'Mois actuel',           // human-readable label for the period
+  periodKey:   'current',              // id of the active quick button ('custom' for calendar)
+  selectedIds: null,
+  sortCol:     'rank',
+  sortDir:     1,
+};
+
+const fmt        = v => new Intl.NumberFormat('fr-BE').format(Math.round(v || 0));
+const BRAND_BADGE = { 'Chamas Tacos': 'chamas', "O'Cheese": 'ocheese', 'Delys Station': 'delys' };
+const DASHBOARD_LAYOUT_KEY = 'oreca_dashboard_layout_v1';
+const DASHBOARD_SIZE_KEY = 'oreca_dashboard_widget_sizes_v1';
+const ALERTS_VISIBLE_LIMIT = 5;
+let draggedWidget = null;
+let dropTargetWidget = null;
+let activeResize = null;
+
+function dashboardWidgets() {
+  return [...document.querySelectorAll('#dashboard-board .db-widget[data-widget-id]')];
+}
+
+function saveDashboardLayout() {
+  try {
+    const order = dashboardWidgets().map(widget => widget.dataset.widgetId);
+    localStorage.setItem(DASHBOARD_LAYOUT_KEY, JSON.stringify(order));
+  } catch {}
+}
+
+function restoreDashboardLayout() {
+  const board = document.getElementById('dashboard-board');
+  if (!board) return;
+  try {
+    const raw = localStorage.getItem(DASHBOARD_LAYOUT_KEY);
+    if (!raw) return;
+    const order = JSON.parse(raw);
+    if (!Array.isArray(order) || order.length === 0) return;
+    const map = new Map(dashboardWidgets().map(widget => [widget.dataset.widgetId, widget]));
+    order.forEach(id => {
+      const widget = map.get(id);
+      if (widget) board.appendChild(widget);
+    });
+  } catch {}
+}
+
+function getDefaultWidgetCol(widget) {
+  const match = [...widget.classList].find(cls => cls.startsWith('db-widget-col-'));
+  return match ? Number(match.replace('db-widget-col-', '')) : 12;
+}
+
+function getWidgetSizes() {
+  try {
+    const raw = localStorage.getItem(DASHBOARD_SIZE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch {
+    return {};
+  }
+}
+
+function saveWidgetSizes(sizes) {
+  try {
+    localStorage.setItem(DASHBOARD_SIZE_KEY, JSON.stringify(sizes));
+  } catch {}
+}
+
+function applyWidgetSize(widget, config = {}) {
+  const defaultCol = getDefaultWidgetCol(widget);
+  const col = Math.max(1, Math.min(12, Number(config.col || defaultCol)));
+  widget.style.setProperty('--widget-col', String(col));
+
+  const defaultHeight = Number(widget.dataset.defaultHeight || 0);
+  const body = widget.querySelector('.db-widget-content.has-fixed-height');
+  if (body && defaultHeight) {
+    const height = Math.max(120, Number(config.height || defaultHeight));
+    body.style.setProperty('--widget-height', `${height}px`);
+    const chartWrap = widget.querySelector('.db-chart-wrap');
+    if (chartWrap) {
+      const chartHeight = Math.max(180, height - 90);
+      chartWrap.style.setProperty('--chart-height', `${chartHeight}px`);
+    }
+  }
+}
+
+function restoreWidgetSizes() {
+  const sizes = getWidgetSizes();
+  dashboardWidgets().forEach(widget => {
+    applyWidgetSize(widget, sizes[widget.dataset.widgetId] || {});
+  });
+}
+
+function persistWidgetSize(widget, nextConfig) {
+  const sizes = getWidgetSizes();
+  const id = widget.dataset.widgetId;
+  sizes[id] = { ...(sizes[id] || {}), ...nextConfig };
+  saveWidgetSizes(sizes);
+}
+
+function resizeDashboardCharts() {
+  [comboChart, barClassementChart, caRestaurantsChart, waterfallChart, radarChart].forEach(chart => {
+    if (chart && typeof chart.resize === 'function') chart.resize();
+  });
+}
+
+function clearWidgetDropState() {
+  dashboardWidgets().forEach(widget => widget.classList.remove('drop-target', 'dragging'));
+  draggedWidget = null;
+  dropTargetWidget = null;
+}
+
+function widgetDragStart(event) {
+  const handle = event.target.closest('.db-widget-handle');
+  const widget = handle ? handle.closest('.db-widget') : null;
+  if (!widget) return;
+  draggedWidget = widget;
+  widget.classList.add('dragging');
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', widget.dataset.widgetId || '');
+  }
+}
+
+function widgetDragOver(event) {
+  const board = document.getElementById('dashboard-board');
+  if (!draggedWidget || !board) return;
+  const target = event.target.closest('.db-widget');
+  if (!target || target === draggedWidget) return;
+  event.preventDefault();
+  if (dropTargetWidget && dropTargetWidget !== target) dropTargetWidget.classList.remove('drop-target');
+  dropTargetWidget = target;
+  target.classList.add('drop-target');
+
+  const rect = target.getBoundingClientRect();
+  const insertAfter = event.clientY > rect.top + rect.height / 2;
+  if (insertAfter) board.insertBefore(draggedWidget, target.nextSibling);
+  else board.insertBefore(draggedWidget, target);
+}
+
+function widgetDrop(event) {
+  if (!draggedWidget) return;
+  event.preventDefault();
+  saveDashboardLayout();
+  resizeDashboardCharts();
+}
+
+function widgetDragEnd() {
+  saveDashboardLayout();
+  resizeDashboardCharts();
+  clearWidgetDropState();
+}
+
+function initDashboardLayout() {
+  const board = document.getElementById('dashboard-board');
+  if (!board) return;
+  restoreDashboardLayout();
+  restoreWidgetSizes();
+  board.addEventListener('dragover', widgetDragOver);
+  board.addEventListener('drop', widgetDrop);
+  dashboardWidgets().forEach(widget => {
+    const handle = widget.querySelector('.db-widget-handle');
+    const resizeHandle = widget.querySelector('.db-widget-resize');
+    if (!handle) return;
+    handle.addEventListener('dragstart', widgetDragStart);
+    handle.addEventListener('dragend', widgetDragEnd);
+    if (resizeHandle) resizeHandle.addEventListener('mousedown', startWidgetResize);
+  });
+  window.addEventListener('mousemove', onWidgetResize);
+  window.addEventListener('mouseup', stopWidgetResize);
+}
+
+function resetDashboardLayout() {
+  const board = document.getElementById('dashboard-board');
+  if (!board) return;
+  dashboardWidgets()
+    .sort((a, b) => Number(a.dataset.defaultOrder) - Number(b.dataset.defaultOrder))
+    .forEach(widget => board.appendChild(widget));
+  try { localStorage.removeItem(DASHBOARD_LAYOUT_KEY); } catch {}
+  try { localStorage.removeItem(DASHBOARD_SIZE_KEY); } catch {}
+  dashboardWidgets().forEach(widget => applyWidgetSize(widget, {}));
+  resizeDashboardCharts();
+}
+
+function startWidgetResize(event) {
+  const handle = event.target.closest('.db-widget-resize');
+  const widget = handle ? handle.closest('.db-widget') : null;
+  if (!widget) return;
+  event.preventDefault();
+  event.stopPropagation();
+  activeResize = {
+    widget,
+    startX: event.clientX,
+    startY: event.clientY,
+    startCol: Number(getComputedStyle(widget).getPropertyValue('--widget-col')) || getDefaultWidgetCol(widget),
+    startHeight: Number((widget.querySelector('.db-widget-content.has-fixed-height')?.style.getPropertyValue('--widget-height') || '').replace('px', '')) || Number(widget.dataset.defaultHeight || 0),
+    mode: widget.dataset.resizeMode || 'both',
+  };
+  document.body.classList.add('db-widget-resizing');
+}
+
+function onWidgetResize(event) {
+  if (!activeResize) return;
+  const { widget, startX, startY, startCol, startHeight, mode } = activeResize;
+  const board = document.getElementById('dashboard-board');
+  if (!board) return;
+
+  if (mode === 'width' || mode === 'both') {
+    const boardWidth = board.getBoundingClientRect().width || 1;
+    const colWidth = boardWidth / 12;
+    const deltaCols = Math.round((event.clientX - startX) / Math.max(colWidth, 1));
+    const nextCol = Math.max(1, Math.min(12, startCol + deltaCols));
+    widget.style.setProperty('--widget-col', String(nextCol));
+    persistWidgetSize(widget, { col: nextCol });
+  }
+
+  if ((mode === 'height' || mode === 'both') && startHeight) {
+    const nextHeight = Math.max(120, startHeight + (event.clientY - startY));
+    applyWidgetSize(widget, {
+      col: Number(getComputedStyle(widget).getPropertyValue('--widget-col')) || getDefaultWidgetCol(widget),
+      height: nextHeight,
+    });
+    persistWidgetSize(widget, { height: Math.round(nextHeight) });
+  }
+  resizeDashboardCharts();
+}
+
+function stopWidgetResize() {
+  if (!activeResize) return;
+  resizeDashboardCharts();
+  activeResize = null;
+  document.body.classList.remove('db-widget-resizing');
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   FILTRES — dropdowns restaurant + période
+   ════════════════════════════════════════════════════════════════════════════ */
+
+let _openDrop = null;
+
+function closeAllDropdowns() {
+  document.querySelectorAll('.fb-dropdown').forEach(d => d.classList.remove('open'));
+  document.querySelectorAll('.fb-brand').forEach(b => b.classList.remove('open'));
+  _openDrop = null;
+}
+
+function toggleDropdown(idx, brand) {
+  const drop = document.getElementById(`drop-${idx}`);
+  const btn  = drop.previousElementSibling;
+  const isOpen = drop.classList.contains('open');
+  closeAllDropdowns();
+  if (!isOpen) {
+    drop.classList.add('open');
+    btn.classList.add('open');
+    _openDrop = `drop-${idx}`;
+  }
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.fb-dropdown-wrap'))
+    closeAllDropdowns();
+});
+
+function setBrand(b) {
+  if (b === 'all') {
+    STATE.selectedIds = null;
+    document.querySelectorAll('.fb-check').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.fb-brand').forEach(el =>
+      el.classList.toggle('active', el.dataset.brand === 'all'));
+    closeAllDropdowns();
+    applyFilters();
+  }
+}
+
+function onCheckChange() {
+  const checked = [...document.querySelectorAll('.fb-check:checked')].map(cb => cb.value);
+  STATE.selectedIds = checked.length === 0 ? null : new Set(checked);
+  const allBtn = document.querySelector('[data-brand="all"]');
+  if (STATE.selectedIds === null) {
+    document.querySelectorAll('.fb-brand').forEach(el =>
+      el.classList.toggle('active', el.dataset.brand === 'all'));
+  } else {
+    allBtn.classList.remove('active');
+    document.querySelectorAll('.fb-brand[data-brand]').forEach(btn => {
+      if (btn.dataset.brand === 'all') return;
+      const hasSel = [...STATE.selectedIds].some(id => {
+        const r = RESTOS.find(x => x.id === id);
+        return r && r.brand === btn.dataset.brand;
+      });
+      btn.classList.toggle('active', hasSel);
+    });
+  }
+  applyFilters();
+}
+
+function selectAllBrand(brand) {
+  document.querySelectorAll(`.fb-check[data-brand="${brand}"]`).forEach(cb => cb.checked = true);
+  onCheckChange();
+}
+function clearBrandRestos(brand) {
+  document.querySelectorAll(`.fb-check[data-brand="${brand}"]`).forEach(cb => cb.checked = false);
+  onCheckChange();
+}
+
+function setSearch(v) {
+  STATE.search = v;
+  document.getElementById('search-clear').style.display = v ? 'flex' : 'none';
+  applyFilters();
+}
+function clearSearch() {
+  STATE.search = '';
+  document.getElementById('search-inp').value = '';
+  document.getElementById('search-clear').style.display = 'none';
+  applyFilters();
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PÉRIODE — modale
+   ════════════════════════════════════════════════════════════════════════════ */
+const MO_SHORT = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+const PM = { start: null, end: null };   // sélection temporaire dans la modale
+
+function buildQuickButtons() {
+  const wrap  = null; // unused — kept for compat reference
+  const dispo = new Set(DATA.mois_disponibles);
+  const btns  = [];
+
+  // Mois actuel
+  btns.push({ key: 'current', label: 'Mois actuel', months: [DATA.mois_actuel] });
+
+  // Quarters + Année par an
+  const years   = [...new Set(MONTHS.map(m => m.slice(0,4)))];
+  const Q_NAMES = ['T1','T2','T3','T4'];
+  const Q_IDX   = [[0,1,2],[3,4,5],[6,7,8],[9,10,11]];
+
+  for (const year of years) {
+    for (let qi = 0; qi < 4; qi++) {
+      const qMs = Q_IDX[qi]
+        .map(i => `${year}-${String(i+1).padStart(2,'0')}`)
+        .filter(m => MONTHS.includes(m));
+      if (qMs.length === 0 || !qMs.some(m => dispo.has(m))) continue;
+      const s = LABELS[MONTHS.indexOf(qMs[0])].split(' ')[0];
+      const e = LABELS[MONTHS.indexOf(qMs[qMs.length-1])].split(' ')[0];
+      btns.push({ key: `q${qi+1}-${year}`, label: `${Q_NAMES[qi]} ${year}`, title: `${s}–${e}`, months: qMs });
+    }
+    // Année entière
+    const yMs = MONTHS.filter(m => m.startsWith(year));
+    if (yMs.some(m => dispo.has(m)))
+      btns.push({ key: `year-${year}`, label: `Année ${year}`, months: yMs });
+  }
+
+  // Total
+  if (dispo.size > 0)
+    btns.push({ key: 'total', label: 'Total', months: [...MONTHS] });
+
+  // No DOM wrap needed — quick list is inside the modal
+  return btns; // return for modal use
+}
+
+/* ── Quick shortcuts list (inside modal left panel) ─────────────────────── */
+let _pmBtns = [];
+
+function buildModalQuickList(btns) {
+  _pmBtns = btns;
+  const list = document.getElementById('pm-quick-list');
+  if (!list) return;
+  list.innerHTML = btns.map((b, i) => {
+    const isActive = b.key === STATE.periodKey;
+    return `<button class="pm-quick-btn${isActive ? ' active' : ''}"
+                    onclick="pmQuickClick(${i})">
+              <span class="pm-qb-dot"></span>${b.label}
+            </button>`;
+  }).join('');
+}
+
+function pmQuickClick(idx) {
+  const b = _pmBtns[idx];
+  if (!b) return;
+  STATE.months      = b.months;
+  STATE.periodLabel = b.label;
+  STATE.periodKey   = b.key;
+  document.getElementById('period-btn-lbl').textContent = b.label;
+  closePeriodModal();
+  applyFilters();
+}
+
+/* ── Modal open / close ──────────────────────────────────────────────────── */
+let _pmCalYear = null;
+
+function openPeriodModal() {
+  closeAllDropdowns();
+  // Initialise temp selection from current STATE
+  PM.start = STATE.months[0] || DATA.mois_actuel;
+  PM.end   = STATE.months.length > 1 ? STATE.months[STATE.months.length - 1] : null;
+  // Show the year containing start
+  _pmCalYear = PM.start ? parseInt(PM.start.slice(0,4)) : parseInt(DATA.mois_actuel.slice(0,4));
+
+  const btns = buildQuickButtons();
+  buildModalQuickList(btns);
+  buildPmCals();
+  updatePmHint();
+
+  document.getElementById('pm-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePeriodModal() {
+  document.getElementById('pm-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function pmOverlayClick(e) {
+  if (e.target === document.getElementById('pm-overlay')) closePeriodModal();
+}
+
+/* ── Dual calendar (current year left, next year right if data exists) ──── */
+function buildPmCals() {
+  const container = document.getElementById('pm-cals');
+  if (!container) return;
+  const years = [...new Set(MONTHS.map(m => m.slice(0,4)))].map(Number).sort();
+  // Show two consecutive calendars: selected year & the next one (if it has data)
+  const idx   = years.indexOf(_pmCalYear);
+  const showYears = [];
+  if (idx >= 0) showYears.push(years[idx]);
+  if (idx + 1 < years.length) showYears.push(years[idx + 1]);
+  else if (idx - 1 >= 0 && showYears.length < 2) showYears.unshift(years[idx - 1]);
+  // If only one year of data, show it alone
+  if (showYears.length === 0) showYears.push(_pmCalYear);
+
+  container.innerHTML = showYears.map(year => buildPmCalYear(year, years)).join('');
+  updatePmHighlight();
+}
+
+function buildPmCalYear(year, allYears) {
+  const hasPrev = allYears.includes(year - 1);
+  const hasNext = allYears.includes(year + 1);
+  const cells = Array.from({length: 12}, (_, mi) => {
+    const key  = `${year}-${String(mi+1).padStart(2,'0')}`;
+    const has  = MONTHS.includes(key);
+    return `<div class="pm-cal-day${has ? '' : ' pm-day-nodata'}" data-m="${key}"
+                 onclick="pmDayClick('${key}')">${MO_SHORT[mi]}</div>`;
+  }).join('');
+  return `<div class="pm-cal-wrap">
+    <div class="pm-cal-nav">
+      <button class="pm-cal-arr" onclick="pmNavYear(${year - 1})" ${hasPrev ? '' : 'style="visibility:hidden"'}>‹</button>
+      <span class="pm-cal-year">${year}</span>
+      <button class="pm-cal-arr" onclick="pmNavYear(${year + 1})" ${hasNext ? '' : 'style="visibility:hidden"'}>›</button>
+    </div>
+    <div class="pm-cal-grid">${cells}</div>
+  </div>`;
+}
+
+function pmNavYear(year) {
+  _pmCalYear = year;
+  buildPmCals();
+}
+
+/* ── Day click → range selection ──────────────────────────────────────────── */
+function pmDayClick(m) {
+  if (!MONTHS.includes(m)) return;
+  if (!PM.start || (PM.start && PM.end)) {
+    PM.start = m; PM.end = null;
+  } else {
+    if (m < PM.start) { PM.end = PM.start; PM.start = m; }
+    else if (m === PM.start) { PM.end = null; } // toggle single
+    else { PM.end = m; }
+  }
+  // Clear quick-list active highlight (user made custom range)
+  document.querySelectorAll('.pm-quick-btn').forEach(b => b.classList.remove('active'));
+  updatePmHighlight();
+  updatePmHint();
+}
+
+function updatePmHighlight() {
+  const s = PM.start, e = PM.end;
+  document.querySelectorAll('.pm-cal-day').forEach(cell => {
+    const m = cell.dataset.m;
+    cell.classList.remove('pm-day-sel','pm-day-range');
+    if (!m || !s || !MONTHS.includes(m)) return;
+    if (m === s || m === e)        cell.classList.add('pm-day-sel');
+    else if (e && m > s && m < e) cell.classList.add('pm-day-range');
+  });
+}
+
+function updatePmHint() {
+  const hint = document.getElementById('pm-range-hint');
+  if (!hint) return;
+  if (!PM.start) {
+    hint.textContent = 'Cliquez un mois pour le sélectionner, deux mois pour une plage';
+    return;
+  }
+  const si = MONTHS.indexOf(PM.start);
+  if (!PM.end) {
+    hint.textContent = si >= 0
+      ? `${LABELS[si]} — cliquez un 2e mois pour une plage`
+      : PM.start;
+  } else {
+    const ei = MONTHS.indexOf(PM.end);
+    hint.textContent = `${LABELS[si]} → ${LABELS[ei >= 0 ? ei : si]}`;
+  }
+}
+
+/* ── Apply modal → update STATE ──────────────────────────────────────────── */
+function applyModal() {
+  if (!PM.start) return;
+  const s  = PM.start, e = PM.end || PM.start;
+  const si = MONTHS.indexOf(s), ei = MONTHS.indexOf(e);
+  if (si < 0) return;
+  const lo  = Math.min(si, ei < 0 ? si : ei);
+  const hi  = Math.max(si, ei < 0 ? si : ei);
+  const sel = MONTHS.slice(lo, hi + 1);
+  const lbl = sel.length === 1
+    ? LABELS[MONTHS.indexOf(sel[0])]
+    : `${LABELS[MONTHS.indexOf(sel[0])]} → ${LABELS[MONTHS.indexOf(sel[sel.length - 1])]}`;
+
+  STATE.months = sel; STATE.periodLabel = lbl; STATE.periodKey = 'custom';
+  document.getElementById('period-btn-lbl').textContent = lbl;
+  closePeriodModal();
+  applyFilters();
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   HELPERS — period-aware
+   ════════════════════════════════════════════════════════════════════════════ */
+function filteredRestos() {
+  const q = STATE.search.toLowerCase();
+  return RESTOS.filter(r => {
+    if (STATE.selectedIds !== null && !STATE.selectedIds.has(r.id)) return false;
+    if (q && !r.name.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+// ms = array of month strings (or 'all' for full backward compat)
+function caForMonth(r, ms) {
+  if (ms === 'all')       return MONTHS.reduce((s, m) => s + (r.monthly[m] || 0), 0);
+  if (Array.isArray(ms)) return ms.reduce((s, m) => s + (r.monthly[m] || 0), 0);
+  return r.monthly[ms] || 0;
+}
+
+function groupCaMonth(restos, ms) {
+  return restos.reduce((s, r) => s + caForMonth(r, ms), 0);
+}
+
+function brandTotals(restos, ms) {
+  const bt = {};
+  for (const b of BRAND_NAMES) bt[b] = 0;
+  for (const r of restos) bt[r.brand] = (bt[r.brand] || 0) + caForMonth(r, ms);
+  return bt;
+}
+
+function _fmtMoney(v) {
+  return `${fmt(v)} €`;
+}
+
+function _fmtPct(v) {
+  return `${Number(v).toLocaleString('fr-BE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
+}
+
+function brandDomId(brand) {
+  return String(brand || '')
+    .toLowerCase()
+    .replaceAll("'", '')
+    .replaceAll(' ', '-');
+}
+
+function drawSparkline(canvas, values, color) {
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const cssWidth = canvas.clientWidth || Number(canvas.getAttribute('width')) || 132;
+  const cssHeight = canvas.clientHeight || Number(canvas.getAttribute('height')) || 82;
+  canvas.width = cssWidth * dpr;
+  canvas.height = cssHeight * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+  const cleanValues = values.filter(v => Number.isFinite(v));
+  if (!cleanValues.length || cleanValues.every(v => v === 0)) return;
+
+  const min = Math.min(...cleanValues);
+  const max = Math.max(...cleanValues);
+  const range = max - min || 1;
+  const padX = 6;
+  const padY = 10;
+  const usableW = cssWidth - padX * 2;
+  const usableH = cssHeight - padY * 2;
+  const points = values.map((v, idx) => {
+    const x = padX + (usableW * idx / Math.max(values.length - 1, 1));
+    const y = cssHeight - padY - ((v - min) / range) * usableH;
+    return [x, y];
+  });
+
+  const gradient = ctx.createLinearGradient(0, 0, 0, cssHeight);
+  gradient.addColorStop(0, `${color}33`);
+  gradient.addColorStop(1, `${color}00`);
+
+  ctx.beginPath();
+  points.forEach(([x, y], idx) => idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y));
+  ctx.lineTo(points[points.length - 1][0], cssHeight - padY + 2);
+  ctx.lineTo(points[0][0], cssHeight - padY + 2);
+  ctx.closePath();
+  ctx.fillStyle = gradient;
+  ctx.fill();
+
+  ctx.beginPath();
+  points.forEach(([x, y], idx) => idx === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y));
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2.2;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.stroke();
+
+  const [lastX, lastY] = points[points.length - 1];
+  ctx.beginPath();
+  ctx.arc(lastX, lastY, 3.6, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
+function updateBrandCards(restos, ms) {
+  const totals = brandTotals(restos, ms);
+  const grandTotal = Object.values(totals).reduce((sum, val) => sum + val, 0);
+  const bestBrand = BRAND_NAMES.reduce((best, brand) => {
+    if (!best) return brand;
+    return (totals[brand] || 0) > (totals[best] || 0) ? brand : best;
+  }, BRAND_NAMES[0] || null);
+
+  BRAND_NAMES.forEach((brand) => {
+    const domId = brandDomId(brand);
+    const brandRestos = restos.filter(r => r.brand === brand);
+    const current = totals[brand] || 0;
+    const avg = brandRestos.length ? current / brandRestos.length : 0;
+    const share = grandTotal > 0 ? current / grandTotal * 100 : 0;
+    const isSingle = ms.length === 1;
+
+    let prevTotal = 0;
+    let prevLabel = '';
+    if (isSingle) {
+      const currentIdx = MONTHS.indexOf(ms[0]);
+      if (currentIdx > 0) {
+        const prevM = MONTHS[currentIdx - 1];
+        prevTotal = brandRestos.reduce((sum, r) => sum + (r.monthly[prevM] || 0), 0);
+        prevLabel = LABELS[currentIdx];
+      }
+    }
+
+    const sparkMonths = isSingle
+      ? MONTHS.slice(Math.max(0, MONTHS.indexOf(ms[0]) - 5), MONTHS.indexOf(ms[0]) + 1)
+      : ms;
+    const sparkValues = sparkMonths.map(month =>
+      brandRestos.reduce((sum, r) => sum + (r.monthly[month] || 0), 0)
+    );
+
+    const caEl = document.getElementById(`brand-ca-${domId}`);
+    const growthEl = document.getElementById(`brand-growth-${domId}`);
+    const m1El = document.getElementById(`brand-m1-${domId}`);
+    const avgEl = document.getElementById(`brand-avg-${domId}`);
+    const shareEl = document.getElementById(`brand-share-${domId}`);
+    const countEl = document.getElementById(`brand-count-${domId}`);
+    const bestEl = document.getElementById(`brand-best-${domId}`);
+    const canvas = document.getElementById(`brand-spark-${domId}`);
+    const emptyEl = document.getElementById(`brand-spark-empty-${domId}`);
+
+    if (caEl) caEl.textContent = _fmtMoney(current);
+    if (avgEl) avgEl.textContent = _fmtMoney(avg);
+    if (shareEl) shareEl.textContent = _fmtPct(share);
+    if (countEl) countEl.textContent = `${brandRestos.length} restaurant${brandRestos.length > 1 ? 's' : ''}`;
+    if (bestEl) bestEl.style.display = brand === bestBrand && current > 0 ? '' : 'none';
+
+    if (growthEl) {
+      if (isSingle && prevTotal > 0) {
+        const growth = ((current - prevTotal) / prevTotal) * 100;
+        const cls = growth > 0 ? 'pos' : growth < 0 ? 'neg' : 'neu';
+        const arrow = growth > 0 ? '▲ +' : growth < 0 ? '▼ ' : '— ';
+        growthEl.innerHTML = `<span class="db-growth ${cls}">${arrow}${Math.abs(growth).toLocaleString('fr-BE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}% vs ${prevLabel}</span>`;
+      } else if (isSingle) {
+        growthEl.innerHTML = `<span class="db-growth neu">Pas de données M-1</span>`;
+      } else {
+        growthEl.innerHTML = `<span class="db-growth neu">${ms.length} mois sélectionnés</span>`;
+      }
+    }
+
+    if (m1El) {
+      if (isSingle && prevTotal > 0) m1El.textContent = `${prevLabel} : ${_fmtMoney(prevTotal)}`;
+      else m1El.textContent = '';
+    }
+
+    if (emptyEl) emptyEl.style.display = sparkValues.some(v => v > 0) ? 'none' : 'flex';
+    drawSparkline(canvas, sparkValues, BRAND_COLORS[brand] || '#888');
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   APPLY ALL FILTERS
+   ════════════════════════════════════════════════════════════════════════════ */
+function applyFilters() {
+  const restos = filteredRestos();
+  const ms     = STATE.months;
+  const allIds = new Set(restos.map(r => r.id));
+
+  updateCounter(restos);
+  updateTitles();
+  updateKPIs(restos, ms);
+  updateBrandCards(restos, ms);
+  updateComboChart();
+  updateBarClassement(restos, ms);
+  updateCaRestaurantsChart(restos, ms);
+  updateWaterfallChart(restos, ms);
+  updateRadarChart(restos, ms);
+  updateHeatmap(allIds, ms);
+  renderTable(restos, ms);
+  updateAlertes(restos, ms);
+}
+
+/* ── Titres dynamiques ────────────────────────────────────────────────────── */
+function updateTitles() {
+  const lbl = STATE.periodLabel;
+  const ids = {
+    'kpi1-lbl':         `CA Groupe — ${lbl}`,
+    'kpi2-sub':         `Cumul → ${lbl}`,
+    'kpi3-lbl':         `Ticket moyen — ${lbl}`,
+    'kpi6-lbl':         `Marge brute — ${lbl}`,
+    'kpi-fc-lbl':       `Food Cost — ${lbl}`,
+    'kpi-lc-lbl':       `Labor Cost — ${lbl}`,
+    'kpi-pc-lbl':       `Prime Cost — ${lbl}`,
+    'classement-bar-title': `Top restaurants — ${lbl}`,
+    'ca-restaurants-title': `CA par restaurant — ${lbl}`,
+    'waterfall-title':  `Contribution croissance vs M-1`,
+    'radar-title':      `Performance par marque — ${lbl}`,
+    'classement-title': `Classement — ${lbl}`,
+    'heatmap-title':    `Heatmap CA — ${lbl}`,
+  };
+  for (const [id, text] of Object.entries(ids)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+  }
+}
+
+/* ── Compteur ─────────────────────────────────────────────────────────────── */
+function updateCounter(restos) {
+  const n   = restos.length;
+  const ms  = STATE.months;
+  const per = ms.length === 1
+    ? `Période : ${STATE.periodLabel}`
+    : `Période : ${STATE.periodLabel} (${ms.length} mois)`;
+  document.getElementById('filter-counter').textContent =
+    `${n} restaurant${n > 1 ? 's' : ''} · ${per}`;
+}
+
+/* ── KPI cards ────────────────────────────────────────────────────────────── */
+function updateKPIs(restos, ms) {
+  const total = groupCaMonth(restos, ms);
+
+  // KPI 1 — CA groupe
+  document.getElementById('kpi1-lbl').textContent = `CA Groupe — ${STATE.periodLabel}`;
+  document.getElementById('kpi1-val').textContent = `${fmt(total)} €`;
+
+  // M-1 for CA
+  const kpi1evol = document.getElementById('kpi1-evol');
+  const kpi1m1   = document.getElementById('kpi1-m1');
+  if (ms.length === 1) {
+    const prevIdx = MONTHS.indexOf(ms[0]) - 1;
+    if (prevIdx >= 0) {
+      const prevM = MONTHS[prevIdx];
+      const prevLbl = DATA.month_labels[prevIdx];
+      const prev    = groupCaMonth(restos, [prevM]);
+      const g       = prev ? ((total - prev) / prev * 100).toFixed(1) : null;
+      if (g !== null) {
+        const sign = +g > 0 ? '↑ +' : +g < 0 ? '↓ ' : '→ ';
+        kpi1evol.className   = `db-kpi-evol ${+g > 0 ? 'pos' : +g < 0 ? 'neg' : 'neu'}`;
+        kpi1evol.textContent = `${sign}${g}% vs ${prevLbl}`;
+        kpi1m1.textContent   = `${prevLbl} : ${fmt(prev)} €`;
+      } else {
+        kpi1evol.className = 'db-kpi-evol neu'; kpi1evol.textContent = 'Pas de données M-1';
+        kpi1m1.textContent = '';
+      }
+    } else {
+      kpi1evol.className = 'db-kpi-evol neu'; kpi1evol.textContent = 'Pas de données M-1';
+      kpi1m1.textContent = '';
+    }
+  } else {
+    kpi1evol.className   = 'db-kpi-evol neu';
+    kpi1evol.textContent = `${ms.length} mois sélectionnés`;
+    kpi1m1.textContent   = '';
+  }
+
+  // KPI 2 — cumulé (Jan → dernier mois sélectionné)
+  const lastIdx = MONTHS.indexOf(ms[ms.length - 1]);
+  const cumul   = MONTHS.slice(0, lastIdx + 1).reduce((s, m) => s + groupCaMonth(restos, [m]), 0);
+  document.getElementById('kpi2-val').textContent = `${fmt(cumul)} €`;
+
+  // KPI 3 — ticket moyen
+  const kpi3val  = document.getElementById('kpi3-val');
+  const kpi3sub  = document.getElementById('kpi3-sub');
+  const kpi3evol = document.getElementById('kpi3-evol');
+  const kpi3m1   = document.getElementById('kpi3-m1');
+  const cmdTotal = restos.reduce((s, r) =>
+    s + ms.reduce((ss, m) => ss + (r.commandes?.[m] || 0), 0), 0);
+  if (cmdTotal > 0 && total > 0) {
+    const ticket = total / cmdTotal;
+    kpi3val.textContent  = ticket.toLocaleString('fr-BE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+    kpi3val.style.cssText = '';
+    kpi3sub.textContent  = 'par commande';
+    // M-1 for ticket moyen
+    if (ms.length === 1) {
+      const prevIdx = MONTHS.indexOf(ms[0]) - 1;
+      if (prevIdx >= 0) {
+        const prevM   = MONTHS[prevIdx];
+        const prevLbl = DATA.month_labels[prevIdx];
+        const prevCA  = groupCaMonth(restos, [prevM]);
+        const prevCmd = restos.reduce((s, r) => s + (r.commandes?.[prevM] || 0), 0);
+        if (prevCmd > 0 && prevCA > 0) {
+          const prevTicket = prevCA / prevCmd;
+          const g = ((ticket - prevTicket) / prevTicket * 100).toFixed(1);
+          const sign = +g > 0 ? '↑ +' : +g < 0 ? '↓ ' : '→ ';
+          kpi3evol.className   = `db-kpi-evol ${+g > 0 ? 'pos' : +g < 0 ? 'neg' : 'neu'}`;
+          kpi3evol.textContent = `${sign}${g}% vs ${prevLbl}`;
+          kpi3m1.textContent   = `${prevLbl} : ${prevTicket.toLocaleString('fr-BE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
+        } else {
+          kpi3evol.className = 'db-kpi-evol neu'; kpi3evol.textContent = 'Pas de données M-1';
+          kpi3m1.textContent = '';
+        }
+      } else {
+        kpi3evol.className = 'db-kpi-evol neu'; kpi3evol.textContent = 'Pas de données M-1';
+        kpi3m1.textContent = '';
+      }
+    } else {
+      kpi3evol.className = 'db-kpi-evol neu'; kpi3evol.textContent = `${ms.length} mois sélectionnés`;
+      kpi3m1.textContent = '';
+    }
+  } else {
+    kpi3val.textContent  = 'Données insuffisantes';
+    kpi3val.style.cssText = 'font-size:1rem;color:var(--text-muted);font-weight:500;';
+    kpi3sub.textContent  = 'saisir le nb de commandes';
+    if (kpi3evol) { kpi3evol.className = 'db-kpi-evol neu'; kpi3evol.textContent = 'Pas de données M-1'; }
+    if (kpi3m1) kpi3m1.textContent = '';
+  }
+
+  // KPI 6 — marge brute
+  const kpi6val  = document.getElementById('kpi6-val');
+  const kpi6sub  = document.getElementById('kpi6-sub');
+  const kpi6evol = document.getElementById('kpi6-evol');
+  const kpi6m1   = document.getElementById('kpi6-m1');
+  const marges   = restos.map(r => {
+    const ca  = ms.reduce((s, m) => s + (r.monthly[m]   || 0), 0);
+    const chg = ms.reduce((s, m) => s + (r.charges?.[m] || 0), 0);
+    return (ca > 0 && chg > 0) ? (ca - chg) / ca * 100 : null;
+  }).filter(v => v !== null);
+  if (marges.length > 0) {
+    const avg = marges.reduce((s, v) => s + v, 0) / marges.length;
+    kpi6val.textContent  = avg.toLocaleString('fr-BE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %';
+    kpi6val.style.cssText = ''; kpi6val.style.color = avg > 20 ? '#166534' : avg >= 10 ? '#92400e' : '#991b1b';
+    kpi6sub.textContent  = `Moyenne sur ${marges.length} restaurant${marges.length > 1 ? 's' : ''}`;
+    // M-1
+    if (ms.length === 1) {
+      const prevIdx = MONTHS.indexOf(ms[0]) - 1;
+      if (prevIdx >= 0) {
+        const prevM = MONTHS[prevIdx]; const prevLbl = DATA.month_labels[prevIdx];
+        const margesP = restos.map(r => {
+          const ca = r.monthly[prevM] || 0; const chg = r.charges?.[prevM] || 0;
+          return (ca > 0 && chg > 0) ? (ca - chg) / ca * 100 : null;
+        }).filter(v => v !== null);
+        if (margesP.length > 0) {
+          const avgP = margesP.reduce((s,v) => s+v,0) / margesP.length;
+          const d = +(avg - avgP).toFixed(1);
+          const pct = avgP !== 0 ? +((avg - avgP) / avgP * 100).toFixed(1) : 0;
+          const fmtPct = (v) => Math.abs(v).toLocaleString('fr-BE',{minimumFractionDigits:1,maximumFractionDigits:1});
+          const fmtVal = (v) => v.toLocaleString('fr-BE',{minimumFractionDigits:1,maximumFractionDigits:1});
+          const sign = d > 0 ? '↑ +' : d < 0 ? '↓ ' : '→ ';
+          kpi6evol.className   = `db-kpi-evol ${d > 0 ? 'pos' : d < 0 ? 'neg' : 'neu'}`;
+          kpi6evol.textContent = `${sign}${fmtPct(pct)}% (de ${fmtVal(avgP)}% à ${fmtVal(avg)}%)`;
+          kpi6m1.textContent   = `${prevLbl} : ${fmtVal(avgP)} %`;
+        } else { kpi6evol.className='db-kpi-evol neu'; kpi6evol.textContent='Pas de données M-1'; kpi6m1.textContent=''; }
+      } else { kpi6evol.className='db-kpi-evol neu'; kpi6evol.textContent='Pas de données M-1'; kpi6m1.textContent=''; }
+    } else { kpi6evol.className='db-kpi-evol neu'; kpi6evol.textContent=`${ms.length} mois sélectionnés`; kpi6m1.textContent=''; }
+  } else {
+    kpi6val.textContent='Données insuffisantes'; kpi6val.style.cssText='font-size:1rem;color:var(--text-muted);font-weight:500;';
+    kpi6sub.textContent='saisir les charges';
+    kpi6evol.className='db-kpi-evol neu'; kpi6evol.textContent='Pas de données M-1'; kpi6m1.textContent='';
+  }
+
+  // Food / Labor / Prime Cost
+  function colorCost(p)  { return p < 30 ? '#639922' : p <= 35 ? '#E8A000' : '#E11D48'; }
+  function colorPrime(p) { return p < 55 ? '#639922' : p <= 65 ? '#E8A000' : '#E11D48'; }
+
+  function computeCostKPI(field, msList) {
+    const vals = restos.map(r => {
+      const ca   = msList.reduce((s, m) => s + (r.monthly[m]  || 0), 0);
+      const cost = msList.reduce((s, m) => s + (r[field]?.[m] || 0), 0);
+      return (ca > 0 && cost > 0) ? cost / ca * 100 : null;
+    }).filter(v => v !== null);
+    return vals.length > 0 ? { avg: vals.reduce((s,v) => s+v,0) / vals.length, n: vals.length } : null;
+  }
+
+  const fcRes = computeCostKPI('cout_matieres', ms);
+  const lcRes = computeCostKPI('cout_personnel', ms);
+  const primeVals = restos.map(r => {
+    const ca = ms.reduce((s, m) => s + (r.monthly[m]          || 0), 0);
+    const cm = ms.reduce((s, m) => s + (r.cout_matieres?.[m]  || 0), 0);
+    const cp = ms.reduce((s, m) => s + (r.cout_personnel?.[m] || 0), 0);
+    return (ca > 0 && cm > 0 && cp > 0) ? (cm + cp) / ca * 100 : null;
+  }).filter(v => v !== null);
+  const pcRes = primeVals.length > 0
+    ? { avg: primeVals.reduce((s,v) => s+v,0) / primeVals.length, n: primeVals.length } : null;
+
+  function setCostCard(valId, subId, evolId, m1Id, field, res, colorFn, idealTxt) {
+    const val  = document.getElementById(valId);
+    const sub  = document.getElementById(subId);
+    const evol = document.getElementById(evolId);
+    const m1   = document.getElementById(m1Id);
+    if (res) {
+      val.textContent  = res.avg.toLocaleString('fr-BE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' %';
+      val.style.cssText = ''; val.style.color = colorFn(res.avg);
+      sub.textContent  = `${idealTxt} · ${res.n} resto${res.n > 1 ? 's' : ''}`;
+      if (ms.length === 1) {
+        const prevIdx = MONTHS.indexOf(ms[0]) - 1;
+        if (prevIdx >= 0 && evol) {
+          const prevM = MONTHS[prevIdx]; const prevLbl = DATA.month_labels[prevIdx];
+          const resP  = computeCostKPI(field, [prevM]);
+          if (resP) {
+            const d    = +(res.avg - resP.avg).toFixed(1);
+            const pct  = resP.avg !== 0 ? +((res.avg - resP.avg) / resP.avg * 100).toFixed(1) : 0;
+            const isPos = d > 0;
+            const sign  = isPos ? '↑ +' : d < 0 ? '↓ ' : '→ ';
+            const cls   = d === 0 ? 'neu' : (isPos ? 'inv-pos' : 'inv-neg');
+            const fmtP  = (v) => Math.abs(v).toLocaleString('fr-BE',{minimumFractionDigits:1,maximumFractionDigits:1});
+            const fmtV  = (v) => v.toLocaleString('fr-BE',{minimumFractionDigits:1,maximumFractionDigits:1});
+            evol.className   = `db-kpi-evol ${cls}`;
+            evol.textContent = `${sign}${fmtP(pct)}% (de ${fmtV(resP.avg)}% à ${fmtV(res.avg)}%)`;
+            m1.textContent   = `${prevLbl} : ${fmtV(resP.avg)} %`;
+          } else { evol.className='db-kpi-evol neu'; evol.textContent='Pas de données M-1'; m1.textContent=''; }
+        } else if (evol) { evol.className='db-kpi-evol neu'; evol.textContent='Pas de données M-1'; m1.textContent=''; }
+      } else if (evol) { evol.className='db-kpi-evol neu'; evol.textContent=`${ms.length} mois sélectionnés`; m1.textContent=''; }
+    } else {
+      val.textContent='Données insuffisantes'; val.style.cssText='font-size:1rem;color:var(--text-muted);font-weight:500;';
+      sub.textContent=idealTxt;
+      if (evol) { evol.className='db-kpi-evol neu'; evol.textContent='Pas de données M-1'; }
+      if (m1) m1.textContent='';
+    }
+  }
+  setCostCard('kpi-fc-val','kpi-fc-sub','kpi-fc-evol','kpi-fc-m1','cout_matieres', fcRes, colorCost, 'Idéal < 35%');
+  setCostCard('kpi-lc-val','kpi-lc-sub','kpi-lc-evol','kpi-lc-m1','cout_personnel', lcRes, colorCost, 'Idéal < 35%');
+
+  // Prime cost M-1 separately (needs both cm + cp)
+  const pcBar = document.getElementById('kpi-pc-bar');
+  const pcEvolEl = document.getElementById('kpi-pc-evol');
+  const pcM1El   = document.getElementById('kpi-pc-m1');
+  const pcValEl  = document.getElementById('kpi-pc-val');
+  const pcSubEl  = document.getElementById('kpi-pc-sub');
+  if (pcRes) {
+    pcValEl.textContent = pcRes.avg.toLocaleString('fr-BE',{minimumFractionDigits:1,maximumFractionDigits:1}) + ' %';
+    pcValEl.style.cssText = ''; pcValEl.style.color = colorPrime(pcRes.avg);
+    pcSubEl.textContent = `Idéal < 60% · ${pcRes.n} resto${pcRes.n > 1 ? 's' : ''}`;
+    if (pcBar) { pcBar.style.width = Math.min(pcRes.avg,100)+'%'; pcBar.style.background = colorPrime(pcRes.avg); }
+    // M-1
+    if (ms.length === 1) {
+      const prevIdx = MONTHS.indexOf(ms[0]) - 1;
+      if (prevIdx >= 0) {
+        const prevM = MONTHS[prevIdx]; const prevLbl = DATA.month_labels[prevIdx];
+        const primeValsP = restos.map(r => {
+          const ca = r.monthly[prevM]||0; const cm = r.cout_matieres?.[prevM]||0; const cp = r.cout_personnel?.[prevM]||0;
+          return (ca > 0 && cm > 0 && cp > 0) ? (cm+cp)/ca*100 : null;
+        }).filter(v => v !== null);
+        if (primeValsP.length > 0) {
+          const avgP = primeValsP.reduce((s,v)=>s+v,0)/primeValsP.length;
+          const d    = +(pcRes.avg - avgP).toFixed(1);
+          const pct  = avgP !== 0 ? +((pcRes.avg - avgP) / avgP * 100).toFixed(1) : 0;
+          const isPos = d > 0;
+          const cls  = d === 0 ? 'neu' : (isPos ? 'inv-pos' : 'inv-neg');
+          const sign = isPos ? '↑ +' : d < 0 ? '↓ ' : '→ ';
+          const fmtPc = (v) => Math.abs(v).toLocaleString('fr-BE',{minimumFractionDigits:1,maximumFractionDigits:1});
+          const fmtVc = (v) => v.toLocaleString('fr-BE',{minimumFractionDigits:1,maximumFractionDigits:1});
+          pcEvolEl.className   = `db-kpi-evol ${cls}`;
+          pcEvolEl.textContent = `${sign}${fmtPc(pct)}% (de ${fmtVc(avgP)}% à ${fmtVc(pcRes.avg)}%)`;
+          pcM1El.textContent   = `${prevLbl} : ${fmtVc(avgP)} %`;
+        } else { pcEvolEl.className='db-kpi-evol neu'; pcEvolEl.textContent='Pas de données M-1'; pcM1El.textContent=''; }
+      } else { pcEvolEl.className='db-kpi-evol neu'; pcEvolEl.textContent='Pas de données M-1'; pcM1El.textContent=''; }
+    } else { pcEvolEl.className='db-kpi-evol neu'; pcEvolEl.textContent=`${ms.length} mois sélectionnés`; pcM1El.textContent=''; }
+  } else {
+    pcValEl.textContent='Données insuffisantes'; pcValEl.style.cssText='font-size:1rem;color:var(--text-muted);font-weight:500;';
+    pcSubEl.textContent='Idéal < 60% · Seuil de rentabilité';
+    if (pcBar) { pcBar.style.width='0%'; pcBar.style.background='#e2e8f0'; }
+    if (pcEvolEl) { pcEvolEl.className='db-kpi-evol neu'; pcEvolEl.textContent='Pas de données M-1'; }
+    if (pcM1El) pcM1El.textContent='';
+  }
+
+  // KPI 5 — actifs
+  const actifs = restos.filter(r => caForMonth(r, ms) > 0).length;
+  document.getElementById('kpi5-val').innerHTML =
+    `${actifs} <span style="font-size:1rem;color:var(--text-muted);font-weight:500;">/ ${RESTOS.length}</span>`;
+  document.getElementById('kpi5-bar').style.width = RESTOS.length > 0 ? (actifs / RESTOS.length * 100) + '%' : '0%';
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   COMBO CHART — CA par marque (bars empilées) + Total groupe (ligne)
+   ════════════════════════════════════════════════════════════════════════════ */
+let comboChart = null;
+
+function updateComboChart() {
+  const labels = EVOL.mois;
+  const brandSeries = [
+    { label: 'Chamas Tacos',  data: EVOL.chamas,  color: BRAND_COLORS['Chamas Tacos'] },
+    { label: "O'Cheese",      data: EVOL.ocheese, color: BRAND_COLORS["O'Cheese"] },
+    { label: 'Delys Station', data: EVOL.delys,   color: BRAND_COLORS['Delys Station'] },
+  ];
+  const barDatasets = brandSeries.map(s => ({
+    type: 'bar',
+    label: s.label,
+    data: s.data,
+    backgroundColor: s.color + 'cc',
+    borderColor: s.color,
+    borderWidth: 0,
+    borderRadius: 3,
+    stack: 'brands',
+    order: 2,
+  }));
+  const lineDataset = {
+    type: 'line',
+    label: 'Total groupe',
+    data: EVOL.total,
+    borderColor: '#0F172A',
+    backgroundColor: 'rgba(15,23,42,.06)',
+    borderWidth: 2.5,
+    pointRadius: 4,
+    pointBackgroundColor: '#0F172A',
+    pointHoverRadius: 7,
+    tension: 0.35,
+    fill: false,
+    order: 1,
+  };
+  const datasets = [...barDatasets, lineDataset];
+
+  if (comboChart) {
+    comboChart.data.datasets = datasets;
+    comboChart.update('active');
+    return;
+  }
+  comboChart = new Chart(document.getElementById('comboChart'), {
+    type: 'bar',
+    data: { labels, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 200 },
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 11 }, padding: 14, usePointStyle: true } },
+        tooltip: { callbacks: {
+          label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)} €`
+        }}
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { size: 11 } } },
+        y: { stacked: false, grid: { color: '#f1f5f9' }, ticks: { callback: v => (v/1000).toFixed(0)+'k €', font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   CLASSEMENT HORIZONTAL — Top restaurants par CA (période sélectionnée)
+   ════════════════════════════════════════════════════════════════════════════ */
+let barClassementChart = null;
+
+function updateBarClassement(restos, ms) {
+  const sorted = restos
+    .map(r => ({ name: r.name, brand: r.brand, ca: caForMonth(r, ms) }))
+    .filter(r => r.ca > 0)
+    .sort((a, b) => b.ca - a.ca)
+    .slice(0, 12);
+
+  const labels = sorted.map(r => r.name.replace('Chamas Tacos ', '').replace("O'Cheese ", '').replace('Delys Station ', '').replace('Chamas ', ''));
+  const values = sorted.map(r => r.ca);
+  const colors = sorted.map(r => BRAND_COLORS[r.brand] || '#888');
+
+  if (barClassementChart) {
+    barClassementChart.data.labels = labels;
+    barClassementChart.data.datasets[0].data = values;
+    barClassementChart.data.datasets[0].backgroundColor = colors.map(c => c + 'cc');
+    barClassementChart.data.datasets[0].borderColor = colors;
+    barClassementChart.update('active');
+    return;
+  }
+  barClassementChart = new Chart(document.getElementById('barClassementChart'), {
+    type: 'bar',
+    data: { labels, datasets: [{
+      data: values,
+      backgroundColor: colors.map(c => c + 'cc'),
+      borderColor: colors,
+      borderWidth: 1,
+      borderRadius: 4,
+    }]},
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 200 },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.parsed.x)} €` } }
+      },
+      scales: {
+        x: { grid: { color: '#f1f5f9' }, ticks: { callback: v => (v/1000).toFixed(0)+'k', font: { size: 10 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+      }
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   CA PAR RESTAURANT — Bar chart complet
+   ════════════════════════════════════════════════════════════════════════════ */
+let caRestaurantsChart = null;
+
+function updateCaRestaurantsChart(restos, ms) {
+  const sorted = restos
+    .map(r => ({ name: r.name, brand: r.brand, ca: caForMonth(r, ms) }))
+    .filter(r => r.ca > 0)
+    .sort((a, b) => b.ca - a.ca);
+
+  const labels = sorted.map(r =>
+    r.name
+      .replace('Chamas Tacos ', '')
+      .replace("O'Cheese ", '')
+      .replace('Delys Station ', '')
+      .replace('Chamas ', '')
+  );
+  const values = sorted.map(r => r.ca);
+  const colors = sorted.map(r => BRAND_COLORS[r.brand] || '#888');
+
+  if (caRestaurantsChart) {
+    caRestaurantsChart.data.labels = labels;
+    caRestaurantsChart.data.datasets[0].data = values;
+    caRestaurantsChart.data.datasets[0].backgroundColor = colors.map(c => c + 'cc');
+    caRestaurantsChart.data.datasets[0].borderColor = colors;
+    caRestaurantsChart.update('active');
+    return;
+  }
+
+  caRestaurantsChart = new Chart(document.getElementById('caRestaurantsChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{
+        label: 'CA',
+        data: values,
+        backgroundColor: colors.map(c => c + 'cc'),
+        borderColor: colors,
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 200 },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${fmt(ctx.parsed.y)} €` } }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            font: { size: 10 },
+            maxRotation: 45,
+            minRotation: 45
+          }
+        },
+        y: {
+          grid: { color: '#f1f5f9' },
+          ticks: { callback: v => (v/1000).toFixed(0) + 'k €', font: { size: 10 } }
+        }
+      }
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   WATERFALL — Contribution delta CA par marque vs M-1
+   ════════════════════════════════════════════════════════════════════════════ */
+let waterfallChart = null;
+
+function updateWaterfallChart(restos, ms) {
+  const canvas = document.getElementById('waterfallChart');
+  const emptyEl = document.getElementById('waterfall-empty');
+
+  // Only works for single-month selection with a previous month
+  const hasPrev = ms.length === 1 && MONTHS.indexOf(ms[0]) > 0;
+  if (!hasPrev) {
+    canvas.style.display = 'none';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  canvas.style.display = 'block';
+  emptyEl.style.display = 'none';
+
+  const mCurr = ms[0];
+  const mPrev = MONTHS[MONTHS.indexOf(mCurr) - 1];
+
+  // Compute deltas per brand for filtered restos
+  const wfData = BRAND_NAMES.map(brand => {
+    const bRestos = restos.filter(r => r.brand === brand);
+    const curr = bRestos.reduce((s, r) => s + (r.monthly[mCurr] || 0), 0);
+    const prev = bRestos.reduce((s, r) => s + (r.monthly[mPrev] || 0), 0);
+    return { brand, delta: curr - prev, color: BRAND_COLORS[brand] || '#888' };
+  });
+
+  const totalPrev = restos.reduce((s, r) => s + (r.monthly[mPrev] || 0), 0);
+  const totalCurr = restos.reduce((s, r) => s + (r.monthly[mCurr] || 0), 0);
+
+  // Build waterfall segments: [base (invisible), delta per brand, end total]
+  const wfLabels = ['M-1 Base', ...BRAND_NAMES, 'Total actuel'];
+  // Floating bar: [from, to] for each segment
+  let cursor = totalPrev;
+  const floatingData = [
+    [0, totalPrev],  // base bar (solid)
+    ...wfData.map(d => {
+      const from = d.delta >= 0 ? cursor : cursor + d.delta;
+      const to   = d.delta >= 0 ? cursor + d.delta : cursor;
+      cursor += d.delta;
+      return [from, to];
+    }),
+    [0, totalCurr],  // end total (solid)
+  ];
+  const bgColors = [
+    '#94a3b8cc',
+    ...wfData.map(d => (BRAND_COLORS[d.brand] || '#888') + 'cc'),
+    '#475569cc',
+  ];
+  const borderColors = [
+    '#94a3b8',
+    ...wfData.map(d => BRAND_COLORS[d.brand] || '#888'),
+    '#475569',
+  ];
+
+  if (waterfallChart) {
+    waterfallChart.data.labels = wfLabels;
+    waterfallChart.data.datasets[0].data = floatingData;
+    waterfallChart.data.datasets[0].backgroundColor = bgColors;
+    waterfallChart.data.datasets[0].borderColor = borderColors;
+    waterfallChart.update('active');
+    return;
+  }
+  waterfallChart = new Chart(canvas, {
+    type: 'bar',
+    data: { labels: wfLabels, datasets: [{
+      data: floatingData,
+      backgroundColor: bgColors,
+      borderColor: borderColors,
+      borderWidth: 1,
+      borderRadius: 4,
+    }]},
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 200 },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: {
+          label: ctx => {
+            const [from, to] = ctx.raw;
+            const delta = to - from;
+            const sign = delta >= 0 ? '+' : '';
+            return ` ${sign}${fmt(delta)} €`;
+          }
+        }}
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+        y: { grid: { color: '#f1f5f9' }, ticks: { callback: v => (v/1000).toFixed(0)+'k €', font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   RADAR — Performance par marque (5 axes normalisés)
+   ════════════════════════════════════════════════════════════════════════════ */
+let radarChart = null;
+
+const RADAR_AXES = ['CA', 'Ticket moyen', 'Marge brute', 'Food Cost', 'Labor Cost'];
+
+function computeRadarScores(restos, ms) {
+  const result = {};
+  BRAND_NAMES.forEach(brand => {
+    const bRestos = restos.filter(r => r.brand === brand);
+    if (!bRestos.length) { result[brand] = null; return; }
+
+    // CA total et ticket moyen (via commandes mensuelles)
+    let ca = 0, cmTotal = 0, cpTotal = 0, chargesTotal = 0, cmdTotal = 0;
+    bRestos.forEach(r => {
+      ms.forEach(m => {
+        const rca = (r.monthly && r.monthly[m]) || 0;
+        ca += rca;
+        cmTotal += (r.cout_matieres && r.cout_matieres[m]) || 0;
+        cpTotal += (r.cout_personnel && r.cout_personnel[m]) || 0;
+        chargesTotal += (r.charges && r.charges[m]) || 0;
+        cmdTotal += (r.commandes && r.commandes[m]) || 0;
+      });
+    });
+
+    const tkt = ca > 0 && cmdTotal > 0 ? ca / cmdTotal : 0;
+    const fc  = ca > 0 && cmTotal > 0 ? cmTotal / ca * 100 : null;
+    const lc  = ca > 0 && cpTotal > 0 ? cpTotal / ca * 100 : null;
+    const mb  = ca > 0 && chargesTotal > 0 ? (ca - chargesTotal) / ca * 100 : null;
+
+    result[brand] = { ca_raw: ca, tkt_raw: tkt, fc, lc, mb };
+  });
+
+  // Normalize
+  const caMax  = Math.max(...Object.values(result).filter(Boolean).map(v => v.ca_raw), 1);
+  const tktMax = Math.max(...Object.values(result).filter(Boolean).map(v => v.tkt_raw), 1);
+
+  const normalized = {};
+  BRAND_NAMES.forEach(brand => {
+    const raw = result[brand];
+    if (!raw) { normalized[brand] = null; return; }
+    normalized[brand] = [
+      Math.round(raw.ca_raw / caMax * 100),
+      Math.round(raw.tkt_raw / tktMax * 100),
+      raw.mb != null ? Math.round(Math.min(raw.mb, 50))                          : 0,  // direct %
+      raw.fc != null ? Math.round(Math.max(0, 100 - raw.fc * 2))                 : 0,  // inverted
+      raw.lc != null ? Math.round(Math.max(0, 100 - raw.lc * 2))                 : 0,  // inverted
+    ];
+  });
+  return normalized;
+}
+
+function updateRadarChart(restos, ms) {
+  const scores = computeRadarScores(restos, ms);
+  const datasets = BRAND_NAMES
+    .filter(b => scores[b] !== null)
+    .map(brand => ({
+      label: brand,
+      data: scores[brand],
+      borderColor: BRAND_COLORS[brand],
+      backgroundColor: BRAND_COLORS[brand] + '22',
+      borderWidth: 2,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+    }));
+
+  if (radarChart) {
+    radarChart.data.datasets = datasets;
+    radarChart.update('active');
+    return;
+  }
+  radarChart = new Chart(document.getElementById('radarChart'), {
+    type: 'radar',
+    data: { labels: RADAR_AXES, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 200 },
+      plugins: {
+        legend: { position: 'top', labels: { font: { size: 11 }, padding: 14, usePointStyle: true } },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.r}` } }
+      },
+      scales: {
+        r: {
+          min: 0, max: 100,
+          ticks: { stepSize: 25, font: { size: 10 }, backdropColor: 'transparent', color: '#94a3b8' },
+          grid: { color: '#e2e8f0' },
+          pointLabels: { font: { size: 11, weight: '600' }, color: '#475569' }
+        }
+      }
+    }
+  });
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   HEATMAP
+   ════════════════════════════════════════════════════════════════════════════ */
+function updateHeatmap(filteredIds, ms) {
+  const container = document.getElementById('heatmap');
+  const values = RESTOS.map(r => caForMonth(r, ms));
+  const nonZero = values.filter(v => v > 0).sort((a, b) => a - b);
+  const p33 = nonZero[Math.floor(nonZero.length * 0.33)] || 0;
+  const p66 = nonZero[Math.floor(nonZero.length * 0.66)] || 0;
+
+  function heatColor(ca) {
+    if (!ca) return { bg: '#e2e8f0', fg: '#94a3b8' };
+    if (ca >= p66) return { bg: '#dcfce7', fg: '#1D9E75' };
+    if (ca >= p33) return { bg: '#fef3c7', fg: '#a86800' };
+    return { bg: '#fee2e2', fg: '#E11D48' };
+  }
+
+  // Comparison: previous month only for single-month mode
+  const prevM = ms.length === 1 && MONTHS.indexOf(ms[0]) > 0
+    ? MONTHS[MONTHS.indexOf(ms[0]) - 1] : null;
+
+  container.innerHTML = RESTOS.map((r, i) => {
+    const ca = values[i];
+    const { bg, fg } = heatColor(ca);
+    const inFilter  = filteredIds.has(r.id);
+    const opacity   = inFilter ? '1' : '0.2';
+    const mPrec     = prevM ? (r.monthly[prevM] || 0) : 0;
+    const croiss    = mPrec > 0 ? ((ca - mPrec) / mPrec * 100).toFixed(1) : null;
+    const croissStr = croiss != null ? ` · ${+croiss >= 0 ? '▲' : '▼'}${Math.abs(croiss)}%` : '';
+    return `<div class="db-hm-cell" style="background:${bg};color:${fg};opacity:${opacity};">
+      <div class="db-hm-name">${r.name.replace('Chamas Tacos ','').replace("O'Cheese ",'').replace('Delys Station ','').replace('Chamas ','')}</div>
+      <div class="db-hm-ca">${ca > 0 ? fmt(ca) + ' €' : '—'}</div>
+      <div class="db-hm-tooltip">${r.name}<br>${fmt(ca)} €${croissStr}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   TABLEAU
+   ════════════════════════════════════════════════════════════════════════════ */
+let tableData = [];
+
+function sortTable(col) {
+  if (STATE.sortCol === col) STATE.sortDir *= -1;
+  else { STATE.sortCol = col; STATE.sortDir = 1; }
+  document.querySelectorAll('.db-table th').forEach(th => {
+    th.classList.toggle('sorted', th.dataset.col === col);
+    if (th.dataset.col === col)
+      th.querySelector('.sort-icon').textContent = STATE.sortDir === 1 ? '↑' : '↓';
+    else if (th.querySelector('.sort-icon'))
+      th.querySelector('.sort-icon').textContent = '↕';
+  });
+  renderTableRows(tableData);
+}
+
+function renderTableRows(restos) {
+  const ms      = STATE.months;
+  const isMulti = ms.length > 1;
+  const prevMs  = !isMulti && MONTHS.indexOf(ms[0]) > 0
+    ? [MONTHS[MONTHS.indexOf(ms[0]) - 1]] : null;
+  const data = restos.map((r, i) => ({
+    ...r,
+    ca_m:  caForMonth(r, ms),
+    ca_mp: prevMs ? caForMonth(r, prevMs) : 0,
+    taux:  r.progress ? r.progress.taux : null,
+    _idx:  i,
+  }));
+
+  // Sort
+  data.sort((a, b) => {
+    let av = a[STATE.sortCol], bv = b[STATE.sortCol];
+    if (STATE.sortCol === 'ca_mois')      { av = a.ca_m;  bv = b.ca_m; }
+    if (STATE.sortCol === 'ca_mois_prec') { av = a.ca_mp; bv = b.ca_mp; }
+    if (STATE.sortCol === 'taux')         { av = a.taux ?? -1; bv = b.taux ?? -1; }
+    if (STATE.sortCol === 'name' || STATE.sortCol === 'brand')
+      return STATE.sortDir * (av||'').localeCompare(bv||'', 'fr');
+    return STATE.sortDir * ((av || 0) - (bv || 0));
+  });
+
+  const filteredIds = new Set(filteredRestos().map(r => r.id));
+  document.getElementById('table-count').textContent = filteredRestos().length;
+
+  const tbody = document.getElementById('main-tbody');
+  tbody.innerHTML = data.map((r, rank) => {
+    const inFilter = filteredIds.has(r.id);
+    const slug     = BRAND_BADGE[r.brand] || 'chamas';
+    const color    = BRAND_COLORS[r.brand];
+    const g        = r.croissance;
+
+    let objHtml = '';
+    if (r.progress) {
+      const t = r.progress.taux;
+      const cls = t >= 90 ? 'green' : t >= 70 ? 'orange' : 'red';
+      const lbl = t >= 90 ? '✓ Atteint' : t >= 70 ? '~ En cours' : '✗ En retard';
+      objHtml = `<span class="db-obj-badge ${cls}">${lbl} ${t}%</span>`;
+    } else {
+      objHtml = '<span style="color:var(--text-muted);font-size:.72rem;">—</span>';
+    }
+
+    // In multi-month mode, show period span instead of month-over-month growth
+    const gHtml = isMulti
+      ? `<span style="color:var(--text-muted);font-size:.72rem;">${ms.length} mois</span>`
+      : g == null ? '—' : (g >= 0 ? '▲' : '▼') + ' ' + Math.abs(g) + '%';
+    const gStyle = isMulti || g == null
+      ? 'color:var(--text-muted)'
+      : g >= 0 ? 'color:#1D9E75;font-weight:700;' : 'color:#E11D48;font-weight:700;';
+
+    const profil = r.profil_id ? `/restaurant/${r.profil_id}` : null;
+    const trClick = profil ? `onclick="window.location.href='${profil}'"` : '';
+    const trStyle = profil ? 'cursor:pointer;' : '';
+    return `<tr class="${inFilter ? '' : 'dimmed'}" ${trClick} style="${trStyle}">
+      <td style="font-weight:700;color:var(--text-muted);">${rank + 1}</td>
+      <td style="font-weight:500;">${r.name}</td>
+      <td><span class="badge badge-${slug}">${r.brand}</span></td>
+      <td style="font-weight:700;color:${color};">${fmt(r.ca_m)} €</td>
+      <td style="color:var(--text-muted);">${r.ca_mp > 0 ? fmt(r.ca_mp) + ' €' : '—'}</td>
+      <td style="${gStyle}">${gHtml}</td>
+      <td>${objHtml}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderTable(restos, ms) {
+  tableData = restos;
+  renderTableRows(restos);
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   ZONE ALERTES + ANALYSE — 100% dynamique
+   ════════════════════════════════════════════════════════════════════════════ */
+function _fp(v) {
+  return String(Math.abs(Math.round(v * 10) / 10)).replace('.', ',');
+}
+function _sign(v) { return v > 0 ? '+' : ''; }
+
+function computeAlertes(restos, ms) {
+  const raw = [];
+  // Only compare M vs M-1 for single-month selection
+  const isSingle = ms.length === 1;
+  const mois     = ms[0];
+  const prevIdx  = isSingle ? MONTHS.indexOf(mois) - 1 : -1;
+  const prevM    = prevIdx >= 0 ? MONTHS[prevIdx] : null;
+  const prevLbl  = prevM ? LABELS[prevIdx] : null;
+
+  // ── Par restaurant ──────────────────────────────────────────────────────
+  restos.forEach(r => {
+    const ca_m  = ms.reduce((s, m) => s + (r.monthly[m] || 0), 0);
+    if (ca_m <= 0) return;
+    const name  = r.name;
+    const brand = r.brand;
+
+    if (prevM) {
+      const ca_mp = r.monthly[prevM] || 0;
+      if (ca_mp > 0) {
+        const evol = Math.round((ca_m - ca_mp) / ca_mp * 1000) / 10;
+        if (evol > 15)
+          raw.push({ type:'success', score: evol, brand,
+            message:`Le CA de ${name} a progressé de +${_fp(evol)}% vs ${prevLbl}` });
+        else if (evol >= 10)
+          raw.push({ type:'success', score: evol, brand,
+            message:`Bonne progression du CA de ${name} : +${_fp(evol)}% vs ${prevLbl}` });
+        else if (evol <= -15)
+          raw.push({ type:'danger', score: Math.abs(evol), brand,
+            message:`Forte chute du CA de ${name} : -${_fp(evol)}% vs ${prevLbl}` });
+        else if (evol <= -10)
+          raw.push({ type:'warning', score: Math.abs(evol), brand,
+            message:`Le CA de ${name} recule de -${_fp(evol)}% vs ${prevLbl}` });
+      }
+
+      // Food Cost évolution en %
+      const cm_m  = ms.reduce((s, m) => s + (r.cout_matieres?.[m] || 0), 0);
+      const cm_mp = r.cout_matieres?.[prevM] || 0;
+      const ca_mp2 = r.monthly[prevM] || 0;
+      if (cm_m > 0 && cm_mp > 0 && ca_mp2 > 0) {
+        const fc_m = Math.round((cm_m / ca_m) * 1000) / 10;
+        const fc_mp = Math.round((cm_mp / ca_mp2) * 1000) / 10;
+        const dfc = Math.round((cm_m / ca_m - cm_mp / ca_mp2) * 1000) / 10;
+        if (dfc < -3)
+          raw.push({ type:'success', score: Math.abs(dfc), brand,
+            message:`Food Cost de ${name} en baisse de ${_fp(Math.abs(dfc))}% (de ${_fp(fc_mp)}% à ${_fp(fc_m)}%)` });
+        else if (dfc > 6)
+          raw.push({ type:'danger', score: dfc, brand,
+            message:`Food Cost de ${name} en forte hausse de +${_fp(dfc)}% (de ${_fp(fc_mp)}% à ${_fp(fc_m)}%)` });
+        else if (dfc > 3)
+          raw.push({ type:'warning', score: dfc, brand,
+            message:`Food Cost de ${name} en hausse de +${_fp(dfc)}% (de ${_fp(fc_mp)}% à ${_fp(fc_m)}%)` });
+      }
+
+      // Labor Cost évolution en %
+      const cp_m  = ms.reduce((s, m) => s + (r.cout_personnel?.[m] || 0), 0);
+      const cp_mp = r.cout_personnel?.[prevM] || 0;
+      if (cp_m > 0 && cp_mp > 0 && ca_mp2 > 0) {
+        const lc_m = Math.round((cp_m / ca_m) * 1000) / 10;
+        const lc_mp = Math.round((cp_mp / ca_mp2) * 1000) / 10;
+        const dlc = Math.round((cp_m / ca_m - cp_mp / ca_mp2) * 1000) / 10;
+        if (dlc < -3)
+          raw.push({ type:'success', score: Math.abs(dlc), brand,
+            message:`Labor Cost de ${name} en baisse de ${_fp(Math.abs(dlc))}% (de ${_fp(lc_mp)}% à ${_fp(lc_m)}%)` });
+        else if (dlc > 6)
+          raw.push({ type:'danger', score: dlc, brand,
+            message:`Labor Cost de ${name} en forte hausse de +${_fp(dlc)}% (de ${_fp(lc_mp)}% à ${_fp(lc_m)}%)` });
+        else if (dlc > 3)
+          raw.push({ type:'warning', score: dlc, brand,
+            message:`Labor Cost de ${name} en hausse de +${_fp(dlc)}% (de ${_fp(lc_mp)}% à ${_fp(lc_m)}%)` });
+      }
+
+      // Prime Cost évolution en %
+      const cm_m2 = ms.reduce((s, m) => s + (r.cout_matieres?.[m] || 0), 0);
+      const cp_m2 = ms.reduce((s, m) => s + (r.cout_personnel?.[m] || 0), 0);
+      const cm_mp2 = r.cout_matieres?.[prevM] || 0;
+      const cp_mp2 = r.cout_personnel?.[prevM] || 0;
+      if (cm_m2 > 0 && cp_m2 > 0 && cm_mp2 > 0 && cp_mp2 > 0 && ca_mp2 > 0) {
+        const pc_m = Math.round(((cm_m2 + cp_m2) / ca_m) * 1000) / 10;
+        const pc_mp = Math.round(((cm_mp2 + cp_mp2) / ca_mp2) * 1000) / 10;
+        const dpc = Math.round(((cm_m2+cp_m2)/ca_m - (cm_mp2+cp_mp2)/ca_mp2) * 1000) / 10;
+        if (dpc < -4)
+          raw.push({ type:'success', score: Math.abs(dpc), brand,
+            message:`Prime Cost de ${name} en baisse de ${_fp(Math.abs(dpc))}% (de ${_fp(pc_mp)}% à ${_fp(pc_m)}%)` });
+        else if (dpc > 8)
+          raw.push({ type:'danger', score: dpc, brand,
+            message:`Prime Cost de ${name} critique : +${_fp(dpc)}% ce mois (de ${_fp(pc_mp)}% à ${_fp(pc_m)}%)` });
+        else if (dpc > 4)
+          raw.push({ type:'warning', score: dpc, brand,
+            message:`Prime Cost de ${name} en hausse de +${_fp(dpc)}% (de ${_fp(pc_mp)}% à ${_fp(pc_m)}%)` });
+      }
+
+      // Ticket moyen évolution
+      const cmd_m  = ms.reduce((s, m) => s + (r.commandes?.[m] || 0), 0);
+      const cmd_mp = r.commandes?.[prevM] || 0;
+      if (cmd_m > 0 && cmd_mp > 0 && ca_mp2 > 0) {
+        const tkt_m  = ca_m  / cmd_m;
+        const tkt_mp = ca_mp2 / cmd_mp;
+        const dtkt   = Math.round((tkt_m - tkt_mp) / tkt_mp * 1000) / 10;
+        if (dtkt > 8)
+          raw.push({ type:'success', score: dtkt, brand,
+            message:`Ticket moyen de ${name} : +${_fp(dtkt)}% vs ${prevLbl}` });
+        else if (dtkt < -8)
+          raw.push({ type:'warning', score: Math.abs(dtkt), brand,
+            message:`Ticket moyen de ${name} en recul : -${_fp(dtkt)}% vs ${prevLbl}` });
+      }
+    }
+
+    // KPI niveau absolu (indépendant de M-1)
+    const cm_abs = ms.reduce((s, m) => s + (r.cout_matieres?.[m] || 0), 0);
+    const cp_abs = ms.reduce((s, m) => s + (r.cout_personnel?.[m] || 0), 0);
+    if (cm_abs > 0 && cp_abs > 0) {
+      const pc = Math.round((cm_abs + cp_abs) / ca_m * 1000) / 10;
+      if (pc > 65)
+        raw.push({ type:'danger', score: pc, brand,
+          message:`Prime Cost de ${name} critique : ${_fp(pc)}%` });
+      else if (pc > 60)
+        raw.push({ type:'warning', score: pc, brand,
+          message:`Prime Cost de ${name} élevé : ${_fp(pc)}%` });
+    }
+  });
+
+  // ── Par marque ──────────────────────────────────────────────────────────
+  if (prevM) {
+    for (const brand of Object.keys(BRAND_COLORS)) {
+      const ca_m  = restos.filter(r => r.brand === brand)
+                          .reduce((s, r) => s + ms.reduce((ss, m) => ss + (r.monthly[m] || 0), 0), 0);
+      const ca_mp = restos.filter(r => r.brand === brand)
+                          .reduce((s, r) => s + (r.monthly[prevM] || 0), 0);
+      if (ca_m > 0 && ca_mp > 0) {
+        const evol = Math.round((ca_m - ca_mp) / ca_mp * 1000) / 10;
+        if (evol > 10)
+          raw.push({ type:'success', score: evol, brand,
+            message:`${brand} en forte progression : +${_fp(evol)}% de CA vs ${prevLbl}` });
+        else if (evol < -10)
+          raw.push({ type:'danger', score: Math.abs(evol), brand,
+            message:`${brand} en recul : -${_fp(evol)}% de CA vs ${prevLbl}` });
+      }
+    }
+  }
+
+  // Tri : danger → warning → success, chacun par score décroissant
+  const ORDER = { danger:0, warning:1, success:2 };
+  raw.sort((a, b) => ORDER[a.type] - ORDER[b.type] || b.score - a.score);
+  return raw.slice(0, 12);
+}
+
+/* ── Alertes : persistance des lus via localStorage ──────────────────────── */
+const AL_STORE_KEY = 'oreca_dismissed_alerts';
+
+function _alDismissed() {
+  try { return new Set(JSON.parse(localStorage.getItem(AL_STORE_KEY) || '[]')); }
+  catch { return new Set(); }
+}
+
+function _alSaveDismissed(set) {
+  try { localStorage.setItem(AL_STORE_KEY, JSON.stringify([...set])); } catch {}
+}
+
+function _alId(a) {
+  // Identifiant stable : type + message (insensible aux accents de marque)
+  return a.type + '|' + a.message;
+}
+
+function _alRevoirState(countEl) {
+  const list = document.getElementById('al-list');
+  if (countEl) countEl.textContent = '0';
+  list.innerHTML = `<div class="al-revoir">
+    <span>Toutes les alertes ont été lues.</span>
+    <button class="al-revoir-btn" onclick="revoirAlertes()">Revoir les alertes</button>
+  </div>`;
+}
+
+function revoirAlertes() {
+  _alSaveDismissed(new Set());
+  applyFilters();
+}
+
+function voirPlusAlertes() {
+  const hidden = [...document.querySelectorAll('#al-list .al-item[data-hidden="true"]')];
+  hidden.forEach(item => {
+    item.style.display = '';
+    item.dataset.hidden = 'false';
+  });
+  const btnWrap = document.getElementById('al-more');
+  if (btnWrap) btnWrap.remove();
+  const countEl = document.getElementById('al-count');
+  if (countEl) countEl.textContent = document.querySelectorAll('#al-list .al-item').length;
+}
+
+function dismissAlert(btn) {
+  const item = btn.closest('.al-item');
+  const id   = item.dataset.alId;
+  const dismissed = _alDismissed();
+  dismissed.add(id);
+  _alSaveDismissed(dismissed);
+  item.classList.add('hiding');
+  item.addEventListener('transitionend', () => {
+    item.remove();
+    const remaining = document.querySelectorAll('#al-list .al-item').length;
+    const countEl   = document.getElementById('al-count');
+    if (remaining === 0) {
+      _alRevoirState(countEl);
+    } else {
+      if (countEl) countEl.textContent = remaining;
+    }
+  }, { once: true });
+}
+
+function updateAlertes(restos, ms) {
+  const all    = computeAlertes(restos, ms);
+  const block  = document.getElementById('al-block');
+  const widget = block ? block.closest('.db-widget') : null;
+  const list   = document.getElementById('al-list');
+  const countEl= document.getElementById('al-count');
+  const title  = document.getElementById('al-title');
+
+  if (!block) return;
+
+  // Aucune alerte calculable → on cache le bloc entièrement
+  if (all.length === 0) {
+    block.style.display = 'none';
+    if (widget) widget.style.display = 'none';
+    return;
+  }
+
+  block.style.display = '';
+  if (widget) widget.style.display = '';
+  title.textContent   = 'Analyse';
+
+  const dismissed = _alDismissed();
+  // Nettoyer les IDs obsolètes pour éviter que localStorage ne grossisse
+  const currentIds = new Set(all.map(_alId));
+  const cleaned    = new Set([...dismissed].filter(id => currentIds.has(id)));
+  if (cleaned.size !== dismissed.size) _alSaveDismissed(cleaned);
+
+  const visible = all.filter(a => !cleaned.has(_alId(a)));
+
+  // Toutes lues → état "revoir"
+  if (visible.length === 0) {
+    _alRevoirState(countEl);
+    return;
+  }
+
+  const limited = visible.slice(0, ALERTS_VISIBLE_LIMIT);
+  const hiddenCount = Math.max(0, visible.length - ALERTS_VISIBLE_LIMIT);
+  countEl.textContent = limited.length;
+
+  const BRAND_SLUG = {
+    'Chamas Tacos': 'chamas',
+    "O'Cheese":     'ocheese',
+    'Delys Station':'delys',
+  };
+
+  list.innerHTML = limited.map(a => {
+    const id         = _alId(a).replace(/"/g, '&quot;');
+    const icon       = a.type === 'success' ? '✓' : '!';
+    const slug       = BRAND_SLUG[a.brand] || 'chamas';
+    const brandShort = a.brand.replace('Chamas Tacos','Chamas').replace('Delys Station','Delys');
+    return `<div class="al-item" data-al-id="${id}">
+      <div class="al-icon ${a.type}">${icon}</div>
+      <div class="al-msg">${a.message}</div>
+      <div class="al-right">
+        <span class="al-badge ${slug}">${brandShort}</span>
+        <button class="al-dismiss" onclick="dismissAlert(this)" title="Marquer comme lu">✕</button>
+      </div>
+    </div>`;
+  }).join('') + (hiddenCount > 0
+    ? `<div class="al-more" id="al-more">
+         <button class="al-more-btn" onclick="voirPlusAlertes()">Voir plus (${hiddenCount} message${hiddenCount > 1 ? 's' : ''} à lire)</button>
+       </div>`
+    : '');
+}
+
+/* ── Bfcache : force reload si la page vient du cache navigateur ──────────── */
+window.addEventListener('pageshow', e => { if (e.persisted) window.location.reload(); });
+
+/* ── Init ─────────────────────────────────────────────────────────────────── */
+document.getElementById('search-clear').style.display = 'none';
+// Set initial period button label
+document.getElementById('period-btn-lbl').textContent = STATE.periodLabel;
+initDashboardLayout();
+applyFilters();
+</script>
+{% endblock %}

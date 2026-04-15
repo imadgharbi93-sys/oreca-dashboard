@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block title %}Saisie CA — Oreca Group{% endblock %}
+{% block page_title %}Saisie du Chiffre d'Affaires{% endblock %}
+
+{% block content %}
+<div class="form-max">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Enregistrer un CA mensuel</div>
+    </div>
+    <div class="card-body">
+      <form method="POST" action="{{ url_for('saisie') }}" autocomplete="off">
+
+        <div class="form-group">
+          <label class="form-label" for="restaurant_id">Restaurant</label>
+          <select class="form-control" id="restaurant_id" name="restaurant_id" required>
+            <option value="">— Sélectionner un restaurant —</option>
+            {% for brand in ["Chamas Tacos", "O'Cheese", "Delys Station"] %}
+            <optgroup label="{{ brand }}">
+              {% for r in restaurants if r.brand == brand %}
+              <option value="{{ r.id }}" {% if r.id == preselect_id %}selected{% endif %}>{{ r.name }}</option>
+              {% endfor %}
+            </optgroup>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="month">Mois</label>
+          <select class="form-control" id="month" name="month" required>
+            <option value="">— Sélectionner un mois —</option>
+            {% for m in months %}
+            <option value="{{ m }}" {% if m == preselect_m %}selected{% endif %}>{{ month_labels[loop.index0] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="ca">Chiffre d'Affaires (€)</label>
+          <input
+            type="number"
+            class="form-control"
+            id="ca"
+            name="ca"
+            min="0"
+            step="1"
+            placeholder="Ex : 85 000"
+            required
+          >
+          <div class="form-hint">Valeur entière en euros, sans décimales.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          ✓&nbsp; Enregistrer
+        </button>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>ℹ️ Information</strong><br>
+    Si un CA a déjà été saisi pour ce restaurant et ce mois, la valeur sera remplacée.
+    Les données sont persistées dans <code>data/ca_data.json</code>.
+  </div>
+
+  {# ── Zone de réinitialisation ─────────────────────────────────────────────── #}
+  <div style="margin-top:28px;">
+    <div class="card" style="border:1px solid #fca5a5;">
+      <div class="card-header" style="padding-bottom:0;">
+        <div class="card-title" style="color:#b91c1c;">⚠️ Zone dangereuse</div>
+      </div>
+      <div class="card-body">
+        <p style="font-size:.84rem;color:var(--text-muted);margin-bottom:14px;">
+          Cette action supprime <strong>tous les CA encodés</strong> pour les 24 restaurants
+          sur les 12 mois. L'historique et les objectifs sont conservés.
+          <strong style="color:#b91c1c;">Cette action est irréversible.</strong>
+        </p>
+        <button type="button" class="btn" id="btn-reset"
+                style="background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;"
+                onclick="demanderConfirmation()">
+          🗑&nbsp; Réinitialiser tous les chiffres
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{# ── Modal de confirmation ─────────────────────────────────────────────────── #}
+<div id="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+     z-index:999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:14px;padding:32px 36px;max-width:420px;width:90%;
+              box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center;">
+    <div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div>
+    <div style="font-size:1.1rem;font-weight:800;color:#1e293b;margin-bottom:10px;">
+      Confirmer la réinitialisation
+    </div>
+    <p style="font-size:.84rem;color:#64748b;margin-bottom:24px;line-height:1.6;">
+      Tous les CA encodés seront définitivement supprimés.<br>
+      Tapez <strong style="color:#b91c1c;">OUI</strong> pour confirmer.
+    </p>
+    <input type="text" id="confirm-input" placeholder="Tapez OUI ici"
+           style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:8px;
+                  font-size:.9rem;text-align:center;font-family:inherit;outline:none;
+                  margin-bottom:18px;transition:border-color .15s;"
+           oninput="checkConfirm(this.value)"
+           onkeydown="if(event.key==='Enter') validerReset()">
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button type="button" class="btn"
+              style="background:#f1f5f9;color:#64748b;border:1px solid #e2e8f0;"
+              onclick="fermerModal()">
+        Annuler
+      </button>
+      <form method="POST" action="{{ url_for('reset_data') }}" id="reset-form" style="display:inline;">
+        <button type="submit" class="btn" id="btn-confirmer"
+                style="background:#e2e8f0;color:#94a3b8;border:1px solid #e2e8f0;cursor:not-allowed;"
+                disabled>
+          Confirmer la réinitialisation
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+function demanderConfirmation() {
+  document.getElementById('modal-overlay').style.display = 'flex';
+  document.getElementById('confirm-input').value = '';
+  document.getElementById('btn-confirmer').disabled = true;
+  document.getElementById('btn-confirmer').style.cssText =
+    'background:#e2e8f0;color:#94a3b8;border:1px solid #e2e8f0;cursor:not-allowed;';
+  setTimeout(() => document.getElementById('confirm-input').focus(), 50);
+}
+
+function fermerModal() {
+  document.getElementById('modal-overlay').style.display = 'none';
+}
+
+function checkConfirm(val) {
+  const ok = val.trim().toUpperCase() === 'OUI';
+  const btn = document.getElementById('btn-confirmer');
+  btn.disabled = !ok;
+  btn.style.cssText = ok
+    ? 'background:#b91c1c;color:#fff;border:1px solid #b91c1c;cursor:pointer;'
+    : 'background:#e2e8f0;color:#94a3b8;border:1px solid #e2e8f0;cursor:not-allowed;';
+  document.getElementById('confirm-input').style.borderColor = ok ? '#b91c1c' : '#e2e8f0';
+}
+
+function validerReset() {
+  if (document.getElementById('confirm-input').value.trim().toUpperCase() === 'OUI') {
+    document.getElementById('reset-form').submit();
+  }
+}
+
+// Fermer en cliquant hors du modal
+document.getElementById('modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) fermerModal();
+});
+</script>
+{% endblock %}

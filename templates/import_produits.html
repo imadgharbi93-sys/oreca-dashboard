@@ -1,0 +1,641 @@
+{% extends 'base.html' %}
+{% block title %}Import Produits — Oreca Group{% endblock %}
+{% block page_title %}Import Ventes Produits{% endblock %}
+
+{% block content %}
+<style>
+/* ── Layout ── */
+.ip-layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .ip-layout { grid-template-columns: 1fr; }
+}
+
+/* ── Upload card ── */
+.ip-upload-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  position: sticky;
+  top: 80px;
+}
+.ip-upload-head {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--border);
+  background: #f8fafc;
+}
+.ip-upload-title {
+  font-size: .82rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.ip-upload-sub {
+  font-size: .72rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.ip-upload-body { padding: 18px 22px 22px; }
+
+/* ── Fields ── */
+.ip-field { margin-bottom: 14px; }
+.ip-field-lbl {
+  display: block;
+  font-size: .67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.ip-field select,
+.ip-field input[type="file"] {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: .82rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text-primary);
+  transition: border-color .12s;
+}
+.ip-field select:focus,
+.ip-field input[type="file"]:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.ip-field input[type="file"] { padding: 8px 10px; cursor: pointer; }
+
+/* ── Drop zone ── */
+.ip-dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 28px 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  margin-bottom: 16px;
+  position: relative;
+}
+.ip-dropzone:hover,
+.ip-dropzone.dragover { border-color: var(--accent); background: #fff5f7; }
+.ip-dropzone.has-file { border-color: #22c55e; background: #f0fdf4; }
+.ip-dz-icon { font-size: 2rem; margin-bottom: 8px; }
+.ip-dz-title { font-size: .82rem; font-weight: 700; color: var(--text-primary); }
+.ip-dz-sub { font-size: .72rem; color: var(--text-muted); margin-top: 4px; }
+.ip-dz-filename {
+  font-size: .75rem;
+  font-weight: 700;
+  color: #16a34a;
+  margin-top: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ip-dz-input {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+
+/* ── Btn ── */
+.ip-btn-preview {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .84rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity .12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.ip-btn-preview:disabled { opacity: .5; cursor: not-allowed; }
+.ip-btn-preview:hover:not(:disabled) { opacity: .88; }
+
+/* ── Info banner ── */
+.ip-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  font-size: .72rem;
+  color: #1e40af;
+  line-height: 1.5;
+  margin-top: 14px;
+}
+
+/* ── Right panel ── */
+.ip-right-panel { min-height: 200px; }
+
+/* ── Empty state ── */
+.ip-empty {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 60px 30px;
+  text-align: center;
+}
+.ip-empty-icon { font-size: 2.4rem; margin-bottom: 14px; }
+.ip-empty-title { font-size: .95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+.ip-empty-sub { font-size: .78rem; color: var(--text-muted); }
+
+/* ── Loader ── */
+.ip-loader {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 60px 30px;
+  text-align: center;
+  display: none;
+}
+.ip-loader-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid #e2e8f0;
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.ip-loader-label { font-size: .82rem; color: var(--text-muted); font-weight: 600; }
+
+/* ── Preview card ── */
+.ip-preview { display: none; }
+.ip-preview-head {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px 22px;
+  margin-bottom: 14px;
+}
+.ip-preview-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ip-preview-info { flex: 1; }
+.ip-preview-title {
+  font-size: .95rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+.ip-preview-meta {
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+.ip-preview-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.ip-btn-confirm {
+  padding: 10px 20px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .82rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity .12s;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.ip-btn-confirm:hover { opacity: .88; }
+.ip-btn-cancel {
+  padding: 10px 16px;
+  background: #fff;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color .12s, color .12s;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.ip-btn-cancel:hover { border-color: #ef4444; color: #ef4444; }
+
+/* ── Stats pills ── */
+.ip-stats-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+.ip-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 700;
+}
+.ip-stat-pill.green  { background: #dcfce7; color: #15803d; }
+.ip-stat-pill.red    { background: #fee2e2; color: #b91c1c; }
+.ip-stat-pill.yellow { background: #fef9c3; color: #a16207; }
+.ip-stat-pill.gray   { background: #f1f5f9; color: #475569; }
+
+/* ── Preview table ── */
+.ip-table-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.ip-table-toolbar {
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #f8fafc;
+}
+.ip-table-search {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .78rem;
+  font-family: inherit;
+  width: 220px;
+  transition: border-color .12s;
+}
+.ip-table-search:focus { outline: none; border-color: var(--accent); }
+.ip-table-count {
+  font-size: .72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.ip-table-scroll { overflow-x: auto; max-height: 520px; overflow-y: auto; }
+.ip-table-scroll table th { position: sticky; top: 0; z-index: 2; }
+
+/* ── Brand badge ── */
+.ip-brand-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  margin-right: 5px;
+  flex-shrink: 0;
+}
+
+/* ── Warning banner (pending import) ── */
+.ip-pending-banner {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.ip-pending-text { font-size: .8rem; color: #92400e; font-weight: 600; flex: 1; }
+.ip-pending-sub  { font-size: .72rem; color: #a16207; font-weight: 400; margin-top: 2px; }
+</style>
+
+{% if pending %}
+<div class="ip-pending-banner">
+  <span style="font-size:1.3rem;">⚠️</span>
+  <div>
+    <div class="ip-pending-text">Un import est en attente de validation</div>
+    <div class="ip-pending-sub">
+      {{ pending.brand }} · {{ pending.month_label }} · {{ pending.filename }}
+      — importé le {{ pending.imported_at }}
+    </div>
+  </div>
+  <form method="post" action="{{ url_for('import_produits_cancel') }}">
+    <button type="submit" class="ip-btn-cancel" style="font-size:.72rem;padding:6px 12px;">
+      Annuler cet import
+    </button>
+  </form>
+</div>
+{% endif %}
+
+<div class="ip-layout">
+
+  <!-- ── Panneau upload ── -->
+  <div>
+    <div class="ip-upload-card">
+      <div class="ip-upload-head">
+        <div class="ip-upload-title">📥 Importer un fichier Excel</div>
+        <div class="ip-upload-sub">
+          Sélectionnez la marque, le mois et déposez votre fichier .xlsx.
+          Les données seront analysées avant validation.
+        </div>
+      </div>
+      <div class="ip-upload-body">
+        <div id="ipDropzone" class="ip-dropzone">
+          <input type="file" id="ipFileInput" class="ip-dz-input" accept=".xlsx">
+          <div class="ip-dz-icon">📂</div>
+          <div class="ip-dz-title">Glisser-déposer ou cliquer</div>
+          <div class="ip-dz-sub">Fichier Excel .xlsx uniquement</div>
+          <div id="ipFilename" class="ip-dz-filename" style="display:none;"></div>
+        </div>
+
+        <div class="ip-field">
+          <label class="ip-field-lbl" for="ipBrand">Marque</label>
+          <select id="ipBrand" name="brand">
+            {% for brand_name in available_brands %}
+            <option value="{{ brand_name }}">{{ brand_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="ip-field">
+          <label class="ip-field-lbl" for="ipMonth">Mois</label>
+          <select id="ipMonth" name="month">
+            {% for m, lbl in months_with_labels %}
+            <option value="{{ m }}" {% if m == current_month %}selected{% endif %}>{{ lbl }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button id="ipBtnPreview" class="ip-btn-preview" disabled>
+          <span>🔍</span> Prévisualiser les données
+        </button>
+
+        <div class="ip-info">
+          <span>ℹ️</span>
+          <span>Les lignes avec des montants négatifs ou nuls seront automatiquement supprimées.
+          Vous pourrez vérifier toutes les données avant de les valider.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Panneau droit ── -->
+  <div class="ip-right-panel">
+
+    <!-- État vide -->
+    <div id="ipEmpty" class="ip-empty">
+      <div class="ip-empty-icon">📊</div>
+      <div class="ip-empty-title">Aucune donnée à afficher</div>
+      <div class="ip-empty-sub">
+        Sélectionnez un fichier Excel et cliquez sur<br>
+        « Prévisualiser les données » pour voir un aperçu.
+      </div>
+    </div>
+
+    <!-- Loader -->
+    <div id="ipLoader" class="ip-loader">
+      <div class="ip-loader-spinner"></div>
+      <div class="ip-loader-label">Analyse du fichier en cours…</div>
+    </div>
+
+    <!-- Preview -->
+    <div id="ipPreview" class="ip-preview">
+
+      <!-- Header résumé -->
+      <div class="ip-preview-head">
+        <div class="ip-preview-row">
+          <div class="ip-preview-info">
+            <div class="ip-preview-title" id="ipPreviewTitle">—</div>
+            <div class="ip-preview-meta" id="ipPreviewMeta">—</div>
+            <div class="ip-stats-row" id="ipStatsRow"></div>
+          </div>
+          <div class="ip-preview-actions">
+            <form method="post" action="{{ url_for('import_produits_cancel') }}" id="ipCancelForm">
+              <button type="submit" class="ip-btn-cancel">✕ Annuler</button>
+            </form>
+            <form method="post" action="{{ url_for('import_produits_confirm') }}" id="ipConfirmForm">
+              <button type="submit" class="ip-btn-confirm">✓ Valider et envoyer au dashboard</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table des données -->
+      <div class="ip-table-card">
+        <div class="ip-table-toolbar">
+          <input type="text" id="ipSearch" class="ip-table-search" placeholder="Filtrer par produit, restaurant…">
+          <span class="ip-table-count" id="ipTableCount"></span>
+        </div>
+        <div class="ip-table-scroll">
+          <table id="ipTable">
+            <thead>
+              <tr>
+                <th>Restaurant</th>
+                <th>Catégorie</th>
+                <th>Article</th>
+                <th style="text-align:right;">Quantité</th>
+                <th style="text-align:right;">Prix unit. moy.</th>
+                <th style="text-align:right;">Ventes (€)</th>
+              </tr>
+            </thead>
+            <tbody id="ipTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>{# /ipPreview #}
+
+  </div>{# /ip-right-panel #}
+</div>{# /ip-layout #}
+
+<script>
+(function () {
+  const BRAND_COLORS = {{ brand_colors | tojson }};
+  const dropzone  = document.getElementById('ipDropzone');
+  const fileInput = document.getElementById('ipFileInput');
+  const filename  = document.getElementById('ipFilename');
+  const btnPreview = document.getElementById('ipBtnPreview');
+  const ipEmpty   = document.getElementById('ipEmpty');
+  const ipLoader  = document.getElementById('ipLoader');
+  const ipPreview = document.getElementById('ipPreview');
+
+  let selectedFile = null;
+  let allRows = [];
+
+  // ── Drop zone ──────────────────────────────────────────────────────────────
+  dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+  dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+  dropzone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if (f) setFile(f);
+  });
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) setFile(fileInput.files[0]);
+  });
+
+  function setFile(f) {
+    if (!f.name.toLowerCase().endsWith('.xlsx')) {
+      alert('Seuls les fichiers .xlsx sont acceptés.');
+      return;
+    }
+    selectedFile = f;
+    dropzone.classList.remove('dragover');
+    dropzone.classList.add('has-file');
+    filename.textContent = f.name;
+    filename.style.display = 'block';
+    document.querySelector('.ip-dz-icon').textContent = '✅';
+    document.querySelector('.ip-dz-title').textContent = 'Fichier sélectionné';
+    btnPreview.disabled = false;
+  }
+
+  // ── Preview ────────────────────────────────────────────────────────────────
+  btnPreview.addEventListener('click', () => {
+    if (!selectedFile) return;
+    const brand = document.getElementById('ipBrand').value;
+    const month = document.getElementById('ipMonth').value;
+
+    const fd = new FormData();
+    fd.append('excel_file', selectedFile);
+    fd.append('brand', brand);
+    fd.append('month', month);
+
+    ipEmpty.style.display   = 'none';
+    ipLoader.style.display  = 'block';
+    ipPreview.style.display = 'none';
+    btnPreview.disabled = true;
+    btnPreview.querySelector('span').textContent = '⏳';
+
+    fetch('{{ url_for("import_produits_preview") }}', { method: 'POST', body: fd })
+      .then(r => {
+        if (!r.ok && r.status !== 400) {
+          throw new Error('HTTP ' + r.status + ' — vérifiez que le serveur est bien redémarré.');
+        }
+        return r.json();
+      })
+      .then(data => {
+        ipLoader.style.display = 'none';
+        btnPreview.disabled = false;
+        btnPreview.querySelector('span').textContent = '🔍';
+        if (!data.ok) {
+          alert('Erreur(s) :\n' + (data.errors || []).join('\n'));
+          ipEmpty.style.display = 'block';
+          return;
+        }
+        renderPreview(data);
+      })
+      .catch(err => {
+        ipLoader.style.display = 'none';
+        ipEmpty.style.display = 'block';
+        btnPreview.disabled = false;
+        btnPreview.querySelector('span').textContent = '🔍';
+        alert('Erreur réseau : ' + err.message + '\nVérifiez la console (F12) pour plus de détails.');
+      });
+  });
+
+  // ── Render ─────────────────────────────────────────────────────────────────
+  function renderPreview(data) {
+    const s = data.stats;
+    const color = BRAND_COLORS[data.brand] || '#888';
+
+    document.getElementById('ipPreviewTitle').innerHTML =
+      `<span style="display:inline-flex;align-items:center;gap:8px;">
+        <span style="width:10px;height:10px;border-radius:50%;background:${color};display:inline-block;"></span>
+        ${data.brand} — ${data.month_label}
+      </span>`;
+    const qtyCol = s.quantity_column_name
+      ? `✓ colonne quantité : « ${s.quantity_column_name} »`
+      : '⚠ colonne quantité NON DÉTECTÉE';
+    const headersStr = (data.headers_found || []).filter(h => h).join(' | ');
+    document.getElementById('ipPreviewMeta').innerHTML =
+      `Fichier : <strong>${data.filename}</strong> · ${data.rows.length} articles · ${s.rows_total} lignes · <span style="color:${s.quantity_column_name ? '#16a34a' : '#dc2626'};font-weight:700;">${qtyCol}</span>`
+      + (s.quantity_column_name ? '' : `<br><span style="font-size:.7rem;color:#64748b;">En-têtes détectés : ${headersStr}</span>`);
+
+    const statsRow = document.getElementById('ipStatsRow');
+    statsRow.innerHTML = [
+      `<span class="ip-stat-pill green">✓ ${s.rows_kept} conservées</span>`,
+      s.rows_negative_skipped > 0 ? `<span class="ip-stat-pill red">− ${s.rows_negative_skipped} négatives supprimées</span>` : '',
+      s.rows_zero_skipped > 0 ? `<span class="ip-stat-pill yellow">○ ${s.rows_zero_skipped} à zéro ignorées</span>` : '',
+      s.rows_unknown_restaurant > 0 ? `<span class="ip-stat-pill gray">? ${s.rows_unknown_restaurant} restaurant(s) non reconnus</span>` : '',
+      s.rows_missing_sales > 0 ? `<span class="ip-stat-pill gray">⚠ ${s.rows_missing_sales} sans montant</span>` : '',
+      s.rows_excluded_product > 0 ? `<span class="ip-stat-pill gray">🚫 ${s.rows_excluded_product} produits exclus (bipper, modificateurs…)</span>` : '',
+    ].join('');
+
+    allRows = data.rows;
+    renderTable(allRows);
+
+    ipPreview.style.display = 'block';
+  }
+
+  function fmt(n) {
+    if (n === null || n === undefined) return '—';
+    return Number(n).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function fmtQty(n) {
+    if (!n && n !== 0) return '—';
+    return Number(n).toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  }
+
+  function renderTable(rows) {
+    const tbody = document.getElementById('ipTableBody');
+    const count = document.getElementById('ipTableCount');
+    count.textContent = rows.length + ' ligne' + (rows.length > 1 ? 's' : '');
+
+    if (!rows.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:32px;">Aucune ligne à afficher.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = rows.map(r => {
+      const color = BRAND_COLORS[r.brand] || '#888';
+      return `<tr>
+        <td>
+          <span class="ip-brand-dot" style="background:${color};"></span>
+          <span style="font-weight:600;font-size:.82rem;">${esc(r.restaurant)}</span>
+        </td>
+        <td style="color:var(--text-muted);font-size:.78rem;">${esc(r.categorie || '—')}</td>
+        <td>${esc(r.article)}</td>
+        <td style="text-align:right;font-variant-numeric:tabular-nums;">${fmtQty(r.quantite)}</td>
+        <td style="text-align:right;font-variant-numeric:tabular-nums;color:var(--text-muted);">
+          ${r.prix_unitaire !== null ? fmt(r.prix_unitaire) + ' €' : (r.quantite > 0 ? '<span style="color:#16a34a;font-weight:700;">Offert</span>' : '—')}
+        </td>
+        <td style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums;">
+          ${r.ventes > 0 ? fmt(r.ventes) + ' €' : '<span style="color:#16a34a;">0,00 €</span>'}
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  // ── Search ────────────────────────────────────────────────────────────────
+  document.getElementById('ipSearch').addEventListener('input', function () {
+    const q = this.value.trim().toLowerCase();
+    if (!q) { renderTable(allRows); return; }
+    renderTable(allRows.filter(r =>
+      r.article.toLowerCase().includes(q) ||
+      r.restaurant.toLowerCase().includes(q) ||
+      (r.categorie || '').toLowerCase().includes(q)
+    ));
+  });
+
+})();
+</script>
+{% endblock %}

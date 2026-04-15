@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% block title %}Historique — Oreca Group{% endblock %}
+{% block page_title %}Historique des modifications{% endblock %}
+
+{% block content %}
+
+{# ── Filtres ───────────────────────────────────────────────────────────────── #}
+<div class="histo-filters">
+  {# Marques #}
+  <div class="fb-group">
+    <button class="fb-brand active" data-brand="all" style="--bc:#E11D48;" onclick="hFilter()">Toutes</button>
+    {% for brand, color in brand_colors.items() %}
+    <button class="fb-brand" data-brand="{{ brand }}" style="--bc:{{ color }};"
+            onclick="hFilter()">{{ brand }}</button>
+    {% endfor %}
+  </div>
+
+  <div class="fb-sep"></div>
+
+  {# Mois #}
+  <select class="form-control" id="f-mois" onchange="hFilter()" style="max-width:140px;">
+    <option value="">Tous les mois</option>
+    {% for mk, ml in mois_labels.items() %}
+    <option value="{{ mk }}">{{ ml }}</option>
+    {% endfor %}
+  </select>
+
+  {# Type #}
+  <select class="form-control" id="f-type" onchange="hFilter()" style="max-width:150px;">
+    <option value="">Tous les types</option>
+    <option value="création">Créations</option>
+    <option value="modification">Modifications</option>
+  </select>
+
+  {# Recherche #}
+  <div class="fb-search-wrap">
+    <input id="f-search" class="fb-search" type="text"
+           placeholder="Rechercher un restaurant…" oninput="hFilter()">
+    <button class="fb-clear" id="f-clear" onclick="clearHSearch()">✕</button>
+  </div>
+
+  <div class="hf-counter" id="h-counter">{{ total }} modification(s)</div>
+</div>
+
+{# ── Timeline ──────────────────────────────────────────────────────────────── #}
+{% if entries %}
+<div class="timeline" id="timeline-root">
+  {% set ns = namespace(current_date='') %}
+  {% for e in entries %}
+  {% if e.date_key != ns.current_date %}
+    {% set ns.current_date = e.date_key %}
+    <div class="tl-date-label" data-date="{{ e.date_key }}">{{ e.date_label }}</div>
+  {% endif %}
+
+  {% set slug = 'chamas' if 'Chamas' in e.marque else ('ocheese' if 'Cheese' in e.marque else 'delys') %}
+  <div class="tl-card {{ e.type }}"
+       data-brand="{{ e.marque }}"
+       data-mois="{{ e.mois_key }}"
+       data-type="{{ e.type }}"
+       data-name="{{ e.restaurant_nom | lower }}">
+
+    <div class="tl-header">
+      <span class="tl-time">{{ e.timestamp }}</span>
+      <span class="tl-type-badge {{ e.type }}">
+        {% if e.type == 'création' %}✚ Création{% else %}✎ Modification{% endif %}
+      </span>
+      <span class="badge badge-{{ slug }}">{{ e.marque }}</span>
+      <span style="font-size:.65rem;color:var(--text-muted);margin-left:auto;">#{{ e.id }}</span>
+    </div>
+
+    <div class="tl-resto-name">{{ e.restaurant_nom }}</div>
+    <div class="tl-mois">{{ e.mois }}</div>
+
+    <div class="tl-values">
+      {% if e.type == 'modification' %}
+        <span class="tl-val-old">{{ e.ancienne_valeur | fr_number }} €</span>
+        <span class="tl-arrow">→</span>
+        <span class="tl-val-new" style="color:{{ brand_colors[e.marque] }};">
+          {{ e.nouvelle_valeur | fr_number }} €
+        </span>
+        {% if e.ecart_euros != 0 %}
+        <span class="tl-ecart {% if e.ecart_euros > 0 %}pos{% else %}neg{% endif %}">
+          {% if e.ecart_euros > 0 %}▲{% else %}▼{% endif %}
+          {{ e.ecart_euros | abs | fr_number }} €
+          {% if e.ecart_pct is not none %}
+            ({% if e.ecart_pct > 0 %}+{% endif %}{{ e.ecart_pct }}%)
+          {% endif %}
+        </span>
+        {% endif %}
+      {% else %}
+        <span style="color:#1D9E75;font-weight:700;">
+          ✚ Nouveau CA : {{ e.nouvelle_valeur | fr_number }} €
+        </span>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{# ── Pagination ────────────────────────────────────────────────────────────── #}
+<div class="pagination" id="pagination"></div>
+<div style="text-align:center;margin-top:8px;font-size:.72rem;color:var(--text-muted);" id="page-info"></div>
+
+{% else %}
+<div style="text-align:center;padding:60px 0;color:var(--text-muted);">
+  <div style="font-size:2rem;margin-bottom:12px;">📋</div>
+  <div style="font-weight:600;">Aucune modification enregistrée</div>
+  <div style="font-size:.82rem;margin-top:6px;">Les modifications apparaîtront ici dès la première saisie.</div>
+</div>
+{% endif %}
+
+<script>
+const PER_PAGE = 20;
+let page = 1;
+let visibleCards = [];
+
+function hFilter() {
+  const brand  = document.querySelector('.fb-brand.active')?.dataset.brand || 'all';
+  const mois   = document.getElementById('f-mois').value;
+  const type   = document.getElementById('f-type').value;
+  const search = document.getElementById('f-search').value.toLowerCase();
+  document.getElementById('f-clear').style.display = search ? 'flex' : 'none';
+
+  const cards = document.querySelectorAll('.tl-card');
+  visibleCards = [];
+  cards.forEach(c => {
+    const ok = (brand === 'all' || c.dataset.brand === brand)
+            && (!mois   || c.dataset.mois  === mois)
+            && (!type   || c.dataset.type  === type)
+            && (!search || c.dataset.name.includes(search));
+    c.classList.toggle('hidden', !ok);
+    if (ok) visibleCards.push(c);
+  });
+
+  // Masquer/afficher les labels de date selon les cartes visibles
+  document.querySelectorAll('.tl-date-label').forEach(lbl => {
+    // Collecte les cartes suivant ce label jusqu'au prochain label
+    let sibling = lbl.nextElementSibling;
+    let hasVisible = false;
+    while (sibling && !sibling.classList.contains('tl-date-label')) {
+      if (!sibling.classList.contains('hidden')) hasVisible = true;
+      sibling = sibling.nextElementSibling;
+    }
+    lbl.style.display = hasVisible ? '' : 'none';
+  });
+
+  document.getElementById('h-counter').textContent = `${visibleCards.length} modification(s) affichée(s)`;
+  page = 1;
+  paginate();
+}
+
+function paginate() {
+  const total = visibleCards.length;
+  const nbPages = Math.ceil(total / PER_PAGE) || 1;
+  const start = (page - 1) * PER_PAGE;
+  const end   = start + PER_PAGE;
+
+  visibleCards.forEach((c, i) => {
+    c.style.display = (i >= start && i < end) ? '' : 'none';
+    // Gérer aussi le label de date pour la pagination
+  });
+
+  // Rebuild pagination
+  const pg = document.getElementById('pagination');
+  pg.innerHTML = '';
+
+  const prev = document.createElement('button');
+  prev.className = 'page-btn';
+  prev.textContent = '← Précédent';
+  prev.disabled = page === 1;
+  prev.onclick = () => { page--; paginate(); };
+  pg.appendChild(prev);
+
+  const maxShow = 7;
+  let startP = Math.max(1, page - 3), endP = Math.min(nbPages, startP + maxShow - 1);
+  if (endP - startP < maxShow - 1) startP = Math.max(1, endP - maxShow + 1);
+
+  for (let p2 = startP; p2 <= endP; p2++) {
+    const btn = document.createElement('button');
+    btn.className = 'page-btn' + (p2 === page ? ' active' : '');
+    btn.textContent = p2;
+    btn.onclick = ((_p) => () => { page = _p; paginate(); })(p2);
+    pg.appendChild(btn);
+  }
+
+  const next = document.createElement('button');
+  next.className = 'page-btn';
+  next.textContent = 'Suivant →';
+  next.disabled = page >= nbPages;
+  next.onclick = () => { page++; paginate(); };
+  pg.appendChild(next);
+
+  document.getElementById('page-info').textContent =
+    `Page ${page} / ${nbPages} — ${total} entrée(s)`;
+}
+
+function clearHSearch() {
+  document.getElementById('f-search').value = '';
+  document.getElementById('f-clear').style.display = 'none';
+  hFilter();
+}
+
+// Boutons marque
+document.querySelectorAll('.fb-brand').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.fb-brand').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    hFilter();
+  });
+});
+
+document.getElementById('f-clear').style.display = 'none';
+hFilter();
+</script>
+{% endblock %}

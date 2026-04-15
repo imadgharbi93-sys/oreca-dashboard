@@ -1,0 +1,1121 @@
+{% extends 'base.html' %}
+{% block title %}Saisie CA — Oreca Group{% endblock %}
+{% block page_title %}Saisie du Chiffre d'Affaires{% endblock %}
+
+{% block content %}
+<style>
+/* ── Saisie Grille ──────────────────────────────────────────────────────────── */
+.sg-import-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.sg-import-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.sg-import-title {
+  font-size: .86rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.sg-import-sub {
+  margin-top: 4px;
+  font-size: .76rem;
+  color: var(--text-muted);
+  max-width: 760px;
+  line-height: 1.5;
+}
+.sg-import-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .72rem;
+  font-weight: 700;
+  color: #92400e;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 999px;
+  padding: 5px 10px;
+}
+.sg-import-form {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1.4fr auto;
+  gap: 12px;
+  align-items: end;
+}
+.sg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sg-field-lbl {
+  font-size: .67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted);
+}
+.sg-field select,
+.sg-field input[type="file"] {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: .8rem;
+  font-family: inherit;
+  background: #fff;
+  color: var(--text-primary);
+}
+.sg-field input[type="file"] {
+  padding: 8px 10px;
+}
+.sg-btn-import {
+  padding: 10px 16px;
+  background: #0f172a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .82rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.sg-btn-import:hover { background: #1e293b; }
+.sg-import-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.sg-stat {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  background: #f8fafc;
+  padding: 12px 12px 10px;
+}
+.sg-stat-lbl {
+  font-size: .64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.sg-stat-val {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -.03em;
+}
+.sg-stat-sub {
+  margin-top: 4px;
+  font-size: .72rem;
+  color: var(--text-muted);
+}
+
+/* Month bar */
+.sg-month-bar {
+  position: sticky;
+  top: 49px;
+  z-index: 40;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
+}
+.sg-month-lbl {
+  font-size: .65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-muted);
+  margin-right: 4px;
+  white-space: nowrap;
+}
+.sg-month-btn {
+  padding: 5px 13px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: #fff;
+  color: var(--text-muted);
+  font-size: .76rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .13s;
+  white-space: nowrap;
+}
+.sg-month-btn:hover { border-color: #E11D48; color: #E11D48; }
+.sg-month-btn.active {
+  background: #E11D48;
+  border-color: #E11D48;
+  color: #fff;
+}
+
+/* Grid outer */
+.sg-grid-outer {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: calc(100vh - 230px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  margin-bottom: 0;
+}
+
+/* Table */
+.sg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .81rem;
+  min-width: 1050px;
+}
+
+/* Sticky header */
+.sg-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #f1f5f9;
+  border-bottom: 2px solid var(--border);
+  padding: 10px 10px;
+  text-align: left;
+  font-size: .63rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.sg-table thead th.sg-th-calc { text-align: center; background: #e9edf2; }
+
+/* Sticky first column */
+.sg-table thead th:first-child,
+.sg-table tbody td:first-child,
+.sg-table tfoot td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 5;
+}
+.sg-table thead th:first-child { z-index: 12; }
+.sg-table tbody td:first-child { background: #fff; }
+.sg-table tfoot td:first-child { background: #f1f5f9; z-index: 12; }
+
+/* Sticky tfoot */
+.sg-table tfoot td {
+  position: sticky;
+  bottom: 0;
+  z-index: 9;
+  background: #f1f5f9;
+  border-top: 2px solid var(--border);
+}
+
+/* Body rows */
+.sg-table tbody tr.sg-row:hover td { background: #fafafa; }
+.sg-table tbody tr.sg-row:hover td:first-child { background: #f8fafc; }
+
+/* Brand separator */
+.sg-brand-sep td {
+  background: color-mix(in srgb, var(--bc, #ccc) 8%, #fff);
+  border-top: 2px solid var(--bc, #ccc);
+  border-bottom: 1px solid color-mix(in srgb, var(--bc, #ccc) 20%, #fff);
+  padding: 6px 12px;
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--bc, #666);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+/* Fallback for browsers without color-mix */
+.sg-brand-sep td {
+  background: #f8fafc;
+  border-top: 2px solid var(--bc, #ccc);
+  border-bottom: 1px solid var(--border);
+  padding: 6px 12px;
+  font-size: .68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--bc, #666);
+}
+.sg-brand-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--bc, #ccc);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Name column */
+.sg-td-name {
+  padding: 0 12px;
+  min-width: 200px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+  height: 42px;
+  vertical-align: middle;
+}
+.sg-th-name { min-width: 200px; }
+
+/* Editable cells */
+.sg-td-edit {
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid #f1f5f9;
+  min-width: 110px;
+}
+.sg-inp {
+  width: 100%;
+  height: 42px;
+  border: none;
+  background: transparent;
+  font-size: .82rem;
+  font-family: inherit;
+  color: var(--text-primary);
+  padding: 0 10px;
+  text-align: right;
+  outline: none;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
+}
+.sg-inp::-webkit-outer-spin-button,
+.sg-inp::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.sg-inp:focus { background: #eff6ff; }
+.sg-td-edit.dirty { background: #fefce8; }
+.sg-td-edit.dirty .sg-inp { background: transparent; }
+.sg-td-edit.dirty .sg-inp:focus { background: #fef9c3; }
+
+/* Calculated cells */
+.sg-td-calc {
+  padding: 0 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  border-left: 1px solid #e9edf2;
+  background: #f8fafc;
+  min-width: 90px;
+  height: 42px;
+  vertical-align: middle;
+  font-size: .8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.sg-th-calc { min-width: 90px; }
+
+/* Totals row */
+.sg-totals .sg-td-name {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted);
+}
+.sg-total {
+  font-weight: 700;
+  font-size: .8rem;
+  color: var(--text-primary);
+  background: #f1f5f9;
+}
+
+/* Save bar */
+.sg-save-bar {
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+  box-shadow: 0 -3px 10px rgba(0,0,0,.07);
+  margin-top: 0;
+  gap: 14px;
+}
+.sg-save-status {
+  font-size: .82rem;
+  color: var(--text-muted);
+  flex: 1;
+}
+.sg-btn-save {
+  padding: 9px 22px;
+  background: #E11D48;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .84rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.sg-btn-save:hover:not(:disabled) { background: #be123c; }
+.sg-btn-save:disabled { opacity: .4; cursor: not-allowed; }
+
+/* Post-save alerts toast */
+.sg-toast-wrap {
+  position: fixed; bottom: 80px; right: 20px; z-index: 200;
+  display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none;
+}
+.sg-toast {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: #fff; border: 1px solid #E5E7EB; border-radius: 10px;
+  padding: 11px 14px; box-shadow: 0 4px 16px rgba(0,0,0,.12);
+  min-width: 280px; max-width: 360px;
+  pointer-events: auto;
+  animation: toastIn .25s ease;
+}
+.sg-toast.hiding { animation: toastOut .2s ease forwards; }
+@keyframes toastIn  { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to   { opacity: 0; transform: translateX(20px); } }
+.sg-toast-icon {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 800; color: #fff;
+}
+.sg-toast-icon.success { background: #1D9E75; }
+.sg-toast-icon.warning { background: #E8A000; }
+.sg-toast-icon.danger  { background: #E11D48; }
+.sg-toast-msg { font-size: 12.5px; color: var(--text-primary); flex: 1; line-height: 1.4; }
+
+/* Actions row */
+.sg-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 12px 0 72px;
+}
+.sg-btn-add {
+  padding: 8px 16px;
+  background: #fff;
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .13s;
+}
+.sg-btn-add:hover {
+  border-color: #E11D48;
+  color: #E11D48;
+  background: #fff5f7;
+}
+
+/* Modal overlay */
+.sg-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.sg-modal-overlay.open { display: flex; }
+.sg-modal-box {
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px 32px;
+  max-width: 420px;
+  width: 92%;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+.sg-modal-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 18px;
+}
+.sg-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+.sg-btn-cancel {
+  padding: 8px 18px;
+  background: #f1f5f9;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: .84rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+.sg-btn-confirm {
+  padding: 8px 18px;
+  background: #E11D48;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: .84rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.sg-btn-confirm:hover { background: #be123c; }
+
+/* Danger zone */
+.sg-danger-zone {
+  border: 1px solid #fca5a5;
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  margin-top: 10px;
+}
+.sg-danger-title { font-size: .78rem; font-weight: 800; color: #b91c1c; margin-bottom: 6px; }
+.sg-danger-desc { font-size: .78rem; color: var(--text-muted); margin-bottom: 10px; }
+.sg-btn-danger {
+  padding: 7px 14px;
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
+  border-radius: 7px;
+  font-size: .8rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+.sg-btn-danger:hover { background: #fecaca; }
+@media (max-width: 980px) {
+  .sg-import-form {
+    grid-template-columns: 1fr 1fr;
+  }
+  .sg-import-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .sg-import-form,
+  .sg-import-stats {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<div class="sg-import-card">
+  <div class="sg-import-top">
+    <div>
+      <div class="sg-import-title">Import Excel — Ventes produits par article</div>
+      <div class="sg-import-sub">
+        Sélectionnez d’abord la marque, puis le mois, puis importez le fichier `.xlsx` contenant les catégories, articles, ventes et restaurants. Les lignes négatives sont automatiquement ignorées pour ne pas intégrer les retraits cash.
+      </div>
+    </div>
+    <div class="sg-import-note">⚠ Les ventes négatives ne sont jamais importées</div>
+  </div>
+
+  <form class="sg-import-form" method="POST" action="{{ url_for('donnees_import_produits') }}" enctype="multipart/form-data">
+    <div class="sg-field">
+      <label class="sg-field-lbl" for="import-brand">Marque</label>
+      <select id="import-brand" name="brand" required>
+        {% for brand in import_brands %}
+        <option value="{{ brand }}" {% if brand == selected_import_brand %}selected{% endif %}>{{ brand }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="sg-field">
+      <label class="sg-field-lbl" for="import-month">Mois</label>
+      <select id="import-month" name="month" required>
+        {% for m, lbl in months_with_labels %}
+        <option value="{{ m }}" {% if m == selected_month %}selected{% endif %}>{{ lbl }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="sg-field">
+      <label class="sg-field-lbl" for="import-file">Fichier Excel</label>
+      <input id="import-file" type="file" name="excel_file" accept=".xlsx" required>
+    </div>
+
+    <button class="sg-btn-import" type="submit">Importer les ventes</button>
+  </form>
+
+  <div class="sg-import-stats">
+    <div class="sg-stat">
+      <div class="sg-stat-lbl">Restaurants importés</div>
+      <div class="sg-stat-val">{{ product_sales_summary.restaurant_count }}</div>
+      <div class="sg-stat-sub">{{ selected_import_brand }}</div>
+    </div>
+    <div class="sg-stat">
+      <div class="sg-stat-lbl">Articles collectés</div>
+      <div class="sg-stat-val">{{ product_sales_summary.product_count }}</div>
+      <div class="sg-stat-sub">{{ selected_month_label }}</div>
+    </div>
+    <div class="sg-stat">
+      <div class="sg-stat-lbl">Ventes positives</div>
+      <div class="sg-stat-val">{{ product_sales_summary.total_sales | fr_number }} €</div>
+      <div class="sg-stat-sub">Total importé sur la période</div>
+    </div>
+    <div class="sg-stat">
+      <div class="sg-stat-lbl">Dernier import</div>
+      <div class="sg-stat-val" style="font-size:.88rem;">
+        {{ product_sales_summary.last_imported_at or '—' }}
+      </div>
+      <div class="sg-stat-sub">
+        {% if product_sales_summary.last_filename %}
+        {{ product_sales_summary.last_filename }}
+        {% else %}
+        Aucun fichier importé
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% if product_sales_summary.last_stats %}
+  <div class="sg-import-sub" style="margin-top:12px;">
+    Dernier import : {{ product_sales_summary.last_stats.rows_kept or 0 }} lignes conservées,
+    {{ product_sales_summary.last_stats.rows_negative_skipped or 0 }} lignes négatives ignorées,
+    {{ product_sales_summary.last_stats.rows_zero_skipped or 0 }} lignes à 0 ignorées,
+    {{ product_sales_summary.last_stats.rows_unknown_restaurant or 0 }} lignes sans restaurant reconnu.
+  </div>
+  {% endif %}
+</div>
+
+{# ── Month bar ──────────────────────────────────────────────────────────────── #}
+<div class="sg-month-bar" id="sg-month-bar">
+  <span class="sg-month-lbl">Période :</span>
+  {% for m, lbl in months_with_labels %}
+  <button class="sg-month-btn {% if m == selected_month %}active{% endif %}"
+          data-month="{{ m }}"
+          onclick="selectMonth('{{ m }}')">{{ lbl }}</button>
+  {% endfor %}
+</div>
+
+{# ── Grid ───────────────────────────────────────────────────────────────────── #}
+<div class="sg-grid-outer" id="sg-grid-outer">
+  <table class="sg-table" id="sg-table">
+
+    <thead>
+      <tr>
+        <th class="sg-th-name">Restaurant</th>
+        <th class="sg-th-edit" style="text-align:right;">CA (€)</th>
+        <th class="sg-th-edit" style="text-align:right;">Commandes</th>
+        <th class="sg-th-edit" style="text-align:right;">Charges (€)</th>
+        <th class="sg-th-edit" style="text-align:right;">Coût mat. (€)</th>
+        <th class="sg-th-edit" style="text-align:right;">Coût pers. (€)</th>
+        <th class="sg-th-calc">Ticket moyen</th>
+        <th class="sg-th-calc">Marge brute</th>
+        <th class="sg-th-calc">Food Cost</th>
+        <th class="sg-th-calc">Labor Cost</th>
+        <th class="sg-th-calc">Prime Cost</th>
+      </tr>
+    </thead>
+
+    <tbody id="sg-tbody">
+      {% for brand in ["Chamas Tacos", "O'Cheese", "Delys Station"] %}
+      {% set brand_restos = restaurants | selectattr("brand", "equalto", brand) | list %}
+      {% if brand_restos %}
+      <tr class="sg-brand-sep">
+        <td colspan="11" style="--bc: {{ brand_colors[brand] }};">
+          <span class="sg-brand-dot" style="background:{{ brand_colors[brand] }};"></span>
+          {{ brand }} — {{ brand_restos | length }} restaurant{{ 's' if brand_restos | length > 1 else '' }}
+        </td>
+      </tr>
+      {% for r in brand_restos %}
+      <tr class="sg-row" data-rid="{{ r.id }}">
+        <td class="sg-td-name">{{ r.name }}</td>
+        <td class="sg-td-edit" data-rid="{{ r.id }}" data-field="ca">
+          <input class="sg-inp" type="number" data-resto="{{ r.id }}" data-field="ca"
+                 min="0" step="1" autocomplete="off"
+                 oninput="onInp(this)" onkeydown="onKey(event,this)" placeholder="">
+        </td>
+        <td class="sg-td-edit" data-rid="{{ r.id }}" data-field="commandes">
+          <input class="sg-inp" type="number" data-resto="{{ r.id }}" data-field="commandes"
+                 min="0" step="1" autocomplete="off"
+                 oninput="onInp(this)" onkeydown="onKey(event,this)" placeholder="">
+        </td>
+        <td class="sg-td-edit" data-rid="{{ r.id }}" data-field="charges">
+          <input class="sg-inp" type="number" data-resto="{{ r.id }}" data-field="charges"
+                 min="0" step="1" autocomplete="off"
+                 oninput="onInp(this)" onkeydown="onKey(event,this)" placeholder="">
+        </td>
+        <td class="sg-td-edit" data-rid="{{ r.id }}" data-field="cout_matieres">
+          <input class="sg-inp" type="number" data-resto="{{ r.id }}" data-field="cout_matieres"
+                 min="0" step="1" autocomplete="off"
+                 oninput="onInp(this)" onkeydown="onKey(event,this)" placeholder="">
+        </td>
+        <td class="sg-td-edit" data-rid="{{ r.id }}" data-field="cout_personnel">
+          <input class="sg-inp" type="number" data-resto="{{ r.id }}" data-field="cout_personnel"
+                 min="0" step="1" autocomplete="off"
+                 oninput="onInp(this)" onkeydown="onKey(event,this)" placeholder="">
+        </td>
+        <td class="sg-td-calc" id="c-tm-{{ r.id }}">—</td>
+        <td class="sg-td-calc" id="c-mb-{{ r.id }}">—</td>
+        <td class="sg-td-calc" id="c-fc-{{ r.id }}">—</td>
+        <td class="sg-td-calc" id="c-lc-{{ r.id }}">—</td>
+        <td class="sg-td-calc" id="c-pc-{{ r.id }}">—</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+      {% endfor %}
+    </tbody>
+
+    <tfoot>
+      <tr class="sg-totals">
+        <td class="sg-td-name">Totaux / Moyennes</td>
+        <td class="sg-td-calc sg-total" id="tot-ca">—</td>
+        <td class="sg-td-calc sg-total" id="tot-cmd">—</td>
+        <td class="sg-td-calc sg-total" id="tot-chg">—</td>
+        <td class="sg-td-calc sg-total" id="tot-cm">—</td>
+        <td class="sg-td-calc sg-total" id="tot-cp">—</td>
+        <td class="sg-td-calc sg-total" id="tot-tm">—</td>
+        <td class="sg-td-calc sg-total" id="tot-mb">—</td>
+        <td class="sg-td-calc sg-total" id="tot-fc">—</td>
+        <td class="sg-td-calc sg-total" id="tot-lc">—</td>
+        <td class="sg-td-calc sg-total" id="tot-pc">—</td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+{# ── Actions (add + danger) ─────────────────────────────────────────────────── #}
+<div class="sg-actions">
+  <button class="sg-btn-add" onclick="openAddModal()">
+    ＋ Ajouter un restaurant
+  </button>
+
+  <div style="margin-left:auto;">
+    <div class="sg-danger-zone">
+      <div class="sg-danger-title">⚠️ Zone dangereuse</div>
+      <div class="sg-danger-desc">
+        Supprime tous les CA encodés pour tous les restaurants et tous les mois.
+        <strong style="color:#b91c1c;">Irréversible.</strong>
+      </div>
+      <button class="sg-btn-danger" type="button" onclick="openResetModal()">
+        🗑&nbsp; Réinitialiser tous les chiffres
+      </button>
+    </div>
+  </div>
+</div>
+
+{# ── Toast alertes post-saisie ─────────────────────────────────────────────── #}
+<div class="sg-toast-wrap" id="sg-toast-wrap"></div>
+
+{# ── Save bar ───────────────────────────────────────────────────────────────── #}
+<div class="sg-save-bar" id="save-bar">
+  <span class="sg-save-status" id="save-status">Aucune modification en attente</span>
+  <button class="sg-btn-save" id="btn-save" onclick="saveAll()" disabled>
+    ✓&nbsp; Enregistrer tout
+  </button>
+</div>
+
+{# ── Modal : Ajouter un restaurant ─────────────────────────────────────────── #}
+<div class="sg-modal-overlay" id="add-modal">
+  <div class="sg-modal-box">
+    <div class="sg-modal-title">Ajouter un restaurant</div>
+    <form method="POST" action="{{ url_for('add_restaurant') }}" id="add-form">
+      <input type="hidden" name="mois" id="add-mois-inp" value="{{ selected_month }}">
+
+      <div class="form-group">
+        <label class="form-label" for="add-name">Nom du restaurant</label>
+        <input type="text" id="add-name" name="name" class="form-control" required
+               placeholder="Ex : Chamas Tacos Bruxelles" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="add-brand">Marque</label>
+        <select id="add-brand" name="brand" class="form-control" required>
+          {% for brand in brand_colors %}
+          <option value="{{ brand }}">{{ brand }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="sg-modal-actions">
+        <button type="button" class="sg-btn-cancel" onclick="closeAddModal()">Annuler</button>
+        <button type="submit" class="sg-btn-confirm">Ajouter</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{# ── Modal : Réinitialisation ───────────────────────────────────────────────── #}
+<div class="sg-modal-overlay" id="reset-modal">
+  <div class="sg-modal-box" style="text-align:center;">
+    <div style="font-size:2.5rem;margin-bottom:10px;">⚠️</div>
+    <div class="sg-modal-title" style="color:#b91c1c;">Confirmer la réinitialisation</div>
+    <p style="font-size:.84rem;color:#64748b;margin-bottom:20px;line-height:1.6;">
+      Tous les CA encodés seront définitivement supprimés.<br>
+      Tapez <strong style="color:#b91c1c;">OUI</strong> pour confirmer.
+    </p>
+    <input type="text" id="reset-confirm-inp"
+           placeholder="Tapez OUI ici"
+           style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:8px;
+                  font-size:.9rem;text-align:center;font-family:inherit;outline:none;
+                  margin-bottom:16px;box-sizing:border-box;transition:border-color .15s;"
+           oninput="checkReset(this.value)"
+           onkeydown="if(event.key==='Enter') submitReset()">
+    <div class="sg-modal-actions">
+      <button type="button" class="sg-btn-cancel" onclick="closeResetModal()">Annuler</button>
+      <form method="POST" action="{{ url_for('reset_data') }}" id="reset-form" style="display:inline;">
+        <button type="submit" class="sg-btn-confirm" id="btn-reset-confirm"
+                style="background:#e2e8f0;color:#94a3b8;cursor:not-allowed;" disabled>
+          Confirmer
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{# ── JavaScript ─────────────────────────────────────────────────────────────── #}
+<script>
+/* ── Données ──────────────────────────────────────────────────────────────── */
+const ALL_DATA      = {{ all_data | tojson | safe }};
+const MONTHS        = {{ months | tojson | safe }};
+const MONTH_LABELS  = {{ month_labels | tojson | safe }};
+const BRAND_COLORS  = {{ brand_colors | tojson | safe }};
+
+let currentMonth = '{{ selected_month }}';
+const dirtySet   = new Set(); // "restoId:field"
+
+/* ── Formatters ───────────────────────────────────────────────────────────── */
+const fmtInt = v => new Intl.NumberFormat('fr-BE').format(Math.round(v || 0));
+const fmtPct = (v, d=1) => v == null ? '—'
+  : v.toLocaleString('fr-BE', {minimumFractionDigits:d, maximumFractionDigits:d}) + '\u00a0%';
+const fmtMoney = (v, d=2) => v == null ? '—'
+  : v.toLocaleString('fr-BE', {minimumFractionDigits:d, maximumFractionDigits:d}) + '\u00a0€';
+
+function colorMarge(v) { return v > 20 ? '#166534' : v >= 10 ? '#92400e' : '#991b1b'; }
+function colorCost(v)  { return v < 30  ? '#166534' : v <= 35  ? '#92400e' : '#991b1b'; }
+function colorPrime(v) { return v < 55  ? '#166534' : v <= 65  ? '#92400e' : '#991b1b'; }
+
+/* ── Month selection ──────────────────────────────────────────────────────── */
+function selectMonth(m) {
+  if (dirtySet.size > 0) {
+    if (!confirm('Des modifications non sauvegardées seront perdues. Changer quand même ?')) return;
+  }
+  currentMonth = m;
+  dirtySet.clear();
+
+  // Update month buttons
+  document.querySelectorAll('.sg-month-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.month === m);
+  });
+
+  // Load values from ALL_DATA
+  document.querySelectorAll('.sg-inp').forEach(inp => {
+    const rid   = inp.dataset.resto;
+    const field = inp.dataset.field;
+    const val   = ALL_DATA[rid]?.[field]?.[m] || 0;
+    inp.value = val > 0 ? val : '';
+    inp.parentElement.classList.remove('dirty');
+  });
+
+  // Recalc all rows
+  document.querySelectorAll('.sg-row').forEach(row => recalcRow(row.dataset.rid));
+  updateTotals();
+  updateSaveBar();
+
+  // Sync hidden month input in add modal
+  const addInp = document.getElementById('add-mois-inp');
+  if (addInp) addInp.value = m;
+}
+
+/* ── Cell input handler ───────────────────────────────────────────────────── */
+function onInp(inp) {
+  const rid   = inp.dataset.resto;
+  const field = inp.dataset.field;
+  const key   = `${rid}:${field}`;
+  const orig  = ALL_DATA[rid]?.[field]?.[currentMonth] || 0;
+  const cur   = parseInt(inp.value) || 0;
+  const td    = inp.parentElement;
+
+  if (cur !== orig) {
+    dirtySet.add(key);
+    td.classList.add('dirty');
+  } else {
+    dirtySet.delete(key);
+    td.classList.remove('dirty');
+  }
+
+  recalcRow(rid);
+  updateTotals();
+  updateSaveBar();
+}
+
+/* ── Keyboard navigation ──────────────────────────────────────────────────── */
+function onKey(e, inp) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const field = inp.dataset.field;
+    const all   = [...document.querySelectorAll(`.sg-inp[data-field="${field}"]`)];
+    const idx   = all.indexOf(inp);
+    const next  = all[idx + 1];
+    if (next) { next.focus(); next.select(); }
+  }
+}
+
+/* ── Row recalculation ────────────────────────────────────────────────────── */
+function getV(rid, field) {
+  return parseFloat(document.querySelector(`.sg-inp[data-resto="${rid}"][data-field="${field}"]`)?.value) || 0;
+}
+
+function setCell(id, text, color) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.style.color      = color || '';
+  el.style.fontWeight = color ? '700' : '';
+}
+
+function recalcRow(rid) {
+  const ca  = getV(rid, 'ca');
+  const cmd = getV(rid, 'commandes');
+  const chg = getV(rid, 'charges');
+  const cm  = getV(rid, 'cout_matieres');
+  const cp  = getV(rid, 'cout_personnel');
+
+  // Ticket moyen
+  setCell(`c-tm-${rid}`,
+    (ca > 0 && cmd > 0) ? fmtMoney(ca / cmd) : '—',
+    null);
+
+  // Marge brute
+  const mb = (ca > 0 && chg > 0) ? (ca - chg) / ca * 100 : null;
+  setCell(`c-mb-${rid}`, mb != null ? fmtPct(mb) : '—', mb != null ? colorMarge(mb) : null);
+
+  // Food Cost
+  const fc = (ca > 0 && cm > 0) ? cm / ca * 100 : null;
+  setCell(`c-fc-${rid}`, fc != null ? fmtPct(fc) : '—', fc != null ? colorCost(fc) : null);
+
+  // Labor Cost
+  const lc = (ca > 0 && cp > 0) ? cp / ca * 100 : null;
+  setCell(`c-lc-${rid}`, lc != null ? fmtPct(lc) : '—', lc != null ? colorCost(lc) : null);
+
+  // Prime Cost
+  const pc = (ca > 0 && cm > 0 && cp > 0) ? (cm + cp) / ca * 100 : null;
+  setCell(`c-pc-${rid}`, pc != null ? fmtPct(pc) : '—', pc != null ? colorPrime(pc) : null);
+}
+
+/* ── Totals row ───────────────────────────────────────────────────────────── */
+function updateTotals() {
+  let totCa=0, totCmd=0, totChg=0, totCm=0, totCp=0;
+
+  document.querySelectorAll('.sg-row').forEach(row => {
+    const rid = row.dataset.rid;
+    totCa  += getV(rid, 'ca');
+    totCmd += getV(rid, 'commandes');
+    totChg += getV(rid, 'charges');
+    totCm  += getV(rid, 'cout_matieres');
+    totCp  += getV(rid, 'cout_personnel');
+  });
+
+  const s = (v, unit='€') => v > 0 ? fmtInt(v) + '\u00a0' + unit : '—';
+  document.getElementById('tot-ca').textContent  = s(totCa);
+  document.getElementById('tot-cmd').textContent = s(totCmd, '');
+  document.getElementById('tot-chg').textContent = s(totChg);
+  document.getElementById('tot-cm').textContent  = s(totCm);
+  document.getElementById('tot-cp').textContent  = s(totCp);
+
+  // Ticket moyen total (agrégé)
+  document.getElementById('tot-tm').textContent =
+    (totCa > 0 && totCmd > 0) ? fmtMoney(totCa / totCmd) : '—';
+
+  function setTot(id, val, colorFn) {
+    const el = document.getElementById(id);
+    if (val != null) {
+      el.textContent  = fmtPct(val);
+      el.style.color  = colorFn(val);
+    } else {
+      el.textContent  = '—';
+      el.style.color  = '';
+    }
+  }
+
+  setTot('tot-mb', totCa>0&&totChg>0 ? (totCa-totChg)/totCa*100 : null, colorMarge);
+  setTot('tot-fc', totCa>0&&totCm>0  ? totCm/totCa*100           : null, colorCost);
+  setTot('tot-lc', totCa>0&&totCp>0  ? totCp/totCa*100           : null, colorCost);
+  setTot('tot-pc', totCa>0&&totCm>0&&totCp>0 ? (totCm+totCp)/totCa*100 : null, colorPrime);
+}
+
+/* ── Save bar state ───────────────────────────────────────────────────────── */
+function updateSaveBar() {
+  const n   = dirtySet.size;
+  const btn = document.getElementById('btn-save');
+  const st  = document.getElementById('save-status');
+
+  if (n === 0) {
+    btn.disabled = true;
+    st.textContent = 'Aucune modification en attente';
+    st.style.color = 'var(--text-muted)';
+  } else {
+    btn.disabled = false;
+    const rids = new Set([...dirtySet].map(k => k.split(':')[0]));
+    st.textContent = `${rids.size} restaurant${rids.size>1?'s':''} modifié${rids.size>1?'s':''} — ${n} cellule${n>1?'s':''} non sauvegardée${n>1?'s':''}`;
+    st.style.color = '#E8A000';
+  }
+}
+
+/* ── Save all ─────────────────────────────────────────────────────────────── */
+async function saveAll() {
+  const btn = document.getElementById('btn-save');
+  const st  = document.getElementById('save-status');
+  btn.disabled = true;
+  btn.textContent = '⏳ Enregistrement…';
+
+  const payload = {};
+  document.querySelectorAll('.sg-row').forEach(row => {
+    const rid = row.dataset.rid;
+    payload[rid] = {
+      ca:             parseInt(document.querySelector(`.sg-inp[data-resto="${rid}"][data-field="ca"]`)?.value)             || 0,
+      commandes:      parseInt(document.querySelector(`.sg-inp[data-resto="${rid}"][data-field="commandes"]`)?.value)      || 0,
+      charges:        parseInt(document.querySelector(`.sg-inp[data-resto="${rid}"][data-field="charges"]`)?.value)        || 0,
+      cout_matieres:  parseInt(document.querySelector(`.sg-inp[data-resto="${rid}"][data-field="cout_matieres"]`)?.value)  || 0,
+      cout_personnel: parseInt(document.querySelector(`.sg-inp[data-resto="${rid}"][data-field="cout_personnel"]`)?.value) || 0,
+    };
+  });
+
+  try {
+    const res  = await fetch('/donnees/bulk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mois: currentMonth, data: payload }),
+    });
+    const json = await res.json();
+
+    if (json.success) {
+      // Persist to ALL_DATA so month-switch shows correct values
+      Object.entries(payload).forEach(([rid, vals]) => {
+        if (!ALL_DATA[rid]) ALL_DATA[rid] = {};
+        Object.entries(vals).forEach(([field, val]) => {
+          if (!ALL_DATA[rid][field]) ALL_DATA[rid][field] = {};
+          ALL_DATA[rid][field][currentMonth] = val;
+        });
+      });
+
+      dirtySet.clear();
+      document.querySelectorAll('.sg-td-edit.dirty').forEach(td => td.classList.remove('dirty'));
+
+      const moisLbl = MONTH_LABELS[MONTHS.indexOf(currentMonth)] || currentMonth;
+      st.textContent = `✓ ${json.nb_updated} restaurant${json.nb_updated!==1?'s':''} mis à jour pour ${moisLbl}`;
+      st.style.color = '#166534';
+      btn.textContent = '✓ Enregistrer tout';
+
+      // Afficher les alertes post-saisie
+      if (json.alertes && json.alertes.length > 0) {
+        showPostAlerts(json.alertes);
+      }
+
+      setTimeout(() => {
+        if (dirtySet.size === 0) {
+          st.textContent = 'Aucune modification en attente';
+          st.style.color = 'var(--text-muted)';
+        }
+      }, 4000);
+    } else {
+      throw new Error(json.error || 'Erreur serveur');
+    }
+  } catch (err) {
+    st.textContent = '⚠ Erreur : ' + err.message;
+    st.style.color = '#E11D48';
+    btn.disabled = false;
+    btn.textContent = '✓ Enregistrer tout';
+  }
+}
+
+/* ── Post-save alerts (toasts) ───────────────────────────────────────────── */
+function showPostAlerts(alertes) {
+  const wrap = document.getElementById('sg-toast-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+  alertes.forEach((a, i) => {
+    const icon = a.type === 'success' ? '✓' : '!';
+    const div  = document.createElement('div');
+    div.className = 'sg-toast';
+    div.innerHTML = `
+      <div class="sg-toast-icon ${a.type}">${icon}</div>
+      <div class="sg-toast-msg">${a.message}</div>`;
+    wrap.appendChild(div);
+    // Auto-dismiss after 6 + i seconds
+    setTimeout(() => {
+      div.classList.add('hiding');
+      setTimeout(() => div.remove(), 220);
+    }, 6000 + i * 800);
+  });
+}
+
+/* ── Add restaurant modal ─────────────────────────────────────────────────── */
+function openAddModal() {
+  document.getElementById('add-modal').classList.add('open');
+  document.getElementById('add-name').value = '';
+  setTimeout(() => document.getElementById('add-name').focus(), 80);
+}
+function closeAddModal() {
+  document.getElementById('add-modal').classList.remove('open');
+}
+document.getElementById('add-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('add-modal')) closeAddModal();
+});
+
+/* ── Reset modal ──────────────────────────────────────────────────────────── */
+function openResetModal() {
+  document.getElementById('reset-modal').classList.add('open');
+  document.getElementById('reset-confirm-inp').value = '';
+  const btn = document.getElementById('btn-reset-confirm');
+  btn.disabled = true;
+  btn.style.cssText = 'background:#e2e8f0;color:#94a3b8;cursor:not-allowed;';
+  setTimeout(() => document.getElementById('reset-confirm-inp').focus(), 80);
+}
+function closeResetModal() {
+  document.getElementById('reset-modal').classList.remove('open');
+}
+document.getElementById('reset-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('reset-modal')) closeResetModal();
+});
+function checkReset(v) {
+  const ok  = v.trim().toUpperCase() === 'OUI';
+  const btn = document.getElementById('btn-reset-confirm');
+  btn.disabled = !ok;
+  btn.style.cssText = ok
+    ? 'background:#b91c1c;color:#fff;cursor:pointer;padding:8px 18px;border:none;border-radius:8px;font-size:.84rem;font-weight:700;font-family:inherit;'
+    : 'background:#e2e8f0;color:#94a3b8;cursor:not-allowed;padding:8px 18px;border:none;border-radius:8px;font-size:.84rem;font-weight:700;font-family:inherit;';
+  document.getElementById('reset-confirm-inp').style.borderColor = ok ? '#b91c1c' : '#e2e8f0';
+}
+function submitReset() {
+  if (document.getElementById('reset-confirm-inp').value.trim().toUpperCase() === 'OUI') {
+    document.getElementById('reset-form').submit();
+  }
+}
+
+/* ── Init ─────────────────────────────────────────────────────────────────── */
+(function init() {
+  const m = currentMonth;
+  document.querySelectorAll('.sg-inp').forEach(inp => {
+    const rid   = inp.dataset.resto;
+    const field = inp.dataset.field;
+    const val   = ALL_DATA[rid]?.[field]?.[m] || 0;
+    inp.value = val > 0 ? val : '';
+  });
+  document.querySelectorAll('.sg-row').forEach(row => recalcRow(row.dataset.rid));
+  updateTotals();
+  updateSaveBar();
+})();
+
+/* Bfcache */
+window.addEventListener('pageshow', e => { if (e.persisted) window.location.reload(); });
+</script>
+{% endblock %}

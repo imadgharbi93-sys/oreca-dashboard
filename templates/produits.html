@@ -1,0 +1,728 @@
+{% extends 'base.html' %}
+{% block title %}Produits — Oreca Group{% endblock %}
+{% block page_title %}Analyse Des Ventes Produits{% endblock %}
+
+{% block content %}
+<style>
+.pd-page { display: flex; flex-direction: column; gap: 16px; }
+.pd-toolbar {
+  position: sticky; top: 49px; z-index: 40;
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 12px 14px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+}
+.pd-toolbar-lbl {
+  font-size: .65rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em;
+  color: var(--text-muted); white-space: nowrap;
+}
+.pd-brand-btn {
+  padding: 6px 14px; border-radius: 999px; border: 1.5px solid var(--bc, var(--border));
+  background: #fff; color: var(--bc, var(--text-primary)); font-size: .77rem; font-weight: 700;
+  cursor: pointer; font-family: inherit; transition: all .12s;
+}
+.pd-brand-btn.active, .pd-brand-btn:hover { background: var(--bc, #111); color: #fff; }
+.pd-select, .pd-search {
+  min-width: 190px; border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px 11px; font-size: .8rem; color: var(--text-primary); font-family: inherit;
+  background: #fff;
+}
+.pd-month-btn {
+  padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border);
+  background: #fff; color: var(--text-muted); font-size: .75rem; font-weight: 700;
+  cursor: pointer; transition: all .12s; font-family: inherit;
+}
+.pd-month-btn.active, .pd-month-btn:hover {
+  background: #0f172a; border-color: #0f172a; color: #fff;
+}
+.pd-counter {
+  margin-left: auto; font-size: .75rem; color: var(--text-muted); font-weight: 700;
+}
+.pd-grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.pd-grid-2a { display: grid; grid-template-columns: 55fr 45fr; gap: 14px; }
+.pd-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.pd-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 12px; box-shadow: var(--shadow);
+}
+.pd-card-hd {
+  padding: 16px 18px 0; font-size: .66rem; font-weight: 800; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.pd-card-bd { padding: 14px 18px 18px; }
+.pd-kpi-star { border-top: 3px solid var(--star-color, #0f172a); }
+.pd-kpi-icon { font-size: 1.1rem; margin-bottom: 8px; }
+.pd-kpi-val { font-size: 1.55rem; font-weight: 800; line-height: 1.05; letter-spacing: -.03em; color: var(--text-primary); }
+.pd-kpi-sub { margin-top: 5px; color: var(--text-muted); font-size: .74rem; }
+.pd-kpi-evol { margin-top: 8px; display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 3px 9px; font-size: .7rem; font-weight: 700; }
+.pd-kpi-evol.pos { background: rgba(29,158,117,.12); color: #166534; }
+.pd-kpi-evol.neg { background: rgba(225,29,72,.10); color: #be123c; }
+.pd-kpi-evol.neu { background: #f1f5f9; color: var(--text-muted); }
+.pd-badge {
+  display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px;
+  font-size: .68rem; font-weight: 800; color: #fff; margin-top: 8px;
+}
+.pd-brand-split { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; }
+.pd-brand-chip {
+  padding: 4px 8px; border-radius: 999px; font-size: .68rem; font-weight: 700;
+  color: #334155; background: #f8fafc; border: 1px solid #e2e8f0;
+}
+.pd-progress {
+  width: 100%; height: 8px; border-radius: 999px; background: #e2e8f0; overflow: hidden; margin-top: 10px;
+}
+.pd-progress-fill {
+  height: 100%; border-radius: 999px; background: linear-gradient(90deg, #0f172a 0%, #334155 100%);
+}
+.pd-chart-wrap { position: relative; height: 380px; }
+.pd-chart-wrap-sm { position: relative; height: 360px; }
+.pd-donut-legend { display: grid; grid-template-columns: 1fr; gap: 7px; margin-top: 12px; }
+.pd-donut-item { display: grid; grid-template-columns: auto 1fr auto auto; gap: 8px; align-items: center; font-size: .76rem; }
+.pd-dot { width: 10px; height: 10px; border-radius: 50%; }
+.pd-table-card .pd-card-bd { padding-top: 10px; }
+.pd-table-tools { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.pd-table-wrap { overflow-x: auto; }
+.pd-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+.pd-table th {
+  text-align: left; padding: 9px 12px; background: #f8fafc; border-bottom: 1px solid var(--border);
+  font-size: .63rem; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted);
+  cursor: pointer; white-space: nowrap; user-select: none;
+}
+.pd-table th:hover { background: #f1f5f9; color: var(--text-primary); }
+.pd-table th.sorted { color: var(--accent); background: #fff5f7; }
+.pd-sort-icon { display: inline-block; width: 12px; opacity: .35; }
+.pd-table th.sorted .pd-sort-icon { opacity: 1; }
+.pd-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; vertical-align: middle; }
+.pd-table tr:hover td { background: #fafafa; }
+.pd-table tfoot td { font-weight: 800; background: #f8fafc; }
+.pd-rank { color: var(--text-muted); font-weight: 700; }
+.pd-progress-inline { width: 100%; max-width: 120px; background: #e2e8f0; margin-top: 4px; }
+.pd-acc-list { display: flex; flex-direction: column; gap: 10px; }
+.pd-acc-item {
+  background: #fff; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow);
+}
+.pd-acc-btn {
+  width: 100%; background: none; border: none; padding: 14px 18px; cursor: pointer;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto; gap: 12px; align-items: center;
+  font-family: inherit;
+}
+.pd-acc-main { display: flex; flex-direction: column; gap: 4px; text-align: left; min-width: 0; }
+.pd-acc-title { font-size: .84rem; font-weight: 800; color: var(--text-primary); }
+.pd-acc-sub { font-size: .73rem; color: var(--text-muted); }
+.pd-acc-body { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
+.pd-acc-item.open .pd-acc-body { max-height: 520px; }
+.pd-acc-content { padding: 0 18px 18px; display: grid; grid-template-columns: 1fr 220px; gap: 14px; }
+.pd-top3 { display: flex; flex-direction: column; gap: 8px; }
+.pd-top3-item { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; font-size: .77rem; }
+.pd-empty {
+  border: 1px dashed #cbd5e1; background: #fff; border-radius: 14px; padding: 36px 24px; text-align: center;
+}
+.pd-empty-title { font-size: 1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 8px; }
+.pd-empty-sub { font-size: .84rem; color: var(--text-muted); margin-bottom: 18px; }
+@media (max-width: 1180px) {
+  .pd-grid-5 { grid-template-columns: repeat(2, 1fr); }
+  .pd-grid-2a, .pd-grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .pd-grid-5 { grid-template-columns: 1fr; }
+  .pd-acc-btn { grid-template-columns: 1fr; text-align: left; }
+  .pd-acc-content { grid-template-columns: 1fr; }
+}
+</style>
+
+<div class="pd-page">
+  {% if not data_json.records %}
+  <div class="pd-empty">
+    <div class="pd-empty-title">Importez un fichier Excel Restomax pour voir les ventes produits</div>
+    <div class="pd-empty-sub">Aucune donnée produit n’est disponible dans `ca_data.json` sous la clé `produits` pour le moment.</div>
+    <a class="tb-action-btn" href="{{ url_for('donnees') }}">Aller à l’import</a>
+  </div>
+  {% else %}
+  <div class="pd-toolbar">
+    <span class="pd-toolbar-lbl">Marque</span>
+    <div id="pd-brand-buttons" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+    <span class="pd-toolbar-lbl">Restaurant</span>
+    <select id="pd-restaurant" class="pd-select"></select>
+    <span class="pd-toolbar-lbl">Mois</span>
+    <div id="pd-month-buttons" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+    <div class="pd-counter" id="pd-counter">0 produits · 0 restaurants</div>
+  </div>
+
+  <div class="pd-grid-5">
+    <div class="pd-card pd-kpi-star" id="pd-kpi-star">
+      <div class="pd-card-bd">
+        <div class="pd-kpi-icon">★</div>
+        <div class="pd-kpi-sub">Produit Star</div>
+        <div class="pd-kpi-val" id="pd-star-name">—</div>
+        <div class="pd-kpi-sub" id="pd-star-sub">Aucune donnée</div>
+        <div id="pd-star-badge"></div>
+      </div>
+    </div>
+    <div class="pd-card"><div class="pd-card-bd"><div class="pd-kpi-icon">▤</div><div class="pd-kpi-sub">Volume Total Vendu</div><div class="pd-kpi-val" id="pd-volume-total">0</div><div id="pd-volume-evol"></div></div></div>
+    <div class="pd-card"><div class="pd-card-bd"><div class="pd-kpi-icon">€</div><div class="pd-kpi-sub">Prix Moyen Par Article</div><div class="pd-kpi-val" id="pd-price-avg">0 €</div><div id="pd-price-evol"></div></div></div>
+    <div class="pd-card"><div class="pd-card-bd"><div class="pd-kpi-icon">◫</div><div class="pd-kpi-sub">Produits Actifs</div><div class="pd-kpi-val" id="pd-products-active">0</div><div class="pd-brand-split" id="pd-brand-split"></div></div></div>
+    <div class="pd-card"><div class="pd-card-bd"><div class="pd-kpi-icon">◔</div><div class="pd-kpi-sub">CA Couvert Par Les Produits</div><div class="pd-kpi-val" id="pd-covered-pct">0%</div><div class="pd-kpi-sub" id="pd-covered-sub">0 € sur 0 €</div><div class="pd-progress"><div class="pd-progress-fill" id="pd-covered-fill" style="width:0%;"></div></div></div></div>
+  </div>
+
+  <div class="pd-grid-2a">
+    <div class="pd-card">
+      <div class="pd-card-hd">Top 10 Produits Par Chiffre D'Affaires</div>
+      <div class="pd-card-bd"><div class="pd-chart-wrap"><canvas id="pd-top-ca-chart"></canvas></div></div>
+    </div>
+    <div class="pd-card">
+      <div class="pd-card-hd">Répartition Du CA Produits</div>
+      <div class="pd-card-bd">
+        <div class="pd-chart-wrap-sm"><canvas id="pd-donut-chart"></canvas></div>
+        <div class="pd-donut-legend" id="pd-donut-legend"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pd-grid-2">
+    <div class="pd-card">
+      <div class="pd-card-hd">Comparaison Volumes Par Marque</div>
+      <div class="pd-card-bd"><div class="pd-chart-wrap-sm"><canvas id="pd-compare-chart"></canvas></div></div>
+    </div>
+    <div class="pd-card">
+      <div class="pd-card-hd">Prix Vs Volume — Taille = CA Généré</div>
+      <div class="pd-card-bd"><div class="pd-chart-wrap-sm"><canvas id="pd-bubble-chart"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="pd-card pd-table-card">
+    <div class="pd-card-hd">Tableau Détaillé Produits</div>
+    <div class="pd-card-bd">
+      <div class="pd-table-tools">
+        <input id="pd-search" class="pd-search" type="text" placeholder="Rechercher un produit...">
+        <div id="pd-table-count" class="pd-counter" style="margin-left:0;">0 lignes</div>
+      </div>
+      <div class="pd-table-wrap">
+        <table class="pd-table">
+          <thead>
+            <tr>
+              <th data-sort="rank">Rang <span class="pd-sort-icon" data-col="rank"></span></th>
+              <th data-sort="nom">Produit <span class="pd-sort-icon" data-col="nom"></span></th>
+              <th data-sort="marque">Marque <span class="pd-sort-icon" data-col="marque"></span></th>
+              <th data-sort="quantite_totale">Quantité vendue <span class="pd-sort-icon" data-col="quantite_totale"></span></th>
+              <th data-sort="prix_unitaire_moyen">Prix unitaire moyen <span class="pd-sort-icon" data-col="prix_unitaire_moyen"></span></th>
+              <th data-sort="ca_total">CA généré <span class="pd-sort-icon" data-col="ca_total"></span></th>
+              <th data-sort="part_ca_marque_pct">Part du CA marque % <span class="pd-sort-icon" data-col="part_ca_marque_pct"></span></th>
+              <th data-sort="evolution_quantite_pct">Évolution quantité vs M-1 <span class="pd-sort-icon" data-col="evolution_quantite_pct"></span></th>
+            </tr>
+          </thead>
+          <tbody id="pd-table-body"></tbody>
+          <tfoot id="pd-table-foot"></tfoot>
+        </table>
+      </div>
+      <div id="pd-table-empty" style="display:none;" class="pd-empty">
+        <div class="pd-empty-title">Importez un fichier Excel Restomax pour voir les ventes produits</div>
+        <div class="pd-empty-sub">Aucune ligne produit ne correspond aux filtres actuels.</div>
+        <a class="tb-action-btn" href="{{ url_for('donnees') }}">Aller à l’import</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="pd-card">
+    <div class="pd-card-hd">Vue Par Restaurant</div>
+    <div class="pd-card-bd">
+      <div class="pd-acc-list" id="pd-accordion"></div>
+      <div id="pd-accordion-empty" style="display:none;" class="pd-empty">
+        <div class="pd-empty-title">Aucune donnée restaurant pour ce filtre</div>
+        <div class="pd-empty-sub">Changez de marque, de restaurant ou de mois pour afficher les top produits par établissement.</div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% if data_json.records %}
+<script>
+const DATA = {{ data_json | tojson | safe }};
+const STATE = {
+  brand: 'all',
+  restaurant: 'all',
+  month: DATA.current_month,
+  search: '',
+  sortKey: 'ca_total',
+  sortDir: -1,
+};
+
+const fmtInt = v => new Intl.NumberFormat('fr-BE').format(Math.round(v || 0));
+const fmtMoney = v => new Intl.NumberFormat('fr-BE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v || 0) + ' €';
+const fmtMoney0 = v => new Intl.NumberFormat('fr-BE', { maximumFractionDigits: 0 }).format(v || 0) + ' €';
+const fmtPct = v => v == null ? '—' : `${v > 0 ? '+' : ''}${Number(v).toLocaleString('fr-BE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`;
+const brandColors = DATA.brand_colors;
+let topCaChart, donutChart, compareChart, bubbleChart;
+const miniCharts = {};
+
+function monthLabel(month) { return DATA.month_labels[month] || month; }
+function previousMonth(month) {
+  const idx = DATA.months_available.indexOf(month);
+  return idx > 0 ? DATA.months_available[idx - 1] : null;
+}
+function caDenominator(month, brand, restaurantId) {
+  if (restaurantId !== 'all') {
+    return DATA.restaurant_ca_by_month[restaurantId]?.[month] || 0;
+  }
+  if (brand !== 'all') {
+    return DATA.restaurants
+      .filter(r => r.brand === brand)
+      .reduce((sum, r) => sum + (DATA.restaurant_ca_by_month[r.id]?.[month] || 0), 0);
+  }
+  return DATA.total_ca_by_month[month] || 0;
+}
+function filteredRestaurants() {
+  return DATA.restaurants.filter(r => STATE.brand === 'all' || r.brand === STATE.brand);
+}
+function filteredRecords(month = STATE.month) {
+  return DATA.records.filter(record =>
+    record.month === month &&
+    (STATE.brand === 'all' || record.brand === STATE.brand) &&
+    (STATE.restaurant === 'all' || record.restaurant_id === STATE.restaurant)
+  );
+}
+function aggregateProducts(records, includeBrandSplit = false) {
+  const map = new Map();
+  records.forEach(record => {
+    const key = includeBrandSplit ? `${record.brand}||${record.nom}` : record.nom;
+    if (!map.has(key)) {
+      map.set(key, {
+        nom: record.nom,
+        marque: includeBrandSplit ? record.brand : record.brand,
+        quantite_totale: 0,
+        ca_total: 0,
+        weighted_sum: 0,
+        brands: {},
+      });
+    }
+    const row = map.get(key);
+    row.quantite_totale += record.quantite;
+    row.ca_total += record.ca;
+    row.weighted_sum += record.prix_unitaire * record.quantite;
+    row.brands[record.brand] = (row.brands[record.brand] || 0) + record.ca;
+  });
+  return [...map.values()].map(row => ({
+    ...row,
+    prix_unitaire_moyen: row.quantite_totale ? row.weighted_sum / row.quantite_totale : 0,
+    marque: includeBrandSplit ? row.marque : Object.entries(row.brands).sort((a,b)=>b[1]-a[1])[0]?.[0] || null,
+  }));
+}
+function aggregateBrandProducts(records) {
+  const result = {};
+  Object.keys(brandColors).forEach(brand => {
+    result[brand] = aggregateProducts(records.filter(r => r.brand === brand)).map(row => ({
+      ...row,
+      marque: brand,
+    }));
+  });
+  return result;
+}
+function aggregateRestaurantProducts(records) {
+  const grouped = {};
+  DATA.restaurants.forEach(resto => {
+    const rows = records.filter(r => r.restaurant_id === resto.id);
+    if (!rows.length) return;
+    const products = aggregateProducts(rows).sort((a,b) => b.ca_total - a.ca_total);
+    grouped[resto.id] = {
+      restaurant_id: resto.id,
+      restaurant_name: resto.name,
+      brand: resto.brand,
+      top3: products.slice(0, 3),
+      top5: products.slice(0, 5),
+      nb_produits: products.length,
+      ca_total_produits: products.reduce((sum, row) => sum + row.ca_total, 0),
+    };
+  });
+  return grouped;
+}
+function computeStateSummary() {
+  const records = filteredRecords();
+  const prev = previousMonth(STATE.month);
+  const prevRecords = prev ? filteredRecords(prev) : [];
+  const products = aggregateProducts(records).sort((a,b) => b.ca_total - a.ca_total);
+  const prevProducts = new Map(aggregateProducts(prevRecords).map(row => [row.nom, row]));
+  const brandProducts = aggregateBrandProducts(records);
+  const restaurantProducts = aggregateRestaurantProducts(records);
+  const totalQty = records.reduce((sum, row) => sum + row.quantite, 0);
+  const totalCa = records.reduce((sum, row) => sum + row.ca, 0);
+  const prevQty = prevRecords.reduce((sum, row) => sum + row.quantite, 0);
+  const prevCa = prevRecords.reduce((sum, row) => sum + row.ca, 0);
+  const avgPrice = totalQty ? totalCa / totalQty : 0;
+  const prevAvgPrice = prevQty ? prevCa / prevQty : 0;
+  const denom = caDenominator(STATE.month, STATE.brand, STATE.restaurant);
+  const repartitionMarques = Object.keys(brandColors).map(brand => ({
+    brand,
+    ca_total: (brandProducts[brand] || []).reduce((sum, row) => sum + row.ca_total, 0),
+    product_count: (brandProducts[brand] || []).length,
+  })).filter(item => item.ca_total > 0);
+
+  products.forEach((row, idx) => {
+    const prevQtyRow = prevProducts.get(row.nom)?.quantite_totale;
+    const brandTotal = (brandProducts[row.marque] || []).reduce((sum, item) => sum + item.ca_total, 0);
+    row.rank = idx + 1;
+    row.part_ca_marque_pct = brandTotal ? row.ca_total / brandTotal * 100 : 0;
+    row.evolution_quantite_pct = prevQtyRow ? ((row.quantite_totale - prevQtyRow) / prevQtyRow * 100) : null;
+  });
+
+  return {
+    records,
+    products,
+    brandProducts,
+    restaurantProducts,
+    totalQty,
+    totalCa,
+    avgPrice,
+    coveredPct: denom ? totalCa / denom * 100 : 0,
+    volumeEvol: prevQty ? (totalQty - prevQty) / prevQty * 100 : null,
+    priceEvol: prevAvgPrice ? (avgPrice - prevAvgPrice) / prevAvgPrice * 100 : null,
+    topProduct: products[0] || null,
+    topVolume: [...products].sort((a,b) => b.quantite_totale - a.quantite_totale).slice(0, 5),
+    flop: [...products].filter(row => row.ca_total > 0).sort((a,b) => a.ca_total - b.ca_total).slice(0, 5),
+    repartitionMarques,
+  };
+}
+
+function renderBrandButtons() {
+  const container = document.getElementById('pd-brand-buttons');
+  const buttons = [{ brand: 'all', label: 'Toutes', color: '#0f172a' }, ...Object.keys(brandColors).map(brand => ({ brand, label: brand, color: brandColors[brand] }))];
+  container.innerHTML = buttons.map(btn => `<button class="pd-brand-btn ${STATE.brand === btn.brand ? 'active' : ''}" style="--bc:${btn.color}" data-brand="${btn.brand}">${btn.label}</button>`).join('');
+  container.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => {
+    STATE.brand = btn.dataset.brand;
+    if (STATE.restaurant !== 'all' && !filteredRestaurants().some(r => r.id === STATE.restaurant)) STATE.restaurant = 'all';
+    render();
+  }));
+}
+function renderRestaurantSelect() {
+  const select = document.getElementById('pd-restaurant');
+  const options = [{ id: 'all', name: 'Tous les restaurants' }, ...filteredRestaurants()];
+  if (!options.some(opt => opt.id === STATE.restaurant)) STATE.restaurant = 'all';
+  select.innerHTML = options.map(opt => `<option value="${opt.id}">${opt.name}</option>`).join('');
+  select.value = STATE.restaurant;
+  select.onchange = () => { STATE.restaurant = select.value; render(); };
+}
+function renderMonthButtons() {
+  const container = document.getElementById('pd-month-buttons');
+  container.innerHTML = DATA.months_available.map(month => `<button class="pd-month-btn ${STATE.month === month ? 'active' : ''}" data-month="${month}">${monthLabel(month)}</button>`).join('');
+  container.querySelectorAll('button').forEach(btn => btn.addEventListener('click', () => { STATE.month = btn.dataset.month; render(); }));
+}
+function evolClass(v) { return v == null ? 'neu' : v > 0 ? 'pos' : v < 0 ? 'neg' : 'neu'; }
+function evolText(v) { return v == null ? 'Pas de M-1' : (v > 0 ? '▲ ' : v < 0 ? '▼ ' : '• ') + fmtPct(v).replace('+', ''); }
+function setKpis(summary) {
+  const star = summary.topProduct;
+  const starCard = document.getElementById('pd-kpi-star');
+  document.getElementById('pd-star-name').textContent = star ? star.nom : '—';
+  document.getElementById('pd-star-sub').textContent = star ? `${fmtMoney0(star.ca_total)} · ${fmtInt(star.quantite_totale)} vendus` : 'Aucune vente sur ce filtre';
+  starCard.style.setProperty('--star-color', star ? brandColors[star.marque] : '#cbd5e1');
+  document.getElementById('pd-star-badge').innerHTML = star ? `<span class="pd-badge" style="background:${brandColors[star.marque]}">${star.marque}</span>` : '';
+  document.getElementById('pd-volume-total').textContent = fmtInt(summary.totalQty);
+  document.getElementById('pd-volume-evol').innerHTML = `<span class="pd-kpi-evol ${evolClass(summary.volumeEvol)}">${evolText(summary.volumeEvol)}</span>`;
+  document.getElementById('pd-price-avg').textContent = fmtMoney(summary.avgPrice);
+  document.getElementById('pd-price-evol').innerHTML = `<span class="pd-kpi-evol ${evolClass(summary.priceEvol)}">${evolText(summary.priceEvol)}</span>`;
+  document.getElementById('pd-products-active').textContent = fmtInt(summary.products.length);
+  document.getElementById('pd-brand-split').innerHTML = summary.repartitionMarques.length
+    ? summary.repartitionMarques.map(item => `<span class="pd-brand-chip">${item.brand} · ${item.product_count}</span>`).join('')
+    : `<span class="pd-brand-chip">Aucune donnée</span>`;
+  document.getElementById('pd-covered-pct').textContent = `${summary.coveredPct.toLocaleString('fr-BE', { maximumFractionDigits: 1 })}%`;
+  document.getElementById('pd-covered-sub').textContent = `${fmtMoney0(summary.totalCa)} sur ${fmtMoney0(caDenominator(STATE.month, STATE.brand, STATE.restaurant))}`;
+  document.getElementById('pd-covered-fill').style.width = `${Math.min(summary.coveredPct, 100)}%`;
+  const restoCount = Object.keys(summary.restaurantProducts).length;
+  document.getElementById('pd-counter').textContent = `${summary.products.length} produits · ${restoCount} restaurants`;
+}
+function renderOrUpdateChart(instance, canvasId, config) {
+  if (instance) { instance.destroy(); }
+  return new Chart(document.getElementById(canvasId), config);
+}
+function renderTopChart(summary) {
+  const rows = summary.products.slice(0, 10);
+  topCaChart = renderOrUpdateChart(topCaChart, 'pd-top-ca-chart', {
+    type: 'bar',
+    data: {
+      labels: rows.map(row => row.nom),
+      datasets: [{
+        label: 'CA',
+        data: rows.map(row => row.ca_total),
+        backgroundColor: rows.map(row => brandColors[row.marque]),
+        borderRadius: 6,
+      }],
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: true, position: 'top' },
+        tooltip: { callbacks: { label: ctx => {
+          const row = rows[ctx.dataIndex];
+          return ` ${fmtMoney0(row.ca_total)} · ${fmtInt(row.quantite_totale)} · ${fmtMoney(row.prix_unitaire_moyen)}`;
+        }}}
+      },
+      scales: {
+        x: { grid: { color: '#eef2f7' }, ticks: { callback: v => `${Math.round(v/1000)}k €` } },
+        y: { grid: { display: false } },
+      }
+    }
+  });
+}
+function renderDonut(summary) {
+  const top = summary.products.slice(0, 8);
+  const othersCa = summary.products.slice(8).reduce((sum, row) => sum + row.ca_total, 0);
+  const rows = othersCa > 0 ? [...top, { nom: 'Autres', ca_total: othersCa, marque: null }] : top;
+  const colors = rows.map((row, idx) => row.marque ? brandColors[row.marque] : ['#cbd5e1','#94a3b8','#64748b'][idx % 3]);
+  donutChart = renderOrUpdateChart(donutChart, 'pd-donut-chart', {
+    type: 'doughnut',
+    data: { labels: rows.map(row => row.nom), datasets: [{ data: rows.map(row => row.ca_total), backgroundColor: colors, borderWidth: 0 }] },
+    options: {
+      responsive: true, maintainAspectRatio: false, cutout: '68%',
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${fmtMoney0(ctx.parsed)} · ${((ctx.parsed / Math.max(summary.totalCa, 1)) * 100).toFixed(1)}%` } } }
+    }
+  });
+  document.getElementById('pd-donut-legend').innerHTML = rows.map((row, idx) => `
+    <div class="pd-donut-item">
+      <span class="pd-dot" style="background:${colors[idx]}"></span>
+      <span>${row.nom}</span>
+      <strong>${fmtMoney0(row.ca_total)}</strong>
+      <span>${summary.totalCa ? ((row.ca_total / summary.totalCa) * 100).toFixed(1) : 0}%</span>
+    </div>`).join('');
+}
+function renderCompare(summary) {
+  const brandRows = summary.brandProducts;
+  const labelSet = new Set();
+  Object.values(brandRows).forEach(rows => rows.sort((a,b)=>b.quantite_totale-a.quantite_totale).slice(0, 5).forEach(row => labelSet.add(row.nom)));
+  const labels = [...labelSet].slice(0, 5);
+  compareChart = renderOrUpdateChart(compareChart, 'pd-compare-chart', {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: Object.keys(brandColors).map(brand => ({
+        label: brand,
+        data: labels.map(label => brandRows[brand].find(row => row.nom === label)?.quantite_totale || 0),
+        backgroundColor: brandColors[brand],
+        borderRadius: 6,
+      })),
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { tooltip: { callbacks: { label: ctx => {
+        const row = brandRows[ctx.dataset.label].find(item => item.nom === labels[ctx.dataIndex]);
+        return ` ${fmtInt(ctx.parsed.y)} · ${fmtMoney0(row?.ca_total || 0)}`;
+      }}}},
+      scales: { x: { grid: { display: false } }, y: { grid: { color: '#eef2f7' } } }
+    }
+  });
+}
+function renderBubble(summary) {
+  const rows = Object.entries(summary.brandProducts).flatMap(([brand, items]) => items.map(item => ({ ...item, marque: brand }))).filter(row => row.ca_total > 0);
+  const prices = rows.map(row => row.prix_unitaire_moyen);
+  const volumes = rows.map(row => row.quantite_totale);
+  const median = arr => {
+    const a = [...arr].sort((x,y)=>x-y); if (!a.length) return 0;
+    const mid = Math.floor(a.length / 2); return a.length % 2 ? a[mid] : (a[mid - 1] + a[mid]) / 2;
+  };
+  const xMedian = median(prices), yMedian = median(volumes);
+  const top5Names = rows.sort((a,b)=>b.ca_total-a.ca_total).slice(0, 5).map(row => row.nom);
+  bubbleChart = renderOrUpdateChart(bubbleChart, 'pd-bubble-chart', {
+    type: 'bubble',
+    data: {
+      datasets: Object.keys(brandColors).map(brand => ({
+        label: brand,
+        data: rows.filter(row => row.marque === brand).map(row => ({
+          x: row.prix_unitaire_moyen,
+          y: row.quantite_totale,
+          r: Math.max(6, Math.sqrt(row.ca_total) / 10),
+          nom: row.nom,
+          ca: row.ca_total,
+        })),
+        backgroundColor: `${brandColors[brand]}99`,
+        borderColor: brandColors[brand],
+      })),
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        tooltip: { callbacks: { label: ctx => {
+          const p = ctx.raw;
+          return ` ${p.nom} · ${fmtMoney(p.x)} · ${fmtInt(p.y)} · ${fmtMoney0(p.ca)}`;
+        }}},
+        legend: { position: 'top' }
+      },
+      scales: {
+        x: {
+          min: prices.length ? Math.max(0, Math.min(...prices) * 0.85) : 0,
+          max: prices.length ? Math.max(...prices) * 1.15 : 10,
+          grid: { color: '#eef2f7', borderDash: [5,5] },
+          afterBuildTicks: scale => scale,
+        },
+        y: {
+          min: volumes.length ? Math.max(0, Math.min(...volumes) * 0.85) : 0,
+          max: volumes.length ? Math.max(...volumes) * 1.15 : 10,
+          grid: { color: '#eef2f7', borderDash: [5,5] },
+        }
+      }
+    },
+    plugins: [{
+      id: 'quadrantsAndLabels',
+      afterDraw(chart) {
+        const {ctx, scales:{x,y}, chartArea} = chart;
+        if (!chartArea) return;
+        ctx.save();
+        ctx.setLineDash([5,5]);
+        ctx.strokeStyle = 'rgba(128,128,128,0.3)';
+        ctx.beginPath();
+        ctx.moveTo(x.getPixelForValue(xMedian), chartArea.top);
+        ctx.lineTo(x.getPixelForValue(xMedian), chartArea.bottom);
+        ctx.moveTo(chartArea.left, y.getPixelForValue(yMedian));
+        ctx.lineTo(chartArea.right, y.getPixelForValue(yMedian));
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#334155';
+        ctx.font = '600 10px Inter';
+        chart.data.datasets.forEach(dataset => dataset.data.forEach(point => {
+          if (top5Names.includes(point.nom)) ctx.fillText(point.nom, x.getPixelForValue(point.x) + 6, y.getPixelForValue(point.y) - 6);
+        }));
+        ctx.restore();
+      }
+    }]
+  });
+}
+function sortRows(rows) {
+  const dir = STATE.sortDir;
+  return [...rows].sort((a, b) => {
+    const av = a[STATE.sortKey], bv = b[STATE.sortKey];
+    if (typeof av === 'string' || typeof bv === 'string') return dir * String(av || '').localeCompare(String(bv || ''), 'fr');
+    const aNum = av == null ? -Infinity : av;
+    const bNum = bv == null ? -Infinity : bv;
+    return dir * (aNum - bNum);
+  });
+}
+function renderTable(summary) {
+  const body = document.getElementById('pd-table-body');
+  const foot = document.getElementById('pd-table-foot');
+  const empty = document.getElementById('pd-table-empty');
+  const wrap = body.closest('.pd-table-wrap');
+  let rows = summary.products.filter(row => row.nom.toLowerCase().includes(STATE.search.toLowerCase()));
+  rows = sortRows(rows);
+  document.getElementById('pd-table-count').textContent = `${rows.length} lignes`;
+  if (!rows.length) {
+    wrap.style.display = 'none';
+    empty.style.display = '';
+    foot.innerHTML = '';
+    return;
+  }
+  wrap.style.display = '';
+  empty.style.display = 'none';
+  body.innerHTML = rows.map(row => `
+    <tr>
+      <td class="pd-rank">${row.rank}</td>
+      <td><strong>${row.nom}</strong></td>
+      <td><span class="pd-badge" style="background:${brandColors[row.marque] || '#64748b'}">${row.marque || '—'}</span></td>
+      <td>${fmtInt(row.quantite_totale)}</td>
+      <td>${fmtMoney(row.prix_unitaire_moyen)}</td>
+      <td><strong>${fmtMoney0(row.ca_total)}</strong></td>
+      <td>
+        ${row.part_ca_marque_pct.toFixed(1)}%
+        <div class="pd-progress-inline"><div class="pd-table-progress-fill" style="width:${Math.min(row.part_ca_marque_pct, 100)}%;background:${brandColors[row.marque] || '#64748b'};"></div></div>
+      </td>
+      <td style="color:${row.evolution_quantite_pct == null ? '#64748b' : row.evolution_quantite_pct > 0 ? '#166534' : '#be123c'};font-weight:700;">
+        ${row.evolution_quantite_pct == null ? '—' : row.evolution_quantite_pct > 0 ? '▲' : row.evolution_quantite_pct < 0 ? '▼' : '•'} ${row.evolution_quantite_pct == null ? '' : Math.abs(row.evolution_quantite_pct).toLocaleString('fr-BE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%'}
+      </td>
+    </tr>`).join('');
+  foot.innerHTML = `
+    <tr>
+      <td colspan="3">Total</td>
+      <td>${fmtInt(summary.totalQty)}</td>
+      <td>${fmtMoney(summary.avgPrice)}</td>
+      <td>${fmtMoney0(summary.totalCa)}</td>
+      <td>${summary.coveredPct.toFixed(1)}%</td>
+      <td>${summary.volumeEvol == null ? '—' : fmtPct(summary.volumeEvol)}</td>
+    </tr>`;
+}
+function renderAccordion(summary) {
+  const container = document.getElementById('pd-accordion');
+  const empty = document.getElementById('pd-accordion-empty');
+  const rows = Object.values(summary.restaurantProducts).sort((a, b) => b.ca_total_produits - a.ca_total_produits);
+  if (!rows.length) {
+    container.innerHTML = '';
+    empty.style.display = '';
+    return;
+  }
+  empty.style.display = 'none';
+  container.innerHTML = rows.map(row => `
+    <div class="pd-acc-item" data-rid="${row.restaurant_id}">
+      <button class="pd-acc-btn" type="button">
+        <div class="pd-acc-main">
+          <div class="pd-acc-title">${row.restaurant_name}</div>
+          <div class="pd-acc-sub">${row.nb_produits} produits · ${fmtMoney0(row.ca_total_produits)}</div>
+        </div>
+        <span class="pd-badge" style="background:${brandColors[row.brand]}">${row.brand}</span>
+        <strong>${fmtMoney0(row.ca_total_produits)}</strong>
+        <span style="color:#64748b;font-size:1rem;">▾</span>
+      </button>
+      <div class="pd-acc-body">
+        <div class="pd-acc-content">
+          <div class="pd-top3">
+            ${row.top3.map((item, idx) => `<div class="pd-top3-item"><strong>${idx + 1}. ${item.nom}</strong><span>${fmtInt(item.quantite_totale)} vendus</span><span>${fmtMoney0(item.ca_total)}</span></div>`).join('')}
+          </div>
+          <div><canvas id="mini-${row.restaurant_id}" height="200"></canvas></div>
+        </div>
+      </div>
+    </div>`).join('');
+  container.querySelectorAll('.pd-acc-item').forEach(item => {
+    item.querySelector('.pd-acc-btn').addEventListener('click', () => {
+      item.classList.toggle('open');
+      if (item.classList.contains('open')) renderMiniChart(item.dataset.rid, summary.restaurantProducts[item.dataset.rid]);
+    });
+  });
+}
+function renderMiniChart(rid, row) {
+  const ctx = document.getElementById(`mini-${rid}`);
+  if (!ctx) return;
+  if (miniCharts[rid]) miniCharts[rid].destroy();
+  miniCharts[rid] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: row.top5.map(item => item.nom),
+      datasets: [{ data: row.top5.map(item => item.ca_total), backgroundColor: brandColors[row.brand], borderRadius: 6 }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${fmtMoney0(ctx.parsed.x)}` } } },
+      scales: { x: { grid: { color: '#eef2f7' } }, y: { grid: { display: false } } }
+    }
+  });
+}
+function render() {
+  renderBrandButtons();
+  renderRestaurantSelect();
+  renderMonthButtons();
+  const summary = computeStateSummary();
+  setKpis(summary);
+  renderTopChart(summary);
+  renderDonut(summary);
+  renderCompare(summary);
+  renderBubble(summary);
+  renderTable(summary);
+  renderAccordion(summary);
+}
+
+document.getElementById('pd-search')?.addEventListener('input', e => { STATE.search = e.target.value; renderTable(computeStateSummary()); });
+function updateSortUI() {
+  document.querySelectorAll('.pd-table th').forEach(th => {
+    const key = th.dataset.sort;
+    const icon = th.querySelector('.pd-sort-icon');
+    if (key === STATE.sortKey) {
+      th.classList.add('sorted');
+      if (icon) icon.textContent = STATE.sortDir === 1 ? ' ▲' : ' ▼';
+    } else {
+      th.classList.remove('sorted');
+      if (icon) icon.textContent = ' ⇅';
+    }
+  });
+}
+document.querySelectorAll('.pd-table th').forEach(th => th.addEventListener('click', () => {
+  const key = th.dataset.sort;
+  if (STATE.sortKey === key) STATE.sortDir *= -1;
+  else { STATE.sortKey = key; STATE.sortDir = key === 'nom' || key === 'marque' ? 1 : -1; }
+  updateSortUI();
+  renderTable(computeStateSummary());
+}));
+updateSortUI();
+
+render();
+</script>
+{% endif %}
+{% endblock %}

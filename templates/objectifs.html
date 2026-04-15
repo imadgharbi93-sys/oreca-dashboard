@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}Objectifs CA — Oreca Group{% endblock %}
+{% block page_title %}Objectifs de Chiffre d'Affaires{% endblock %}
+
+{% block content %}
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+
+  {# ── Formulaire ─────────────────────────────────────────────────────────── #}
+  <div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Fixer un objectif mensuel</div>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('objectifs') }}" autocomplete="off">
+
+          <div class="form-group">
+            <label class="form-label" for="restaurant_id">Restaurant</label>
+            <select class="form-control" id="restaurant_id" name="restaurant_id" required>
+              <option value="">— Sélectionner un restaurant —</option>
+              {% for brand in ["Chamas Tacos", "O'Cheese", "Delys Station"] %}
+              <optgroup label="{{ brand }}">
+                {% for r in restaurants if r.brand == brand %}
+                <option value="{{ r.id }}">{{ r.name }}</option>
+                {% endfor %}
+              </optgroup>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="month">Mois</label>
+            <select class="form-control" id="month" name="month" required>
+              <option value="">— Sélectionner un mois —</option>
+              {% for m in months %}
+              <option value="{{ m }}">{{ month_labels[loop.index0] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="objectif">Objectif CA (€)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="objectif"
+              name="objectif"
+              min="1"
+              step="1"
+              placeholder="Ex : 90 000"
+              required
+            >
+            <div class="form-hint">Valeur entière en euros, strictement positive.</div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">◎&nbsp; Enregistrer l'objectif</button>
+
+        </form>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:14px;">
+      <strong>ℹ️ Information</strong><br>
+      Si un objectif existe déjà pour ce restaurant et ce mois, il sera remplacé.
+      Les barres de progression apparaissent sur les pages <strong>Vue Globale</strong>
+      et <strong>Classement</strong>.
+    </div>
+  </div>
+
+  {# ── Tableau récap ───────────────────────────────────────────────────────── #}
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Objectifs enregistrés — {{ recap | length }} entrée(s)</div>
+    </div>
+    <div class="card-body" style="padding-top:8px;">
+      {% if recap %}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Restaurant</th>
+              <th>Mois</th>
+              <th>Objectif</th>
+              <th>CA réel</th>
+              <th style="min-width:160px;">Atteinte</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in recap %}
+            {% set slug = 'chamas' if 'Chamas' in row.brand else ('ocheese' if 'Cheese' in row.brand else 'delys') %}
+            <tr>
+              <td>
+                <div style="font-weight:500;font-size:.82rem;">{{ row.name }}</div>
+                <span class="badge badge-{{ slug }}" style="margin-top:3px;">{{ row.brand }}</span>
+              </td>
+              <td style="color:var(--text-muted);">{{ row.month_label }}</td>
+              <td style="font-weight:600;">{{ row.obj | fr_number }} €</td>
+              <td>{{ row.ca | fr_number }} €</td>
+              <td>
+                {% set taux = row.taux %}
+                {% set capped = [taux, 100] | min %}
+                {% if taux >= 90 %}{% set bar_color = '#639922' %}
+                {% elif taux >= 70 %}{% set bar_color = '#E8A000' %}
+                {% else %}{% set bar_color = '#E11D48' %}{% endif %}
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="obj-progress">
+                    <div class="obj-progress-fill" style="width:{{ capped }}%;background:{{ bar_color }};"></div>
+                  </div>
+                  <span class="obj-pct" style="color:{{ bar_color }};">{{ taux }}%</span>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div style="text-align:center;padding:32px 0;color:var(--text-muted);font-size:.84rem;">
+        Aucun objectif enregistré pour le moment.
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

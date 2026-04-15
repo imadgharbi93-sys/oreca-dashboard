@@ -1,0 +1,666 @@
+{% extends 'base.html' %}
+{% block title %}{{ resto.name }} — Oreca Group{% endblock %}
+{% block page_title %}{{ resto.name }}{% endblock %}
+{% block page_actions %}
+<a class="tb-action-btn" href="{{ url_for('restaurant_profil', profil_id=resto.profil_id, export='pdf') }}" target="_blank" rel="noopener">Exporter PDF</a>
+{% endblock %}
+
+{% block content %}
+{% set slug = 'chamas' if 'Chamas' in resto.brand else ('ocheese' if 'Cheese' in resto.brand else 'delys') %}
+{% set statut_cls = 'integre' if 'intégré' in resto.statut else 'franchise' %}
+
+<style>
+/* ── Reset / base ──────────────────────────────────────────────────────────── */
+.rp { --brand: {{ color }}; --brand-soft: {{ color }}18; }
+
+/* ── Breadcrumb ────────────────────────────────────────────────────────────── */
+.rp-breadcrumb {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text-muted); margin-bottom: 16px;
+}
+.rp-breadcrumb a { color: var(--text-muted); text-decoration: none; }
+.rp-breadcrumb a:hover { color: var(--text-primary); }
+.rp-breadcrumb-sep { opacity: .4; }
+
+/* ── Switcher dropdown ─────────────────────────────────────────────────────── */
+.rp-switch-wrap { position: relative; }
+.rp-switch-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--text-primary);
+  background: #fff; border: 1px solid #E5E7EB; border-radius: 8px;
+  padding: 5px 11px; cursor: pointer; font-family: inherit;
+  transition: border-color .15s, box-shadow .15s;
+}
+.rp-switch-btn:hover { border-color: #d1d5db; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+.rp-switch-btn.open { border-color: var(--brand); box-shadow: 0 0 0 2px var(--brand-soft); }
+.rp-switch-icon { font-size: 10px; opacity: .5; transition: transform .15s; }
+.rp-switch-btn.open .rp-switch-icon { transform: rotate(180deg); }
+
+.rp-switch-dropdown {
+  display: none; position: absolute; top: calc(100% + 6px); left: 0;
+  background: #fff; border: 0.5px solid #E5E7EB; border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 200;
+  width: 260px; overflow: hidden;
+}
+.rp-switch-wrap.open .rp-switch-dropdown { display: block; }
+
+.rp-sw-search {
+  padding: 10px 12px 8px;
+  border-bottom: 0.5px solid #F3F4F6;
+}
+.rp-sw-search input {
+  width: 100%; box-sizing: border-box;
+  border: 1px solid #E5E7EB; border-radius: 6px;
+  padding: 5px 10px; font-size: 12px; font-family: inherit;
+  outline: none; color: var(--text-primary); background: #FAFAFA;
+}
+.rp-sw-search input:focus { border-color: var(--brand); background: #fff; }
+
+.rp-sw-body { max-height: 320px; overflow-y: auto; padding: 6px 6px; }
+.rp-sw-body::-webkit-scrollbar { width: 3px; }
+.rp-sw-body::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 3px; }
+
+.rp-sw-brand-lbl {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-muted);
+  padding: 8px 8px 4px;
+}
+.rp-sw-dot { width: 6px; height: 6px; border-radius: 50%; }
+.rp-sw-item {
+  display: block; padding: 6px 10px 6px 22px;
+  font-size: 12px; color: var(--text-primary); text-decoration: none;
+  border-radius: 6px; transition: background .1s; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis;
+}
+.rp-sw-item:hover { background: #F3F4F6; }
+.rp-sw-item.current { font-weight: 700; color: var(--brand); background: var(--brand-soft); }
+.rp-sw-empty { padding: 16px; text-align: center; font-size: 12px; color: var(--text-muted); }
+
+/* ── Hero header ───────────────────────────────────────────────────────────── */
+.rp-hero {
+  background: #fff; border: 0.5px solid #E5E7EB; border-radius: 14px;
+  overflow: hidden; margin-bottom: 18px;
+}
+.rp-hero-bar { height: 4px; background: var(--brand); }
+.rp-hero-body {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 20px; padding: 20px 24px 18px; flex-wrap: wrap;
+}
+.rp-hero-left { flex: 1; min-width: 0; }
+.rp-name {
+  font-size: 1.6rem; font-weight: 800; color: var(--text-primary);
+  letter-spacing: -.04em; margin-bottom: 10px; line-height: 1.15;
+}
+.rp-hero-badges { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.rp-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 700;
+  white-space: nowrap;
+}
+.rp-badge.chamas  { background: rgba(226,143,10,.13); color: #b86f00; }
+.rp-badge.ocheese { background: rgba(216,46,46,.11);  color: #b91c1c; }
+.rp-badge.delys   { background: rgba(219,41,201,.11); color: #a21caf; }
+.rp-badge.integre   { background: rgba(29,158,117,.1); color: #065f46; }
+.rp-badge.franchise { background: rgba(232,160,0,.13); color: #92400e; }
+.rp-badge.hausse { background: rgba(29,158,117,.1); color: #065f46; }
+.rp-badge.baisse { background: rgba(225,29,72,.1);  color: #9f1239; }
+.rp-badge.stable { background: #F3F4F6; color: var(--text-muted); }
+
+.rp-hero-right {
+  display: flex; flex-direction: column; align-items: flex-end;
+  gap: 4px; flex-shrink: 0;
+}
+.rp-hero-ca {
+  font-size: 1.8rem; font-weight: 800; color: var(--brand);
+  letter-spacing: -.04em; line-height: 1;
+}
+.rp-hero-ca-lbl { font-size: 11px; color: var(--text-muted); text-align: right; }
+.rp-hero-evol {
+  font-size: 12px; font-weight: 700; margin-top: 2px;
+}
+.rp-hero-evol.pos { color: #1D9E75; }
+.rp-hero-evol.neg { color: #E11D48; }
+.rp-hero-evol.neu { color: var(--text-muted); }
+
+/* ── Two-column layout ─────────────────────────────────────────────────────── */
+.rp-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+@media (max-width: 900px) { .rp-2col { grid-template-columns: 1fr; } }
+
+/* ── Card base ─────────────────────────────────────────────────────────────── */
+.rp-card {
+  background: #fff; border: 0.5px solid #E5E7EB;
+  border-radius: 12px; padding: 18px 20px;
+}
+.rp-card-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-muted); margin-bottom: 14px;
+}
+
+/* ── Info card ─────────────────────────────────────────────────────────────── */
+.rp-info-rows { display: flex; flex-direction: column; gap: 10px; }
+.rp-info-row { display: flex; gap: 10px; align-items: baseline; }
+.rp-info-key {
+  font-size: 10.5px; font-weight: 700; color: var(--text-muted);
+  min-width: 105px; flex-shrink: 0;
+}
+.rp-info-val { font-size: 12.5px; color: var(--text-primary); font-weight: 500; }
+
+/* ── Highlights card ───────────────────────────────────────────────────────── */
+.rp-hl-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.rp-hl-item { text-align: center; }
+.rp-hl-lbl { font-size: 10px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+.rp-hl-val { font-size: 1.1rem; font-weight: 800; letter-spacing: -.02em; }
+.rp-hl-sub { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; }
+.rp-hl-divider { width: 0.5px; background: #E5E7EB; }
+
+/* ── KPI grid ──────────────────────────────────────────────────────────────── */
+.rp-kpi-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 12px; margin-bottom: 18px;
+}
+@media (max-width: 1100px) { .rp-kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 700px)  { .rp-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.rp-kpi {
+  background: #fff; border: 0.5px solid #E5E7EB;
+  border-radius: 12px; padding: 14px 16px 12px;
+  position: relative; overflow: hidden;
+}
+.rp-kpi::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--brand);
+}
+.rp-kpi-lbl { font-size: 10.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 7px; }
+.rp-kpi-val { font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+.rp-kpi-evol {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10.5px; font-weight: 700; margin-top: 6px;
+  padding: 2px 7px; border-radius: 20px;
+}
+.rp-kpi-evol.pos     { background: rgba(29,158,117,.1); color: #065f46; }
+.rp-kpi-evol.neg     { background: rgba(225,29,72,.1);  color: #9f1239; }
+.rp-kpi-evol.inv-pos { background: rgba(225,29,72,.1);  color: #9f1239; }
+.rp-kpi-evol.inv-neg { background: rgba(29,158,117,.1); color: #065f46; }
+.rp-kpi-evol.neu     { background: #F3F4F6; color: var(--text-muted); }
+
+/* ── Chart ─────────────────────────────────────────────────────────────────── */
+.rp-chart-wrap { background: #fff; border: 0.5px solid #E5E7EB; border-radius: 12px; padding: 18px 20px; margin-bottom: 18px; }
+.rp-chart-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+}
+.rp-chart-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.rp-chart-sub { font-size: 11px; color: var(--text-muted); }
+
+/* ── Table historique ──────────────────────────────────────────────────────── */
+.rp-table-wrap { background: #fff; border: 0.5px solid #E5E7EB; border-radius: 12px; padding: 18px 20px; margin-bottom: 18px; overflow-x: auto; }
+.rp-table-wrap table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.rp-table-wrap th {
+  text-align: left; padding: 7px 12px;
+  font-size: 10px; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .05em;
+  border-bottom: 1px solid #E5E7EB; white-space: nowrap; background: #FAFAFA;
+}
+.rp-table-wrap th:first-child { border-radius: 6px 0 0 0; }
+.rp-table-wrap th:last-child  { border-radius: 0 6px 0 0; }
+.rp-table-wrap td { padding: 9px 12px; border-bottom: 1px solid #F3F4F6; white-space: nowrap; }
+.rp-table-wrap tbody tr:hover { background: #F9FAFB; }
+.rp-table-wrap tbody tr:last-child td { border-bottom: none; }
+.rp-table-wrap tr.moy-row td {
+  font-weight: 700; background: #F3F4F6;
+  border-top: 1.5px solid #E5E7EB;
+}
+
+/* KPI pill dans la table */
+.kpi-pill {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 700;
+}
+.kpi-pill.green  { background: rgba(22,101,52,.1);  color: #166534; }
+.kpi-pill.orange { background: rgba(146,64,14,.1);  color: #92400e; }
+.kpi-pill.red    { background: rgba(153,27,27,.1);  color: #991b1b; }
+.kpi-pill.neu    { color: var(--text-muted); background: none; }
+</style>
+
+<div class="rp">
+
+{# ── Breadcrumb + switcher ───────────────────────────────────────────────── #}
+<div class="rp-breadcrumb">
+  <a href="{{ url_for('restaurants') }}">Classement</a>
+  <span class="rp-breadcrumb-sep">/</span>
+  <span>{{ resto.name }}</span>
+
+  <div style="margin-left:auto;">
+    <div class="rp-switch-wrap" id="rp-switcher">
+      <button class="rp-switch-btn" id="rp-sw-btn" onclick="swToggle()">
+        Changer de restaurant <span class="rp-switch-icon">▾</span>
+      </button>
+      <div class="rp-switch-dropdown" id="rp-sw-drop">
+        <div class="rp-sw-search">
+          <input type="text" id="rp-sw-q" placeholder="Rechercher un restaurant…" oninput="swFilter(this.value)" autocomplete="off">
+        </div>
+        <div class="rp-sw-body" id="rp-sw-body">
+          {% set brands_cfg = [
+            ('Chamas Tacos',  '#E28F0A'),
+            ("O'Cheese",      '#D82E2E'),
+            ('Delys Station', '#DB29C9'),
+          ] %}
+          {% for brand_name, brand_color in brands_cfg %}
+            <div class="rp-sw-brand-lbl" data-brand-lbl="{{ brand_name }}">
+              <div class="rp-sw-dot" style="background:{{ brand_color }};"></div>
+              {{ brand_name }}
+            </div>
+            {% for r in restaurants if r.brand == brand_name and r.profil_id %}
+              <a href="/restaurant/{{ r.profil_id }}"
+                 class="rp-sw-item {% if r.profil_id == resto.profil_id %}current{% endif %}"
+                 data-name="{{ r.name | lower }}">
+                {{ r.name }}
+              </a>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const wrap = document.getElementById('rp-switcher');
+  const btn  = document.getElementById('rp-sw-btn');
+  const inp  = document.getElementById('rp-sw-q');
+
+  window.swToggle = function() {
+    const isOpen = wrap.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+    if (isOpen) { setTimeout(() => inp.focus(), 50); }
+  };
+
+  window.swFilter = function(q) {
+    const val = q.toLowerCase().trim();
+    const items  = document.querySelectorAll('.rp-sw-item');
+    const labels = document.querySelectorAll('[data-brand-lbl]');
+    let anyVisible = false;
+
+    items.forEach(a => {
+      const match = !val || a.dataset.name.includes(val);
+      a.style.display = match ? '' : 'none';
+      if (match) anyVisible = true;
+    });
+
+    // Hide brand labels if all their items are hidden
+    labels.forEach(lbl => {
+      let sibling = lbl.nextElementSibling;
+      let hasVisible = false;
+      while (sibling && !sibling.dataset.brandLbl) {
+        if (sibling.classList.contains('rp-sw-item') && sibling.style.display !== 'none')
+          hasVisible = true;
+        sibling = sibling.nextElementSibling;
+      }
+      lbl.style.display = hasVisible ? '' : 'none';
+    });
+
+    // Empty state
+    let empty = document.getElementById('rp-sw-empty');
+    if (!anyVisible) {
+      if (!empty) {
+        empty = document.createElement('div');
+        empty.id = 'rp-sw-empty';
+        empty.className = 'rp-sw-empty';
+        empty.textContent = 'Aucun résultat';
+        document.getElementById('rp-sw-body').appendChild(empty);
+      }
+      empty.style.display = '';
+    } else if (empty) {
+      empty.style.display = 'none';
+    }
+  };
+
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (!wrap.contains(e.target)) {
+      wrap.classList.remove('open');
+      btn.classList.remove('open');
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      wrap.classList.remove('open');
+      btn.classList.remove('open');
+    }
+  });
+})();
+</script>
+
+{# ── Hero ───────────────────────────────────────────────────────────────── #}
+<div class="rp-hero">
+  <div class="rp-hero-bar"></div>
+  <div class="rp-hero-body">
+    <div class="rp-hero-left">
+      <div class="rp-name">{{ resto.name }}</div>
+      <div class="rp-hero-badges">
+        <span class="rp-badge {{ slug }}">{{ resto.brand }}</span>
+        <span class="rp-badge {{ statut_cls }}">{{ resto.statut }}</span>
+        {% if tendance == 'hausse' %}
+          <span class="rp-badge hausse">▲ Tendance hausse</span>
+        {% elif tendance == 'baisse' %}
+          <span class="rp-badge baisse">▼ Tendance baisse</span>
+        {% else %}
+          <span class="rp-badge stable">― Stable</span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if dernier %}
+    <div class="rp-hero-right">
+      <div class="rp-hero-ca">{{ dernier.ca | fr_number }} €</div>
+      <div class="rp-hero-ca-lbl">CA {{ dernier.label }}</div>
+      {% if dernier.evol_ca is not none %}
+        {% if dernier.evol_ca > 0 %}
+          <div class="rp-hero-evol pos">▲ +{{ dernier.evol_ca | string | replace('.', ',') }}% vs M-1</div>
+        {% elif dernier.evol_ca < 0 %}
+          <div class="rp-hero-evol neg">▼ {{ dernier.evol_ca | string | replace('.', ',') }}% vs M-1</div>
+        {% else %}
+          <div class="rp-hero-evol neu">= Stable vs M-1</div>
+        {% endif %}
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{# ── Infos + Highlights ──────────────────────────────────────────────────── #}
+<div class="rp-2col">
+
+  {# Infos légales #}
+  <div class="rp-card">
+    <div class="rp-card-title">Informations</div>
+    <div class="rp-info-rows">
+      <div class="rp-info-row">
+        <span class="rp-info-key">Nom juridique</span>
+        <span class="rp-info-val">{{ resto.nom_juridique }}</span>
+      </div>
+      <div class="rp-info-row">
+        <span class="rp-info-key">Adresse</span>
+        <span class="rp-info-val">{{ resto.adresse }}</span>
+      </div>
+      <div class="rp-info-row">
+        <span class="rp-info-key">N° TVA</span>
+        <span class="rp-info-val">{{ resto.tva }}</span>
+      </div>
+      <div class="rp-info-row">
+        <span class="rp-info-key">Installation POS</span>
+        <span class="rp-info-val">{{ resto.pos }}</span>
+      </div>
+      <div class="rp-info-row">
+        <span class="rp-info-key">Statut</span>
+        <span class="rp-info-val">{{ resto.statut }}</span>
+      </div>
+    </div>
+  </div>
+
+  {# Highlights #}
+  {% if mois_data %}
+  <div class="rp-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+    <div class="rp-card-title">Synthèse — {{ nb_mois }} mois encodé{{ 's' if nb_mois > 1 }}</div>
+    <div style="display:flex;align-items:stretch;gap:0;flex:1;">
+
+      <div class="rp-hl-item" style="flex:1;padding:8px 0;">
+        <div class="rp-hl-lbl">CA moyen</div>
+        <div class="rp-hl-val" style="color:{{ color }};">
+          {% if moyennes.ca is not none %}{{ moyennes.ca | fr_number }} €{% else %}—{% endif %}
+        </div>
+        <div class="rp-hl-sub">par mois</div>
+      </div>
+
+      <div class="rp-hl-divider"></div>
+
+      <div class="rp-hl-item" style="flex:1;padding:8px 0;">
+        <div class="rp-hl-lbl">Meilleur mois</div>
+        {% if meilleur_mois %}
+          <div class="rp-hl-val" style="color:#1D9E75;">{{ meilleur_mois.ca | fr_number }} €</div>
+          <div class="rp-hl-sub">{{ meilleur_mois.label }}</div>
+        {% else %}
+          <div class="rp-hl-val">—</div>
+        {% endif %}
+      </div>
+
+      <div class="rp-hl-divider"></div>
+
+      <div class="rp-hl-item" style="flex:1;padding:8px 0;">
+        <div class="rp-hl-lbl">Pire mois</div>
+        {% if pire_mois %}
+          <div class="rp-hl-val" style="color:#E11D48;">{{ pire_mois.ca | fr_number }} €</div>
+          <div class="rp-hl-sub">{{ pire_mois.label }}</div>
+        {% else %}
+          <div class="rp-hl-val">—</div>
+        {% endif %}
+      </div>
+
+    </div>
+
+    {# Moyennes KPIs #}
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:0.5px solid #E5E7EB;">
+      {% if moyennes.mb is not none %}
+        <span style="font-size:10.5px;color:var(--text-muted);">Marge brute moy. <strong style="color:var(--text-primary);">{{ moyennes.mb | string | replace('.', ',') }}%</strong></span>
+      {% endif %}
+      {% if moyennes.fc is not none %}
+        <span style="font-size:10.5px;color:var(--text-muted);">· Food Cost moy. <strong style="color:var(--text-primary);">{{ moyennes.fc | string | replace('.', ',') }}%</strong></span>
+      {% endif %}
+      {% if moyennes.pc is not none %}
+        <span style="font-size:10.5px;color:var(--text-muted);">· Prime Cost moy. <strong style="color:var(--text-primary);">{{ moyennes.pc | string | replace('.', ',') }}%</strong></span>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{# ── KPI cards ───────────────────────────────────────────────────────────── #}
+{% if dernier %}
+<div style="font-size:10.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;">
+  Indicateurs — {{ dernier.label }}
+</div>
+<div class="rp-kpi-grid">
+
+  {% set kpis = [
+    ('CA du mois',   dernier.ca | fr_number ~ ' €', dernier.evol_ca, 'pos', 'neg', True),
+    ('Ticket moyen', (dernier.tkt | string | replace('.', ',') ~ ' €') if dernier.tkt is not none else '—', dernier.evol_tkt, 'pos', 'neg', True),
+    ('Marge brute',  (dernier.mb | string | replace('.', ',') ~ '%') if dernier.mb is not none else '—', dernier.evol_mb, 'pos', 'neg', False),
+    ('Food Cost',    (dernier.fc | string | replace('.', ',') ~ '%') if dernier.fc is not none else '—', dernier.evol_fc, 'inv-pos', 'inv-neg', False),
+    ('Prime Cost',   (dernier.pc | string | replace('.', ',') ~ '%') if dernier.pc is not none else '—', dernier.evol_pc, 'inv-pos', 'inv-neg', False),
+  ] %}
+
+  {% for lbl, val, evol, cls_up, cls_dn, is_pct in kpis %}
+  <div class="rp-kpi">
+    <div class="rp-kpi-lbl">{{ lbl }}</div>
+    <div class="rp-kpi-val">{{ val }}</div>
+    {% if evol is not none %}
+      {% set sign = '+' if evol > 0 else '' %}
+      {% set unit = '%' if is_pct else ' pts' %}
+      {% if evol > 0 %}
+        <div class="rp-kpi-evol {{ cls_up }}">▲ {{ sign }}{{ evol | string | replace('.', ',') }}{{ unit }}</div>
+      {% elif evol < 0 %}
+        <div class="rp-kpi-evol {{ cls_dn }}">▼ {{ evol | string | replace('.', ',') }}{{ unit }}</div>
+      {% else %}
+        <div class="rp-kpi-evol neu">= Stable</div>
+      {% endif %}
+    {% else %}
+      <div class="rp-kpi-evol neu">—</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+
+</div>
+{% endif %}
+
+{# ── Graphique CA ────────────────────────────────────────────────────────── #}
+{% if mois_data %}
+<div class="rp-chart-wrap">
+  <div class="rp-chart-header">
+    <div>
+      <div class="rp-chart-title">Évolution du CA mensuel</div>
+      <div class="rp-chart-sub">{{ nb_mois }} mois · tous les mois encodés</div>
+    </div>
+    {% if meilleur_mois %}
+    <div style="text-align:right;">
+      <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700;">Pic</div>
+      <div style="font-size:13px;font-weight:800;color:#1D9E75;">{{ meilleur_mois.ca | fr_number }} €</div>
+      <div style="font-size:10.5px;color:var(--text-muted);">{{ meilleur_mois.label }}</div>
+    </div>
+    {% endif %}
+  </div>
+  <canvas id="rp-chart" height="75"></canvas>
+</div>
+
+{# ── Tableau historique ──────────────────────────────────────────────────── #}
+<div class="rp-table-wrap">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+    <div style="font-size:13px;font-weight:700;color:var(--text-primary);">Historique complet</div>
+    <div style="font-size:11px;color:var(--text-muted);">{{ nb_mois }} mois · trié décroissant</div>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Mois</th>
+        <th>CA</th>
+        <th>Commandes</th>
+        <th>Ticket moyen</th>
+        <th>Marge brute</th>
+        <th>Food Cost</th>
+        <th>Labor Cost</th>
+        <th>Prime Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for m in tableau %}
+      <tr>
+        <td style="font-weight:600;color:var(--text-primary);">{{ m.label }}</td>
+        <td style="font-weight:800;color:{{ color }};">{{ m.ca | fr_number }} €</td>
+        <td style="color:var(--text-muted);">{% if m.cmd > 0 %}{{ m.cmd | fr_number }}{% else %}—{% endif %}</td>
+        <td>{% if m.tkt is not none %}{{ m.tkt | string | replace('.', ',') }} €{% else %}—{% endif %}</td>
+
+        {# Marge brute #}
+        <td>{% if m.mb is not none %}
+          <span class="kpi-pill {% if m.mb > 20 %}green{% elif m.mb >= 10 %}orange{% else %}red{% endif %}">
+            {{ m.mb | string | replace('.', ',') }}%
+          </span>
+        {% else %}<span class="kpi-pill neu">—</span>{% endif %}</td>
+
+        {# Food Cost #}
+        <td>{% if m.fc is not none %}
+          <span class="kpi-pill {% if m.fc < 30 %}green{% elif m.fc <= 35 %}orange{% else %}red{% endif %}">
+            {{ m.fc | string | replace('.', ',') }}%
+          </span>
+        {% else %}<span class="kpi-pill neu">—</span>{% endif %}</td>
+
+        {# Labor Cost #}
+        <td>{% if m.lc is not none %}
+          <span class="kpi-pill {% if m.lc < 30 %}green{% elif m.lc <= 35 %}orange{% else %}red{% endif %}">
+            {{ m.lc | string | replace('.', ',') }}%
+          </span>
+        {% else %}<span class="kpi-pill neu">—</span>{% endif %}</td>
+
+        {# Prime Cost #}
+        <td>{% if m.pc is not none %}
+          <span class="kpi-pill {% if m.pc < 55 %}green{% elif m.pc <= 65 %}orange{% else %}red{% endif %}">
+            {{ m.pc | string | replace('.', ',') }}%
+          </span>
+        {% else %}<span class="kpi-pill neu">—</span>{% endif %}</td>
+      </tr>
+      {% endfor %}
+
+      {# Ligne moyenne #}
+      <tr class="moy-row">
+        <td>Moyenne</td>
+        <td style="color:{{ color }};">{% if moyennes.ca is not none %}{{ moyennes.ca | fr_number }} €{% else %}—{% endif %}</td>
+        <td style="color:var(--text-muted);">—</td>
+        <td>{% if moyennes.tkt is not none %}{{ moyennes.tkt | string | replace('.', ',') }} €{% else %}—{% endif %}</td>
+        <td>{% if moyennes.mb is not none %}{{ moyennes.mb | string | replace('.', ',') }}%{% else %}—{% endif %}</td>
+        <td>{% if moyennes.fc is not none %}{{ moyennes.fc | string | replace('.', ',') }}%{% else %}—{% endif %}</td>
+        <td>{% if moyennes.lc is not none %}{{ moyennes.lc | string | replace('.', ',') }}%{% else %}—{% endif %}</td>
+        <td>{% if moyennes.pc is not none %}{{ moyennes.pc | string | replace('.', ',') }}%{% else %}—{% endif %}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<script>
+(function() {
+  const labels = {{ chart_labels | tojson }};
+  const ca     = {{ chart_ca | tojson }};
+  const color  = '{{ color }}';
+  const max    = Math.max(...ca);
+
+  new Chart(document.getElementById('rp-chart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'CA',
+        data: ca,
+        borderColor: color,
+        backgroundColor: function(ctx) {
+          const chart = ctx.chart;
+          const { ctx: c, chartArea } = chart;
+          if (!chartArea) return color + '15';
+          const grad = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          grad.addColorStop(0, color + '28');
+          grad.addColorStop(1, color + '02');
+          return grad;
+        },
+        borderWidth: 2.5,
+        pointRadius: ca.length <= 6 ? 5 : 3,
+        pointHoverRadius: 7,
+        pointBackgroundColor: ca.map(v => v === max ? '#fff' : color),
+        pointBorderColor:     ca.map(v => v === max ? color : 'transparent'),
+        pointBorderWidth:     ca.map(v => v === max ? 2.5 : 0),
+        fill: true,
+        tension: 0.35,
+      }]
+    },
+    options: {
+      responsive: true,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1e293b',
+          titleFont: { size: 11 },
+          bodyFont: { size: 12, weight: '700' },
+          padding: 10,
+          callbacks: {
+            label: ctx => '  ' + ctx.parsed.y.toLocaleString('fr-BE') + ' €'
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: { font: { size: 11 }, color: '#9CA3AF' },
+          border: { display: false }
+        },
+        y: {
+          ticks: {
+            font: { size: 11 }, color: '#9CA3AF',
+            callback: v => v >= 1000 ? (v/1000).toFixed(0) + ' k€' : v + ' €'
+          },
+          grid: { color: '#F3F4F6' },
+          border: { display: false }
+        }
+      }
+    }
+  });
+})();
+</script>
+{% else %}
+<div style="text-align:center;padding:60px 20px;color:var(--text-muted);background:#fff;border:0.5px solid #E5E7EB;border-radius:12px;">
+  <div style="font-size:2rem;margin-bottom:10px;">📊</div>
+  <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Aucune donnée encodée</div>
+  <div style="font-size:12px;">Ajoutez des données via la <a href="{{ url_for('donnees') }}" style="color:var(--brand);">saisie CA</a>.</div>
+</div>
+{% endif %}
+
+</div>{# /rp #}
+{% endblock %}

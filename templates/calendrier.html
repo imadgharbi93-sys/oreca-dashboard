@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% block title %}Calendrier de saisie — Oreca Group{% endblock %}
+{% block page_title %}Calendrier de saisie{% endblock %}
+
+{% block content %}
+
+{# ════════════════════════════════════════════════════════════════════════════
+   SECTION 1 — COMPLÉTION DU MOIS ACTUEL
+   ════════════════════════════════════════════════════════════════════════════ #}
+<div class="card" style="margin-bottom:20px;">
+  <div class="card-header">
+    <div class="card-title">Complétion — {{ mois_actuel_lbl }}</div>
+  </div>
+  <div class="card-body">
+
+    {# Barre globale #}
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px;">
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-weight:700;font-size:.9rem;">
+            {{ nb_encodes }} / {{ nb_total }} restaurants encodés
+          </span>
+          <span style="font-weight:800;font-size:1.1rem;
+            color:{% if taux_global >= 90 %}#1D9E75{% elif taux_global >= 70 %}#E8A000{% else %}#E11D48{% endif %};">
+            {{ taux_global }}%
+          </span>
+        </div>
+        <div class="compl-bar">
+          <div class="compl-fill" style="width:{{ taux_global }}%;
+            background:{% if taux_global >= 90 %}#1D9E75{% elif taux_global >= 70 %}#E8A000{% else %}#E11D48{% endif %};"></div>
+        </div>
+      </div>
+    </div>
+
+    {# Mini barres par marque #}
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;">
+      {% for brand, bc in brand_completion.items() %}
+      <div style="padding:12px 14px;border:1px solid var(--border);border-radius:8px;border-left:3px solid {{ brand_colors[brand] }};">
+        <div style="font-size:.7rem;font-weight:700;color:{{ brand_colors[brand] }};margin-bottom:4px;">{{ brand }}</div>
+        <div style="font-size:.84rem;font-weight:600;margin-bottom:6px;">
+          {{ bc.encodes }} / {{ bc.total }}
+          <span style="font-size:.7rem;font-weight:400;color:var(--text-muted);">restaurants</span>
+        </div>
+        <div class="compl-bar">
+          <div class="compl-fill" style="width:{{ bc.taux }}%;background:{{ brand_colors[brand] }};"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {# Restaurants manquants #}
+    {% if manquants %}
+    <div style="border-top:1px solid var(--border);padding-top:16px;">
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+                  color:var(--text-muted);margin-bottom:10px;">
+        ⚠️ Restaurants sans CA encodé ce mois ({{ manquants | length }})
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;">
+        {% for r in manquants %}
+        {% set slug = 'chamas' if 'Chamas' in r.brand else ('ocheese' if 'Cheese' in r.brand else 'delys') %}
+        <div style="display:flex;align-items:center;gap:8px;padding:6px 12px;
+                    border:1px solid var(--border);border-radius:8px;background:#fafafa;">
+          <span class="badge badge-{{ slug }}" style="font-size:.62rem;">{{ r.brand }}</span>
+          <span style="font-size:.8rem;font-weight:500;">{{ r.name }}</span>
+          <a href="{{ url_for('saisie') }}?restaurant_id={{ r.id }}&mois={{ mois_actuel }}"
+             style="font-size:.68rem;font-weight:700;color:var(--accent);text-decoration:none;
+                    padding:2px 8px;border:1px solid var(--accent);border-radius:10px;
+                    transition:all .12s;"
+             onmouseover="this.style.background='var(--accent)';this.style.color='#fff';"
+             onmouseout="this.style.background='transparent';this.style.color='var(--accent)';">
+            Saisir →
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <div style="border-top:1px solid var(--border);padding-top:16px;
+                display:flex;align-items:center;gap:10px;color:#1D9E75;">
+      <span style="font-size:1.4rem;">✅</span>
+      <span style="font-weight:700;">Tous les restaurants ont été encodés ce mois !</span>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{# ════════════════════════════════════════════════════════════════════════════
+   SECTION 2 — GRILLE CALENDRIER
+   ════════════════════════════════════════════════════════════════════════════ #}
+<div class="card" style="margin-bottom:20px;">
+  <div class="card-header">
+    <div class="card-title">Grille de complétion — Jan 2026 → {{ month_labels[today_idx] }}</div>
+  </div>
+  <div class="card-body" style="padding-top:10px;">
+
+    <div style="display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap;">
+      <span style="font-size:.72rem;display:flex;align-items:center;gap:5px;">
+        <span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#dcfce7;border:1px solid #1D9E75;"></span>
+        ✓ CA encodé
+      </span>
+      <span style="font-size:.72px;display:flex;align-items:center;gap:5px;font-size:.72rem;">
+        <span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#fee2e2;border:1px solid #E11D48;"></span>
+        ✗ Manquant (cliquer pour saisir)
+      </span>
+      <span style="font-size:.72rem;display:flex;align-items:center;gap:5px;">
+        <span style="display:inline-block;width:14px;height:14px;border-radius:4px;background:#f1f5f9;border:1px solid #e2e8f0;"></span>
+        Mois futur
+      </span>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="cal-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;min-width:160px;">Restaurant</th>
+            {% for i in range(today_idx + 1) %}
+            <th>{{ month_labels[i] }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for brand, color in brand_colors.items() %}
+          {# Sous-titre marque #}
+          <tr class="cal-brand-row">
+            <td colspan="{{ today_idx + 2 }}" style="color:{{ color }};">
+              {{ brand }}
+            </td>
+          </tr>
+          {% for r in restaurants if r.brand == brand %}
+          <tr>
+            <td style="padding:2px 8px 2px 0;font-size:.78rem;font-weight:500;white-space:nowrap;
+                        color:var(--text-primary);">{{ r.name }}</td>
+            {% for i in range(today_idx + 1) %}
+            {% set m = months[i] %}
+            {% set ca = grid[r.id][m] %}
+            {% if ca is none %}
+              <td><span class="cal-cell future">—</span></td>
+            {% elif ca > 0 %}
+              <td>
+                <span class="cal-cell ok">
+                  ✓
+                  <span class="cal-tt">{{ r.name }}<br>{{ month_labels[i] }}<br>{{ ca | fr_number }} €</span>
+                </span>
+              </td>
+            {% else %}
+              <td>
+                <span class="cal-cell miss"
+                      onclick="window.location='/saisie?restaurant_id={{ r.id }}&mois={{ m }}'">
+                  ✗
+                  <span class="cal-tt">{{ r.name }}<br>{{ month_labels[i] }}<br>Cliquer pour saisir</span>
+                </span>
+              </td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          {% endfor %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{# ════════════════════════════════════════════════════════════════════════════
+   SECTION 3 — STATISTIQUES DE SAISIE
+   ════════════════════════════════════════════════════════════════════════════ #}
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+
+  <div class="kpi-card" style="border-left:4px solid #1D9E75;">
+    <div class="kpi-icon">🏅</div>
+    <div class="kpi-label">Mois le mieux complété</div>
+    <div class="kpi-value" style="font-size:1.2rem;">{{ best_mois_lbl }}</div>
+    <div class="kpi-sub">{{ best_mois_taux }}% de complétion</div>
+  </div>
+
+  <div class="kpi-card" style="border-left:4px solid #E11D48;">
+    <div class="kpi-icon">⚠️</div>
+    <div class="kpi-label">Restaurant le + souvent manquant</div>
+    {% if most_missing %}
+    <div class="kpi-value" style="font-size:.95rem;font-weight:700;">{{ most_missing.name }}</div>
+    <div class="kpi-sub">{{ most_missing_nb }} mois sans encodage</div>
+    {% else %}
+    <div class="kpi-value" style="font-size:1rem;color:var(--text-muted);">—</div>
+    {% endif %}
+  </div>
+
+  <div class="kpi-card" style="border-left:4px solid #7B4FA6;">
+    <div class="kpi-icon">📊</div>
+    <div class="kpi-label">Taux global de complétion</div>
+    <div class="kpi-value" style="font-size:1.5rem;color:
+      {% set mois_enc = namespace(tot=0, enc=0) %}
+      {% for i in range(today_idx + 1) %}
+        {% for r in restaurants %}
+          {% if grid[r.id][months[i]] is not none %}{% set mois_enc.tot = mois_enc.tot + 1 %}{% endif %}
+          {% if grid[r.id][months[i]] and grid[r.id][months[i]] > 0 %}{% set mois_enc.enc = mois_enc.enc + 1 %}{% endif %}
+        {% endfor %}
+      {% endfor %}
+      {% if mois_enc.tot > 0 %}
+        {% set rate = (mois_enc.enc / mois_enc.tot * 100) | round | int %}
+        {% if rate >= 80 %}#1D9E75{% elif rate >= 60 %}#E8A000{% else %}#E11D48{% endif %}
+      {% else %}var(--text-muted){% endif %}
+    ;">
+      {% if mois_enc.tot > 0 %}{{ rate }}%{% else %}—{% endif %}
+    </div>
+    <div class="kpi-sub">{{ mois_enc.enc }} / {{ mois_enc.tot }} cellules encodées</div>
+  </div>
+
+</div>
+
+{% endblock %}

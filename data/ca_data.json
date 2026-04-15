@@ -1,0 +1,6149 @@
+{
+  "ct_001": {
+    "2026-01": 25000,
+    "2026-02": 0,
+    "2026-03": 30000,
+    "2026-04": 200000,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_002": {
+    "2026-01": 0,
+    "2026-02": 50000,
+    "2026-03": 0,
+    "2026-04": 20321,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_003": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_004": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 203049,
+    "2026-04": 20000,
+    "2026-05": 100000,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_005": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_006": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_007": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_008": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_009": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_010": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_011": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_012": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_013": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_014": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_015": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ct_016": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "oc_001": {
+    "2026-01": 30000,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 40000,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "oc_002": {
+    "2026-01": 0,
+    "2026-02": 10000,
+    "2026-03": 0,
+    "2026-04": 20000,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "oc_003": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "oc_004": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "oc_005": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 0,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ds_001": {
+    "2026-01": 40000,
+    "2026-02": 0,
+    "2026-03": 200,
+    "2026-04": 20009,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ds_002": {
+    "2026-01": 0,
+    "2026-02": 5000,
+    "2026-03": 0,
+    "2026-04": 20190,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "ds_003": {
+    "2026-01": 0,
+    "2026-02": 0,
+    "2026-03": 0,
+    "2026-04": 20190,
+    "2026-05": 0,
+    "2026-06": 0,
+    "2026-07": 0,
+    "2026-08": 0,
+    "2026-09": 0,
+    "2026-10": 0,
+    "2026-11": 0,
+    "2026-12": 0
+  },
+  "objectifs": {
+    "ct_004": {
+      "2026-05": 100000
+    }
+  },
+  "historique": [
+    {
+      "id": "e2bab330",
+      "timestamp": "2026-04-09 12:51:21",
+      "restaurant_id": "ds_003",
+      "restaurant_nom": "Delys Gare Centrale",
+      "marque": "Delys Station",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20190,
+      "type": "création"
+    },
+    {
+      "id": "136ea4e0",
+      "timestamp": "2026-04-09 12:51:21",
+      "restaurant_id": "ds_002",
+      "restaurant_nom": "Delys 2 Rue Neuve",
+      "marque": "Delys Station",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20190,
+      "type": "création"
+    },
+    {
+      "id": "4f31a40f",
+      "timestamp": "2026-04-09 12:51:21",
+      "restaurant_id": "ds_001",
+      "restaurant_nom": "Delys 1 Anspach",
+      "marque": "Delys Station",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20009,
+      "type": "création"
+    },
+    {
+      "id": "acc99954",
+      "timestamp": "2026-04-09 12:50:16",
+      "restaurant_id": "ds_001",
+      "restaurant_nom": "Delys 1 Anspach",
+      "marque": "Delys Station",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 200,
+      "type": "création"
+    },
+    {
+      "id": "864573c9",
+      "timestamp": "2026-04-09 12:49:13",
+      "restaurant_id": "ct_004",
+      "restaurant_nom": "Chamas Debrouckere",
+      "marque": "Chamas Tacos",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 203049,
+      "type": "création"
+    },
+    {
+      "id": "781c0b6b",
+      "timestamp": "2026-04-09 12:48:39",
+      "restaurant_id": "ct_004",
+      "restaurant_nom": "Chamas Debrouckere",
+      "marque": "Chamas Tacos",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20000,
+      "type": "création"
+    },
+    {
+      "id": "ed98eb78",
+      "timestamp": "2026-04-09 12:27:19",
+      "restaurant_id": "oc_002",
+      "restaurant_nom": "O'Cheese Kennedy",
+      "marque": "O'Cheese",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20000,
+      "type": "création"
+    },
+    {
+      "id": "ea267d9c",
+      "timestamp": "2026-04-08 13:27:39",
+      "restaurant_id": "oc_001",
+      "restaurant_nom": "O'Cheese Guillemins",
+      "marque": "O'Cheese",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 40000,
+      "type": "création"
+    },
+    {
+      "id": "b51b775b",
+      "timestamp": "2026-04-08 13:23:57",
+      "restaurant_id": "ct_002",
+      "restaurant_nom": "Chamas Liège 2",
+      "marque": "Chamas Tacos",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20321,
+      "type": "création"
+    },
+    {
+      "id": "ac54c1ba",
+      "timestamp": "2026-04-07 16:16:31",
+      "restaurant_id": "ct_004",
+      "restaurant_nom": "Chamas Debrouckere",
+      "marque": "Chamas Tacos",
+      "mois": "Mai 2026",
+      "mois_key": "2026-05",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 100000,
+      "type": "création"
+    },
+    {
+      "id": "b5286637",
+      "timestamp": "2026-04-07 15:00:42",
+      "restaurant_id": "ct_001",
+      "restaurant_nom": "Chamas Liège 1",
+      "marque": "Chamas Tacos",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 200000,
+      "type": "création"
+    },
+    {
+      "id": "4b6b881b",
+      "timestamp": "2026-04-07 12:33:25",
+      "restaurant_id": "ct_001",
+      "restaurant_nom": "Chamas Liège 1",
+      "marque": "Chamas Tacos",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 30000,
+      "type": "création"
+    },
+    {
+      "id": "c74ecfbb",
+      "timestamp": "2026-04-07 12:00:19",
+      "restaurant_id": "ds_002",
+      "restaurant_nom": "Delys 2 Rue Neuve",
+      "marque": "Delys Station",
+      "mois": "Fév 2026",
+      "mois_key": "2026-02",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 5000,
+      "type": "création"
+    },
+    {
+      "id": "788abb1c",
+      "timestamp": "2026-04-07 12:00:01",
+      "restaurant_id": "oc_002",
+      "restaurant_nom": "O'Cheese Kennedy",
+      "marque": "O'Cheese",
+      "mois": "Fév 2026",
+      "mois_key": "2026-02",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 10000,
+      "type": "création"
+    },
+    {
+      "id": "b13c3949",
+      "timestamp": "2026-04-07 11:59:44",
+      "restaurant_id": "ct_002",
+      "restaurant_nom": "Chamas Liège 2",
+      "marque": "Chamas Tacos",
+      "mois": "Fév 2026",
+      "mois_key": "2026-02",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 50000,
+      "type": "création"
+    },
+    {
+      "id": "25c183b9",
+      "timestamp": "2026-04-07 11:59:12",
+      "restaurant_id": "ds_001",
+      "restaurant_nom": "Delys 1 Anspach",
+      "marque": "Delys Station",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 40000,
+      "type": "création"
+    },
+    {
+      "id": "be3c6bd7",
+      "timestamp": "2026-04-07 11:58:58",
+      "restaurant_id": "oc_001",
+      "restaurant_nom": "O'Cheese Guillemins",
+      "marque": "O'Cheese",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 30000,
+      "type": "création"
+    },
+    {
+      "id": "337ddef7",
+      "timestamp": "2026-04-07 11:58:43",
+      "restaurant_id": "ct_001",
+      "restaurant_nom": "Chamas Liège 1",
+      "marque": "Chamas Tacos",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 25000,
+      "type": "création"
+    },
+    {
+      "id": "267a2644",
+      "timestamp": "2026-04-07 11:58:17",
+      "restaurant_id": "all",
+      "restaurant_nom": "Tous les restaurants",
+      "marque": "Toutes",
+      "mois": "Toutes périodes",
+      "mois_key": "",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 0,
+      "type": "réinitialisation"
+    },
+    {
+      "id": "6a4ab0e7",
+      "timestamp": "2026-04-07 11:52:43",
+      "restaurant_id": "ds_002",
+      "restaurant_nom": "Delys 2 Rue Neuve",
+      "marque": "Delys Station",
+      "mois": "Avr 2026",
+      "mois_key": "2026-04",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20003,
+      "type": "création"
+    },
+    {
+      "id": "41db9f7c",
+      "timestamp": "2026-04-07 11:42:02",
+      "restaurant_id": "ct_001",
+      "restaurant_nom": "Chamas Liège 1",
+      "marque": "Chamas Tacos",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 21000,
+      "nouvelle_valeur": 45430,
+      "type": "modification"
+    },
+    {
+      "id": "f2094c9b",
+      "timestamp": "2026-04-07 10:52:10",
+      "restaurant_id": "oc_003",
+      "restaurant_nom": "O'Cheese Jambes",
+      "marque": "O'Cheese",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 20004,
+      "nouvelle_valeur": 22466,
+      "type": "modification"
+    },
+    {
+      "id": "3bbbf8c9",
+      "timestamp": "2026-04-07 10:51:13",
+      "restaurant_id": "oc_001",
+      "restaurant_nom": "O'Cheese Guillemins",
+      "marque": "O'Cheese",
+      "mois": "Fév 2026",
+      "mois_key": "2026-02",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 2351,
+      "type": "création"
+    },
+    {
+      "id": "cb287a49",
+      "timestamp": "2026-04-07 10:50:51",
+      "restaurant_id": "oc_003",
+      "restaurant_nom": "O'Cheese Jambes",
+      "marque": "O'Cheese",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20004,
+      "type": "création"
+    },
+    {
+      "id": "7151a02f",
+      "timestamp": "2026-04-02 16:11:19",
+      "restaurant_id": "ct_001",
+      "restaurant_nom": "Chamas Liège 1",
+      "marque": "Chamas Tacos",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 3231,
+      "type": "création"
+    },
+    {
+      "id": "351d9018",
+      "timestamp": "2026-04-02 16:10:27",
+      "restaurant_id": "oc_002",
+      "restaurant_nom": "O'Cheese Kennedy",
+      "marque": "O'Cheese",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 21004,
+      "type": "création"
+    },
+    {
+      "id": "7dc92d3e",
+      "timestamp": "2026-04-02 16:10:18",
+      "restaurant_id": "ds_002",
+      "restaurant_nom": "Delys 2 Rue Neuve",
+      "marque": "Delys Station",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 34302,
+      "type": "création"
+    },
+    {
+      "id": "a41dccc7",
+      "timestamp": "2026-04-02 15:30:57",
+      "restaurant_id": "ct_001",
+      "restaurant_nom": "Chamas Liège 1",
+      "marque": "Chamas Tacos",
+      "mois": "Fév 2026",
+      "mois_key": "2026-02",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 200002,
+      "type": "création"
+    },
+    {
+      "id": "2ca36420",
+      "timestamp": "2026-04-02 15:30:34",
+      "restaurant_id": "ct_001",
+      "restaurant_nom": "Chamas Liège 1",
+      "marque": "Chamas Tacos",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 21000,
+      "type": "création"
+    },
+    {
+      "id": "fe7ea95b",
+      "timestamp": "2026-04-02 15:29:21",
+      "restaurant_id": "all",
+      "restaurant_nom": "Tous les restaurants",
+      "marque": "Toutes",
+      "mois": "Toutes périodes",
+      "mois_key": "",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 0,
+      "type": "réinitialisation"
+    },
+    {
+      "id": "df6dab5a",
+      "timestamp": "2026-04-02 12:49:47",
+      "restaurant_id": "ds_002",
+      "restaurant_nom": "Delys 2 Rue Neuve",
+      "marque": "Delys Station",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 10031,
+      "type": "création"
+    },
+    {
+      "id": "1aa6b945",
+      "timestamp": "2026-04-02 12:43:47",
+      "restaurant_id": "oc_004",
+      "restaurant_nom": "O'Cheese Rogier",
+      "marque": "O'Cheese",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 20003,
+      "type": "création"
+    },
+    {
+      "id": "2c431b97",
+      "timestamp": "2026-04-02 12:31:50",
+      "restaurant_id": "ct_002",
+      "restaurant_nom": "Chamas Liège 2",
+      "marque": "Chamas Tacos",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 140000,
+      "type": "création"
+    },
+    {
+      "id": "d34ec54d",
+      "timestamp": "2026-04-02 12:31:09",
+      "restaurant_id": "ct_004",
+      "restaurant_nom": "Chamas Debrouckere",
+      "marque": "Chamas Tacos",
+      "mois": "Jan 2026",
+      "mois_key": "2026-01",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 150000,
+      "type": "création"
+    },
+    {
+      "id": "89c2f51d",
+      "timestamp": "2026-04-02 11:12:06",
+      "restaurant_id": "ct_001",
+      "restaurant_nom": "Chamas Liège 1",
+      "marque": "Chamas Tacos",
+      "mois": "Mar 2026",
+      "mois_key": "2026-03",
+      "ancienne_valeur": 0,
+      "nouvelle_valeur": 2000000,
+      "type": "création"
+    }
+  ],
+  "commandes": {
+    "ct_001": {
+      "2026-01": 2500,
+      "2026-03": 2000,
+      "2026-04": 20000
+    },
+    "oc_001": {
+      "2026-01": 2000,
+      "2026-04": 200
+    },
+    "ds_001": {
+      "2026-01": 2000,
+      "2026-03": 2000,
+      "2026-04": 20009
+    },
+    "ct_002": {
+      "2026-02": 2000,
+      "2026-04": 200
+    },
+    "oc_002": {
+      "2026-02": 2000,
+      "2026-04": 200
+    },
+    "ds_002": {
+      "2026-02": 500
+    },
+    "ct_004": {
+      "2026-05": 3000,
+      "2026-04": 230320,
+      "2026-03": 20000
+    }
+  },
+  "charges": {
+    "ct_001": {
+      "2026-03": 12000,
+      "2026-04": 54000
+    },
+    "ct_004": {
+      "2026-05": 20000,
+      "2026-04": 20032,
+      "2026-03": 20000
+    },
+    "ct_002": {
+      "2026-04": 200
+    },
+    "oc_001": {
+      "2026-04": 20000
+    },
+    "oc_002": {
+      "2026-04": 2000
+    },
+    "ds_001": {
+      "2026-03": 20000,
+      "2026-04": 20000
+    }
+  },
+  "cout_matieres": {
+    "ct_001": {
+      "2026-04": 30000
+    },
+    "ct_004": {
+      "2026-05": 30000,
+      "2026-04": 1000,
+      "2026-03": 29999
+    },
+    "oc_001": {
+      "2026-04": 23000
+    },
+    "oc_002": {
+      "2026-04": 400
+    },
+    "ds_001": {
+      "2026-03": 209,
+      "2026-04": 20100
+    }
+  },
+  "cout_personnel": {
+    "ct_001": {
+      "2026-04": 35000
+    },
+    "ct_004": {
+      "2026-05": 19999,
+      "2026-04": 200,
+      "2026-03": 20000
+    },
+    "oc_001": {
+      "2026-04": 2000
+    },
+    "oc_002": {
+      "2026-04": 2000
+    },
+    "ds_001": {
+      "2026-03": 10,
+      "2026-04": 4000
+    }
+  },
+  "ventes_produits": {
+    "2026-04": {
+      "Chamas Tacos": {
+        "restaurants": {
+          "ct_005": {
+            "aigredouce": {
+              "article": "Aigredouce",
+              "categorie": "Non classé",
+              "ventes": 20.0
+            },
+            "algerienne": {
+              "article": "Algérienne",
+              "categorie": "Non classé",
+              "ventes": 28.0
+            },
+            "andalouse": {
+              "article": "Andalouse",
+              "categorie": "Non classé",
+              "ventes": 115.2
+            },
+            "asian-chunks-10p": {
+              "article": "Asian Chunks 10p",
+              "categorie": "Non classé",
+              "ventes": 178.0
+            },
+            "asian-crevettes": {
+              "article": "Asian Crevettes",
+              "categorie": "Non classé",
+              "ventes": 86.11
+            },
+            "asian-mix-9p": {
+              "article": "Asian Mix 9p",
+              "categorie": "Non classé",
+              "ventes": 75.2
+            },
+            "asian-tenders-4p": {
+              "article": "Asian Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 62.1
+            },
+            "asian-wings-5p": {
+              "article": "Asian Wings 5p",
+              "categorie": "Non classé",
+              "ventes": 103.5
+            },
+            "bacon": {
+              "article": "Bacon",
+              "categorie": "Non classé",
+              "ventes": 85.5
+            },
+            "barbecue": {
+              "article": "Barbecue",
+              "categorie": "Non classé",
+              "ventes": 51.2
+            },
+            "ben-jerry-cookie-dough-100ml": {
+              "article": "Ben&Jerry Cookie Dough 100ml",
+              "categorie": "Non classé",
+              "ventes": 17.5
+            },
+            "ben-jerry-fudge-brownie-100ml": {
+              "article": "Ben&Jerry Fudge Brownie 100ml",
+              "categorie": "Non classé",
+              "ventes": 7.0
+            },
+            "ben-jerry-strawberry-cheesecake-100ml": {
+              "article": "Ben&Jerry Strawberry Cheesecake 100ml",
+              "categorie": "Non classé",
+              "ventes": 7.0
+            },
+            "big": {
+              "article": "Big",
+              "categorie": "Non classé",
+              "ventes": 181.3
+            },
+            "brazil": {
+              "article": "Brazil",
+              "categorie": "Non classé",
+              "ventes": 16.8
+            },
+            "cafe": {
+              "article": "cafe",
+              "categorie": "Non classé",
+              "ventes": 3.0
+            },
+            "capri-sun": {
+              "article": "Capri-sun",
+              "categorie": "Non classé",
+              "ventes": 26.0
+            },
+            "cheddar": {
+              "article": "cheddar",
+              "categorie": "Non classé",
+              "ventes": 3.0
+            },
+            "cheeseburger": {
+              "article": "Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 308.0
+            },
+            "chef-box": {
+              "article": "Chef box",
+              "categorie": "Non classé",
+              "ventes": 315.0
+            },
+            "chef-family-box": {
+              "article": "Chef family box",
+              "categorie": "Non classé",
+              "ventes": 70.0
+            },
+            "chicken-burger": {
+              "article": "Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 90.0
+            },
+            "chili-cheese-10p": {
+              "article": "Chili Cheese 10p",
+              "categorie": "Non classé",
+              "ventes": 19.5
+            },
+            "chili-cheese-5p": {
+              "article": "Chili Cheese 5p",
+              "categorie": "Non classé",
+              "ventes": 58.5
+            },
+            "chunks-10p": {
+              "article": "Chunks 10P",
+              "categorie": "Non classé",
+              "ventes": 41.4
+            },
+            "chunks-5p": {
+              "article": "Chunks 5P",
+              "categorie": "Non classé",
+              "ventes": 35.2
+            },
+            "compote-pomme-fraise": {
+              "article": "Compote Pomme/Fraise",
+              "categorie": "Non classé",
+              "ventes": 9.0
+            },
+            "crispy": {
+              "article": "Crispy",
+              "categorie": "Non classé",
+              "ventes": 31.0
+            },
+            "crousty-chicken-750-ml": {
+              "article": "CROUSTY CHICKEN 750 ml",
+              "categorie": "Non classé",
+              "ventes": 566.1
+            },
+            "crousty-chicken-900-ml": {
+              "article": "Crousty chicken 900 ml",
+              "categorie": "Non classé",
+              "ventes": 892.5
+            },
+            "delice": {
+              "article": "Delice",
+              "categorie": "Non classé",
+              "ventes": 120.45
+            },
+            "double-bucket-16p": {
+              "article": "Double Bucket 16p",
+              "categorie": "Non classé",
+              "ventes": 27.8
+            },
+            "double-cheese": {
+              "article": "Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 256.2
+            },
+            "eau-50cl": {
+              "article": "Eau 50cl",
+              "categorie": "Non classé",
+              "ventes": 58.0
+            },
+            "eau-gazeuse-50-cl": {
+              "article": "Eau gazeuse 50 cl",
+              "categorie": "Non classé",
+              "ventes": 18.0
+            },
+            "fish-burger": {
+              "article": "Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 58.5
+            },
+            "frite": {
+              "article": "Frite",
+              "categorie": "Non classé",
+              "ventes": 9.6
+            },
+            "frite-cheddar": {
+              "article": "FRITE CHEDDAR",
+              "categorie": "Non classé",
+              "ventes": 26.4
+            },
+            "frite-cheddar-oignons-crispy": {
+              "article": "FRITE CHEDDAR OIGNONS CRISPY",
+              "categorie": "Non classé",
+              "ventes": 22.0
+            },
+            "frites-cheddar-bacon": {
+              "article": "FRITES CHEDDAR BACON",
+              "categorie": "Non classé",
+              "ventes": 21.6
+            },
+            "grande-frite": {
+              "article": "Grande Frite",
+              "categorie": "Non classé",
+              "ventes": 180.34
+            },
+            "grande-frite-patates-douces": {
+              "article": "Grande frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 85.9
+            },
+            "hamburger": {
+              "article": "Hamburger",
+              "categorie": "Non classé",
+              "ventes": 178.0
+            },
+            "ice-tea-peche": {
+              "article": "Ice tea Pêche",
+              "categorie": "Non classé",
+              "ventes": 75.0
+            },
+            "ice-tea-petillant": {
+              "article": "Ice tea pétillant",
+              "categorie": "Non classé",
+              "ventes": 72.0
+            },
+            "ketchup": {
+              "article": "Ketchup",
+              "categorie": "Non classé",
+              "ventes": 76.72
+            },
+            "large-bucket-36p": {
+              "article": "Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 53.8
+            },
+            "mayonnaise": {
+              "article": "Mayonnaise",
+              "categorie": "Non classé",
+              "ventes": 113.44
+            },
+            "menu-asian-chunks": {
+              "article": "Menu Asian Chunks",
+              "categorie": "Non classé",
+              "ventes": 95.2
+            },
+            "menu-asian-crevettes": {
+              "article": "Menu Asian crevettes",
+              "categorie": "Non classé",
+              "ventes": 54.5
+            },
+            "menu-asian-mix": {
+              "article": "Menu Asian Mix",
+              "categorie": "Non classé",
+              "ventes": 154.7
+            },
+            "menu-asian-tenders": {
+              "article": "Menu Asian Tenders",
+              "categorie": "Non classé",
+              "ventes": 69.3
+            },
+            "menu-asian-wings": {
+              "article": "Menu Asian Wings",
+              "categorie": "Non classé",
+              "ventes": 49.5
+            },
+            "menu-bacon": {
+              "article": "Menu Bacon",
+              "categorie": "Non classé",
+              "ventes": 200.0
+            },
+            "menu-big": {
+              "article": "Menu Big",
+              "categorie": "Non classé",
+              "ventes": 347.6
+            },
+            "menu-cheeseburger": {
+              "article": "Menu Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 136.4
+            },
+            "menu-chicken-burger": {
+              "article": "Menu Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 347.6
+            },
+            "menu-crispy": {
+              "article": "Menu Crispy",
+              "categorie": "Non classé",
+              "ventes": 142.4
+            },
+            "menu-crousty-chicken-750ml": {
+              "article": "MENU CROUSTY CHICKEN 750ML",
+              "categorie": "Non classé",
+              "ventes": 556.5
+            },
+            "menu-crousty-chicken-900ml": {
+              "article": "MENU CROUSTY CHICKEN 900ML",
+              "categorie": "Non classé",
+              "ventes": 696.0
+            },
+            "menu-d1": {
+              "article": "MENU D1",
+              "categorie": "Non classé",
+              "ventes": 696.0
+            },
+            "menu-d2": {
+              "article": "MENU D2",
+              "categorie": "Non classé",
+              "ventes": 140.0
+            },
+            "menu-d3": {
+              "article": "MENU D3",
+              "categorie": "Non classé",
+              "ventes": 80.0
+            },
+            "menu-d4": {
+              "article": "MENU D4",
+              "categorie": "Non classé",
+              "ventes": 44.0
+            },
+            "menu-delice": {
+              "article": "Menu Delice",
+              "categorie": "Non classé",
+              "ventes": 50.15
+            },
+            "menu-double-bucket-18p": {
+              "article": "Menu Double Bucket 18p",
+              "categorie": "Non classé",
+              "ventes": 94.5
+            },
+            "menu-double-cheese": {
+              "article": "Menu Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 292.5
+            },
+            "menu-fish-burger": {
+              "article": "Menu Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 86.9
+            },
+            "menu-hamburger": {
+              "article": "Menu Hamburger",
+              "categorie": "Non classé",
+              "ventes": 65.45
+            },
+            "menu-kids": {
+              "article": "Menu Kids",
+              "categorie": "Non classé",
+              "ventes": 260.7
+            },
+            "menu-large-bucket-36p": {
+              "article": "Menu Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 35.9
+            },
+            "menu-montagnard": {
+              "article": "Menu Montagnard",
+              "categorie": "Non classé",
+              "ventes": 137.5
+            },
+            "menu-nuggets-8p": {
+              "article": "Menu Nuggets 8p",
+              "categorie": "Non classé",
+              "ventes": 52.0
+            },
+            "menu-pepper": {
+              "article": "Menu Pepper",
+              "categorie": "Non classé",
+              "ventes": 221.0
+            },
+            "menu-smash-crousty-edition-limitee": {
+              "article": "Menu Smash Crousty (Edition limitée)",
+              "categorie": "Non classé",
+              "ventes": 216.2
+            },
+            "menu-smash-poulet": {
+              "article": "Menu Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 347.71
+            },
+            "menu-smash-viande": {
+              "article": "Menu Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 825.6
+            },
+            "menu-tenders-4p": {
+              "article": "Menu Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 237.0
+            },
+            "menu-tolero": {
+              "article": "Menu Tolero",
+              "categorie": "Non classé",
+              "ventes": 287.1
+            },
+            "menu-vegetarien-chicken": {
+              "article": "Menu Vegetarien \"Chicken\"",
+              "categorie": "Non classé",
+              "ventes": 39.0
+            },
+            "menu-wings-6p": {
+              "article": "Menu Wings 6p",
+              "categorie": "Non classé",
+              "ventes": 371.3
+            },
+            "menu-wow": {
+              "article": "Menu WOW",
+              "categorie": "Non classé",
+              "ventes": 219.3
+            },
+            "menu-wrap-beef": {
+              "article": "MENU WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 30.9
+            },
+            "menu-wrap-chicken": {
+              "article": "MENU WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 283.36
+            },
+            "mirinda": {
+              "article": "Mirinda",
+              "categorie": "Non classé",
+              "ventes": 34.0
+            },
+            "montagnard": {
+              "article": "Montagnard",
+              "categorie": "Non classé",
+              "ventes": 19.0
+            },
+            "mozzarella-4p": {
+              "article": "Mozzarella 4p",
+              "categorie": "Non classé",
+              "ventes": 109.2
+            },
+            "mozzarella-8p": {
+              "article": "Mozzarella 8p",
+              "categorie": "Non classé",
+              "ventes": 89.7
+            },
+            "nuggets-12p": {
+              "article": "Nuggets 12p",
+              "categorie": "Non classé",
+              "ventes": 54.0
+            },
+            "nuggets-6p": {
+              "article": "Nuggets 6p",
+              "categorie": "Non classé",
+              "ventes": 77.0
+            },
+            "o-cheese-box": {
+              "article": "O'Cheese box",
+              "categorie": "Non classé",
+              "ventes": 3970.0
+            },
+            "o-cheese-family-box": {
+              "article": "O'Cheese family box",
+              "categorie": "Non classé",
+              "ventes": 1020.0
+            },
+            "o-milkshake": {
+              "article": "O'Milkshake",
+              "categorie": "Non classé",
+              "ventes": 175.5
+            },
+            "oasis-fraise-framboise": {
+              "article": "Oasis fraise framboise",
+              "categorie": "Non classé",
+              "ventes": 47.4
+            },
+            "oasis-pomme-cassis": {
+              "article": "Oasis Pomme Cassis",
+              "categorie": "Non classé",
+              "ventes": 49.8
+            },
+            "oasis-pomme-poire": {
+              "article": "oasis pomme poire",
+              "categorie": "Non classé",
+              "ventes": 8.0
+            },
+            "oignon-crispy": {
+              "article": "oignon crispy",
+              "categorie": "Non classé",
+              "ventes": 1.0
+            },
+            "onion-rings-10p": {
+              "article": "Onion Rings 10p",
+              "categorie": "Non classé",
+              "ventes": 14.7
+            },
+            "onion-rings-6p": {
+              "article": "Onion Rings 6p",
+              "categorie": "Non classé",
+              "ventes": 25.6
+            },
+            "otopshake": {
+              "article": "Otopshake",
+              "categorie": "Non classé",
+              "ventes": 32.45
+            },
+            "pepper": {
+              "article": "Pepper",
+              "categorie": "Non classé",
+              "ventes": 82.6
+            },
+            "pepsi": {
+              "article": "Pepsi",
+              "categorie": "Non classé",
+              "ventes": 160.0
+            },
+            "pepsi-max": {
+              "article": "Pepsi Max",
+              "categorie": "Non classé",
+              "ventes": 22.0
+            },
+            "pepsi-max-cherry": {
+              "article": "Pepsi Max Cherry",
+              "categorie": "Non classé",
+              "ventes": 30.0
+            },
+            "pepsi-max-lemon": {
+              "article": "Pepsi Max lemon",
+              "categorie": "Non classé",
+              "ventes": 6.0
+            },
+            "petite-frite": {
+              "article": "Petite Frite",
+              "categorie": "Non classé",
+              "ventes": 60.9
+            },
+            "petite-frite-patates-douces": {
+              "article": "Petite frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 68.9
+            },
+            "redbull": {
+              "article": "RedBull",
+              "categorie": "Non classé",
+              "ventes": 4.4
+            },
+            "redbull-edition": {
+              "article": "Redbull Édition",
+              "categorie": "Non classé",
+              "ventes": 2.3
+            },
+            "salade-classique": {
+              "article": "Salade classique",
+              "categorie": "Non classé",
+              "ventes": 4.9
+            },
+            "salade-tenders": {
+              "article": "Salade Tenders",
+              "categorie": "Non classé",
+              "ventes": 11.8
+            },
+            "samourai": {
+              "article": "Samourai",
+              "categorie": "Non classé",
+              "ventes": 83.2
+            },
+            "sauce-cheddar-o-cheese": {
+              "article": "Sauce cheddar O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 23.2
+            },
+            "sauce-frites": {
+              "article": "Sauce frites",
+              "categorie": "Non classé",
+              "ventes": 43.2
+            },
+            "sauce-fromagere-o-cheese": {
+              "article": "Sauce fromagère O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 3.25
+            },
+            "sauce-miel-moutarde-o-cheese": {
+              "article": "Sauce miel moutarde O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 5.0
+            },
+            "seven-up": {
+              "article": "Seven Up",
+              "categorie": "Non classé",
+              "ventes": 36.0
+            },
+            "smash-crousty-edition-limite": {
+              "article": "Smash Crousty (Edition limité)",
+              "categorie": "Non classé",
+              "ventes": 47.2
+            },
+            "smash-poulet": {
+              "article": "Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 94.8
+            },
+            "smash-viande": {
+              "article": "Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 313.5
+            },
+            "supplement-bacon": {
+              "article": "Supplément bacon",
+              "categorie": "Non classé",
+              "ventes": 1.5
+            },
+            "tarte-daim": {
+              "article": "Tarte Daim",
+              "categorie": "Non classé",
+              "ventes": 95.36
+            },
+            "tarte-milka": {
+              "article": "Tarte Milka",
+              "categorie": "Non classé",
+              "ventes": 9.6
+            },
+            "tenders-2p": {
+              "article": "Tenders 2p",
+              "categorie": "Non classé",
+              "ventes": 87.0
+            },
+            "tenders-5p": {
+              "article": "Tenders 5p",
+              "categorie": "Non classé",
+              "ventes": 260.0
+            },
+            "tiramisu-bueno": {
+              "article": "Tiramisu bueno",
+              "categorie": "Non classé",
+              "ventes": 66.3
+            },
+            "tiramisu-fruits-rouges": {
+              "article": "Tiramisu fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 27.3
+            },
+            "tiramisu-mangue-passion": {
+              "article": "Tiramisu mangue passion",
+              "categorie": "Non classé",
+              "ventes": 31.2
+            },
+            "tiramisu-oreo": {
+              "article": "Tiramisu Oreo",
+              "categorie": "Non classé",
+              "ventes": 93.6
+            },
+            "tiramisu-speculoos": {
+              "article": "Tiramisu Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 62.4
+            },
+            "tolero": {
+              "article": "Tolero",
+              "categorie": "Non classé",
+              "ventes": 75.9
+            },
+            "tropico": {
+              "article": "Tropico",
+              "categorie": "Non classé",
+              "ventes": 66.0
+            },
+            "wings-3-pieces": {
+              "article": "Wings 3 pièces",
+              "categorie": "Non classé",
+              "ventes": 54.08
+            },
+            "wings-6-pieces": {
+              "article": "Wings 6 pièces",
+              "categorie": "Non classé",
+              "ventes": 159.3
+            },
+            "wow": {
+              "article": "WOW",
+              "categorie": "Non classé",
+              "ventes": 89.1
+            },
+            "wrap-beef": {
+              "article": "WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 15.8
+            },
+            "wrap-chicken": {
+              "article": "WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 89.7
+            }
+          }
+        }
+      },
+      "O'Cheese": {
+        "restaurants": {
+          "oc_004": {
+            "aigredouce": {
+              "article": "Aigredouce",
+              "categorie": "Non classé",
+              "ventes": 33.6
+            },
+            "algerienne": {
+              "article": "Algérienne",
+              "categorie": "Non classé",
+              "ventes": 88.72
+            },
+            "andalouse": {
+              "article": "Andalouse",
+              "categorie": "Non classé",
+              "ventes": 128.0
+            },
+            "asian-chunks-10p": {
+              "article": "Asian Chunks 10p",
+              "categorie": "Non classé",
+              "ventes": 178.0
+            },
+            "asian-crevettes": {
+              "article": "Asian Crevettes",
+              "categorie": "Non classé",
+              "ventes": 102.7
+            },
+            "asian-mix-9p": {
+              "article": "Asian Mix 9p",
+              "categorie": "Non classé",
+              "ventes": 224.66
+            },
+            "asian-tenders-4p": {
+              "article": "Asian Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 138.0
+            },
+            "asian-wings-5p": {
+              "article": "Asian Wings 5p",
+              "categorie": "Non classé",
+              "ventes": 165.6
+            },
+            "bacon": {
+              "article": "Bacon",
+              "categorie": "Non classé",
+              "ventes": 120.65
+            },
+            "barbecue": {
+              "article": "Barbecue",
+              "categorie": "Non classé",
+              "ventes": 100.72
+            },
+            "ben-jerry-cookie-dough-100ml": {
+              "article": "Ben&Jerry Cookie Dough 100ml",
+              "categorie": "Non classé",
+              "ventes": 28.0
+            },
+            "ben-jerry-fudge-brownie-100ml": {
+              "article": "Ben&Jerry Fudge Brownie 100ml",
+              "categorie": "Non classé",
+              "ventes": 17.5
+            },
+            "ben-jerry-strawberry-cheesecake-100ml": {
+              "article": "Ben&Jerry Strawberry Cheesecake 100ml",
+              "categorie": "Non classé",
+              "ventes": 7.0
+            },
+            "big": {
+              "article": "Big",
+              "categorie": "Non classé",
+              "ventes": 369.95
+            },
+            "brazil": {
+              "article": "Brazil",
+              "categorie": "Non classé",
+              "ventes": 55.92
+            },
+            "cafe": {
+              "article": "cafe",
+              "categorie": "Non classé",
+              "ventes": 112.5
+            },
+            "capri-sun": {
+              "article": "Capri-sun",
+              "categorie": "Non classé",
+              "ventes": 50.5
+            },
+            "cheddar": {
+              "article": "cheddar",
+              "categorie": "Non classé",
+              "ventes": 51.0
+            },
+            "cheeseburger": {
+              "article": "Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 717.92
+            },
+            "chef-box": {
+              "article": "Chef box",
+              "categorie": "Non classé",
+              "ventes": 945.0
+            },
+            "chef-family-box": {
+              "article": "Chef family box",
+              "categorie": "Non classé",
+              "ventes": 245.0
+            },
+            "chicken-burger": {
+              "article": "Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 296.55
+            },
+            "chili-cheese-10p": {
+              "article": "Chili Cheese 10p",
+              "categorie": "Non classé",
+              "ventes": 32.5
+            },
+            "chili-cheese-5p": {
+              "article": "Chili Cheese 5p",
+              "categorie": "Non classé",
+              "ventes": 218.4
+            },
+            "chunks-10p": {
+              "article": "Chunks 10P",
+              "categorie": "Non classé",
+              "ventes": 55.2
+            },
+            "chunks-5p": {
+              "article": "Chunks 5P",
+              "categorie": "Non classé",
+              "ventes": 30.8
+            },
+            "compote-pomme-fraise": {
+              "article": "Compote Pomme/Fraise",
+              "categorie": "Non classé",
+              "ventes": 12.0
+            },
+            "cornichons": {
+              "article": "Cornichons",
+              "categorie": "Non classé",
+              "ventes": 18.0
+            },
+            "crazy-tiger": {
+              "article": "Crazy Tiger",
+              "categorie": "Non classé",
+              "ventes": 11.0
+            },
+            "crispy": {
+              "article": "Crispy",
+              "categorie": "Non classé",
+              "ventes": 165.54
+            },
+            "crousty-chicken-750-ml": {
+              "article": "CROUSTY CHICKEN 750 ml",
+              "categorie": "Non classé",
+              "ventes": 1228.5
+            },
+            "crousty-chicken-900-ml": {
+              "article": "Crousty chicken 900 ml",
+              "categorie": "Non classé",
+              "ventes": 901.95
+            },
+            "delice": {
+              "article": "Delice",
+              "categorie": "Non classé",
+              "ventes": 36.85
+            },
+            "double-bucket-16p": {
+              "article": "Double Bucket 16p",
+              "categorie": "Non classé",
+              "ventes": 361.4
+            },
+            "double-cheese": {
+              "article": "Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 488.46
+            },
+            "eau-50cl": {
+              "article": "Eau 50cl",
+              "categorie": "Non classé",
+              "ventes": 237.4
+            },
+            "eau-gazeuse-50-cl": {
+              "article": "Eau gazeuse 50 cl",
+              "categorie": "Non classé",
+              "ventes": 36.0
+            },
+            "fish-burger": {
+              "article": "Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 160.65
+            },
+            "frite": {
+              "article": "Frite",
+              "categorie": "Non classé",
+              "ventes": 5.6
+            },
+            "frite-cheddar": {
+              "article": "FRITE CHEDDAR",
+              "categorie": "Non classé",
+              "ventes": 48.4
+            },
+            "frite-cheddar-oignons-crispy": {
+              "article": "FRITE CHEDDAR OIGNONS CRISPY",
+              "categorie": "Non classé",
+              "ventes": 61.6
+            },
+            "frites-cheddar-bacon": {
+              "article": "FRITES CHEDDAR BACON",
+              "categorie": "Non classé",
+              "ventes": 64.8
+            },
+            "frites-cheddar-bacon-jalapenos": {
+              "article": "FRITES CHEDDAR BACON JALAPENOS",
+              "categorie": "Non classé",
+              "ventes": 38.4
+            },
+            "grande-frite": {
+              "article": "Grande Frite",
+              "categorie": "Non classé",
+              "ventes": 297.54
+            },
+            "grande-frite-patates-douces": {
+              "article": "Grande frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 176.45
+            },
+            "hamburger": {
+              "article": "Hamburger",
+              "categorie": "Non classé",
+              "ventes": 16909.0
+            },
+            "ice-tea-peche": {
+              "article": "Ice tea Pêche",
+              "categorie": "Non classé",
+              "ventes": 98.8
+            },
+            "ice-tea-petillant": {
+              "article": "Ice tea pétillant",
+              "categorie": "Non classé",
+              "ventes": 40.0
+            },
+            "jalapenos": {
+              "article": "Jalapenos",
+              "categorie": "Non classé",
+              "ventes": 40.5
+            },
+            "ketchup": {
+              "article": "Ketchup",
+              "categorie": "Non classé",
+              "ventes": 176.0
+            },
+            "kids-cone": {
+              "article": "Kids cone",
+              "categorie": "Non classé",
+              "ventes": 55.5
+            },
+            "large-bucket-36p": {
+              "article": "Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 26.9
+            },
+            "mayonnaise": {
+              "article": "Mayonnaise",
+              "categorie": "Non classé",
+              "ventes": 205.28
+            },
+            "menu-asian-chunks": {
+              "article": "Menu Asian Chunks",
+              "categorie": "Non classé",
+              "ventes": 166.6
+            },
+            "menu-asian-crevettes": {
+              "article": "Menu Asian crevettes",
+              "categorie": "Non classé",
+              "ventes": 152.6
+            },
+            "menu-asian-mix": {
+              "article": "Menu Asian Mix",
+              "categorie": "Non classé",
+              "ventes": 559.3
+            },
+            "menu-asian-tenders": {
+              "article": "Menu Asian Tenders",
+              "categorie": "Non classé",
+              "ventes": 523.71
+            },
+            "menu-asian-wings": {
+              "article": "Menu Asian Wings",
+              "categorie": "Non classé",
+              "ventes": 227.7
+            },
+            "menu-bacon": {
+              "article": "Menu Bacon",
+              "categorie": "Non classé",
+              "ventes": 362.5
+            },
+            "menu-big": {
+              "article": "Menu Big",
+              "categorie": "Non classé",
+              "ventes": 702.31
+            },
+            "menu-cheeseburger": {
+              "article": "Menu Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 474.3
+            },
+            "menu-chicken-burger": {
+              "article": "Menu Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 1064.13
+            },
+            "menu-crispy": {
+              "article": "Menu Crispy",
+              "categorie": "Non classé",
+              "ventes": 473.48
+            },
+            "menu-crousty-chicken-750ml": {
+              "article": "MENU CROUSTY CHICKEN 750ML",
+              "categorie": "Non classé",
+              "ventes": 1687.35
+            },
+            "menu-crousty-chicken-900ml": {
+              "article": "MENU CROUSTY CHICKEN 900ML",
+              "categorie": "Non classé",
+              "ventes": 1272.0
+            },
+            "menu-d1": {
+              "article": "MENU D1",
+              "categorie": "Non classé",
+              "ventes": 1234.8
+            },
+            "menu-d2": {
+              "article": "MENU D2",
+              "categorie": "Non classé",
+              "ventes": 560.0
+            },
+            "menu-d3": {
+              "article": "MENU D3",
+              "categorie": "Non classé",
+              "ventes": 446.4
+            },
+            "menu-d4": {
+              "article": "MENU D4",
+              "categorie": "Non classé",
+              "ventes": 110.0
+            },
+            "menu-delice": {
+              "article": "Menu Delice",
+              "categorie": "Non classé",
+              "ventes": 169.15
+            },
+            "menu-double-bucket-18p": {
+              "article": "Menu Double Bucket 18p",
+              "categorie": "Non classé",
+              "ventes": 527.31
+            },
+            "menu-double-cheese": {
+              "article": "Menu Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 1115.25
+            },
+            "menu-fish-burger": {
+              "article": "Menu Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 358.66
+            },
+            "menu-hamburger": {
+              "article": "Menu Hamburger",
+              "categorie": "Non classé",
+              "ventes": 333.85
+            },
+            "menu-kids": {
+              "article": "Menu Kids",
+              "categorie": "Non classé",
+              "ventes": 260.7
+            },
+            "menu-large-bucket-36p": {
+              "article": "Menu Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 143.6
+            },
+            "menu-montagnard": {
+              "article": "Menu Montagnard",
+              "categorie": "Non classé",
+              "ventes": 175.0
+            },
+            "menu-nuggets-8p": {
+              "article": "Menu Nuggets 8p",
+              "categorie": "Non classé",
+              "ventes": 292.5
+            },
+            "menu-pepper": {
+              "article": "Menu Pepper",
+              "categorie": "Non classé",
+              "ventes": 314.5
+            },
+            "menu-smash-crousty-edition-limitee": {
+              "article": "Menu Smash Crousty (Edition limitée)",
+              "categorie": "Non classé",
+              "ventes": 291.4
+            },
+            "menu-smash-poulet": {
+              "article": "Menu Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 1034.41
+            },
+            "menu-smash-viande": {
+              "article": "Menu Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 1750.53
+            },
+            "menu-tenders-4p": {
+              "article": "Menu Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 1034.11
+            },
+            "menu-tolero": {
+              "article": "Menu Tolero",
+              "categorie": "Non classé",
+              "ventes": 390.06
+            },
+            "menu-vegetarien-chicken": {
+              "article": "Menu Vegetarien \"Chicken\"",
+              "categorie": "Non classé",
+              "ventes": 202.8
+            },
+            "menu-wings-6p": {
+              "article": "Menu Wings 6p",
+              "categorie": "Non classé",
+              "ventes": 718.9
+            },
+            "menu-wow": {
+              "article": "Menu WOW",
+              "categorie": "Non classé",
+              "ventes": 567.6
+            },
+            "menu-wrap-beef": {
+              "article": "MENU WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 339.9
+            },
+            "menu-wrap-chicken": {
+              "article": "MENU WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 634.8
+            },
+            "mirinda": {
+              "article": "Mirinda",
+              "categorie": "Non classé",
+              "ventes": 104.0
+            },
+            "montagnard": {
+              "article": "Montagnard",
+              "categorie": "Non classé",
+              "ventes": 73.15
+            },
+            "mozzarella-4p": {
+              "article": "Mozzarella 4p",
+              "categorie": "Non classé",
+              "ventes": 404.43
+            },
+            "mozzarella-8p": {
+              "article": "Mozzarella 8p",
+              "categorie": "Non classé",
+              "ventes": 179.4
+            },
+            "nuggets-12p": {
+              "article": "Nuggets 12p",
+              "categorie": "Non classé",
+              "ventes": 147.6
+            },
+            "nuggets-6p": {
+              "article": "Nuggets 6p",
+              "categorie": "Non classé",
+              "ventes": 297.85
+            },
+            "o-cheese-box": {
+              "article": "O'Cheese box",
+              "categorie": "Non classé",
+              "ventes": 5451.0
+            },
+            "o-cheese-family-box": {
+              "article": "O'Cheese family box",
+              "categorie": "Non classé",
+              "ventes": 2340.0
+            },
+            "o-milkshake": {
+              "article": "O'Milkshake",
+              "categorie": "Non classé",
+              "ventes": 261.0
+            },
+            "oasis-fraise-framboise": {
+              "article": "Oasis fraise framboise",
+              "categorie": "Non classé",
+              "ventes": 15.8
+            },
+            "ochocice": {
+              "article": "OChocice",
+              "categorie": "Non classé",
+              "ventes": 120.9
+            },
+            "oignon-caramelise": {
+              "article": "oignon caramelise",
+              "categorie": "Non classé",
+              "ventes": 38.85
+            },
+            "oignon-crispy": {
+              "article": "oignon crispy",
+              "categorie": "Non classé",
+              "ventes": 9.0
+            },
+            "oignons": {
+              "article": "oignons",
+              "categorie": "Non classé",
+              "ventes": 2.0
+            },
+            "onion-rings-10p": {
+              "article": "Onion Rings 10p",
+              "categorie": "Non classé",
+              "ventes": 78.4
+            },
+            "onion-rings-6p": {
+              "article": "Onion Rings 6p",
+              "categorie": "Non classé",
+              "ventes": 119.68
+            },
+            "otopshake": {
+              "article": "Otopshake",
+              "categorie": "Non classé",
+              "ventes": 110.0
+            },
+            "pepper": {
+              "article": "Pepper",
+              "categorie": "Non classé",
+              "ventes": 128.03
+            },
+            "pepsi": {
+              "article": "Pepsi",
+              "categorie": "Non classé",
+              "ventes": 2979.95
+            },
+            "pepsi-max": {
+              "article": "Pepsi Max",
+              "categorie": "Non classé",
+              "ventes": 90.0
+            },
+            "pepsi-max-cherry": {
+              "article": "Pepsi Max Cherry",
+              "categorie": "Non classé",
+              "ventes": 105.4
+            },
+            "petite-frite": {
+              "article": "Petite Frite",
+              "categorie": "Non classé",
+              "ventes": 163.85
+            },
+            "petite-frite-patates-douces": {
+              "article": "Petite frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 290.74
+            },
+            "raclette": {
+              "article": "raclette",
+              "categorie": "Non classé",
+              "ventes": 21.0
+            },
+            "redbull": {
+              "article": "RedBull",
+              "categorie": "Non classé",
+              "ventes": 88.41
+            },
+            "redbull-edition": {
+              "article": "Redbull Édition",
+              "categorie": "Non classé",
+              "ventes": 9.2
+            },
+            "roquette": {
+              "article": "Roquette",
+              "categorie": "Non classé",
+              "ventes": 1.5
+            },
+            "salade": {
+              "article": "Salade",
+              "categorie": "Non classé",
+              "ventes": 3.0
+            },
+            "salade-classique": {
+              "article": "Salade classique",
+              "categorie": "Non classé",
+              "ventes": 53.9
+            },
+            "salade-tenders": {
+              "article": "Salade Tenders",
+              "categorie": "Non classé",
+              "ventes": 76.7
+            },
+            "salade-thon": {
+              "article": "Salade Thon",
+              "categorie": "Non classé",
+              "ventes": 23.6
+            },
+            "samourai": {
+              "article": "Samourai",
+              "categorie": "Non classé",
+              "ventes": 135.2
+            },
+            "sauce-cheddar-o-cheese": {
+              "article": "Sauce cheddar O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 55.1
+            },
+            "sauce-frites": {
+              "article": "Sauce frites",
+              "categorie": "Non classé",
+              "ventes": 90.88
+            },
+            "sauce-fromagere-o-cheese": {
+              "article": "Sauce fromagère O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 13.0
+            },
+            "sauce-miel-moutarde-o-cheese": {
+              "article": "Sauce miel moutarde O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 20.0
+            },
+            "seven-up": {
+              "article": "Seven Up",
+              "categorie": "Non classé",
+              "ventes": 88.0
+            },
+            "smash-crousty-edition-limite": {
+              "article": "Smash Crousty (Edition limité)",
+              "categorie": "Non classé",
+              "ventes": 166.97
+            },
+            "smash-poulet": {
+              "article": "Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 276.5
+            },
+            "smash-viande": {
+              "article": "Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 551.0
+            },
+            "sundae": {
+              "article": "Sundae",
+              "categorie": "Non classé",
+              "ventes": 98.89
+            },
+            "supplement-bacon": {
+              "article": "Supplément bacon",
+              "categorie": "Non classé",
+              "ventes": 74.85
+            },
+            "tarte-daim": {
+              "article": "Tarte Daim",
+              "categorie": "Non classé",
+              "ventes": 118.4
+            },
+            "tarte-milka": {
+              "article": "Tarte Milka",
+              "categorie": "Non classé",
+              "ventes": 64.0
+            },
+            "tenders-2p": {
+              "article": "Tenders 2p",
+              "categorie": "Non classé",
+              "ventes": 315.23
+            },
+            "tenders-5p": {
+              "article": "Tenders 5p",
+              "categorie": "Non classé",
+              "ventes": 456.95
+            },
+            "the": {
+              "article": "Thé",
+              "categorie": "Non classé",
+              "ventes": 1.9
+            },
+            "tiramisu-bueno": {
+              "article": "Tiramisu bueno",
+              "categorie": "Non classé",
+              "ventes": 101.4
+            },
+            "tiramisu-fruits-rouges": {
+              "article": "Tiramisu fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 35.1
+            },
+            "tiramisu-mangue-passion": {
+              "article": "Tiramisu mangue passion",
+              "categorie": "Non classé",
+              "ventes": 11.7
+            },
+            "tiramisu-oreo": {
+              "article": "Tiramisu Oreo",
+              "categorie": "Non classé",
+              "ventes": 92.43
+            },
+            "tiramisu-speculoos": {
+              "article": "Tiramisu Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 108.03
+            },
+            "tolero": {
+              "article": "Tolero",
+              "categorie": "Non classé",
+              "ventes": 176.64
+            },
+            "tomate": {
+              "article": "Tomate",
+              "categorie": "Non classé",
+              "ventes": 10.0
+            },
+            "tropico": {
+              "article": "Tropico",
+              "categorie": "Non classé",
+              "ventes": 116.8
+            },
+            "vegetarien": {
+              "article": "Vegetarien",
+              "categorie": "Non classé",
+              "ventes": 88.0
+            },
+            "wings-3-pieces": {
+              "article": "Wings 3 pièces",
+              "categorie": "Non classé",
+              "ventes": 397.32
+            },
+            "wings-6-pieces": {
+              "article": "Wings 6 pièces",
+              "categorie": "Non classé",
+              "ventes": 423.03
+            },
+            "wow": {
+              "article": "WOW",
+              "categorie": "Non classé",
+              "ventes": 244.53
+            },
+            "wrap-beef": {
+              "article": "WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 255.96
+            },
+            "wrap-chicken": {
+              "article": "WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 485.76
+            }
+          },
+          "oc_005": {
+            "aigredouce": {
+              "article": "Aigredouce",
+              "categorie": "Non classé",
+              "ventes": 20.0
+            },
+            "algerienne": {
+              "article": "Algérienne",
+              "categorie": "Non classé",
+              "ventes": 28.0
+            },
+            "andalouse": {
+              "article": "Andalouse",
+              "categorie": "Non classé",
+              "ventes": 115.2
+            },
+            "asian-chunks-10p": {
+              "article": "Asian Chunks 10p",
+              "categorie": "Non classé",
+              "ventes": 178.0
+            },
+            "asian-crevettes": {
+              "article": "Asian Crevettes",
+              "categorie": "Non classé",
+              "ventes": 86.11
+            },
+            "asian-mix-9p": {
+              "article": "Asian Mix 9p",
+              "categorie": "Non classé",
+              "ventes": 75.2
+            },
+            "asian-tenders-4p": {
+              "article": "Asian Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 62.1
+            },
+            "asian-wings-5p": {
+              "article": "Asian Wings 5p",
+              "categorie": "Non classé",
+              "ventes": 103.5
+            },
+            "bacon": {
+              "article": "Bacon",
+              "categorie": "Non classé",
+              "ventes": 85.5
+            },
+            "barbecue": {
+              "article": "Barbecue",
+              "categorie": "Non classé",
+              "ventes": 51.2
+            },
+            "ben-jerry-cookie-dough-100ml": {
+              "article": "Ben&Jerry Cookie Dough 100ml",
+              "categorie": "Non classé",
+              "ventes": 17.5
+            },
+            "ben-jerry-fudge-brownie-100ml": {
+              "article": "Ben&Jerry Fudge Brownie 100ml",
+              "categorie": "Non classé",
+              "ventes": 7.0
+            },
+            "ben-jerry-strawberry-cheesecake-100ml": {
+              "article": "Ben&Jerry Strawberry Cheesecake 100ml",
+              "categorie": "Non classé",
+              "ventes": 7.0
+            },
+            "big": {
+              "article": "Big",
+              "categorie": "Non classé",
+              "ventes": 181.3
+            },
+            "brazil": {
+              "article": "Brazil",
+              "categorie": "Non classé",
+              "ventes": 16.8
+            },
+            "cafe": {
+              "article": "cafe",
+              "categorie": "Non classé",
+              "ventes": 3.0
+            },
+            "capri-sun": {
+              "article": "Capri-sun",
+              "categorie": "Non classé",
+              "ventes": 26.0
+            },
+            "cheddar": {
+              "article": "cheddar",
+              "categorie": "Non classé",
+              "ventes": 3.0
+            },
+            "cheeseburger": {
+              "article": "Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 308.0
+            },
+            "chef-box": {
+              "article": "Chef box",
+              "categorie": "Non classé",
+              "ventes": 315.0
+            },
+            "chef-family-box": {
+              "article": "Chef family box",
+              "categorie": "Non classé",
+              "ventes": 70.0
+            },
+            "chicken-burger": {
+              "article": "Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 90.0
+            },
+            "chili-cheese-10p": {
+              "article": "Chili Cheese 10p",
+              "categorie": "Non classé",
+              "ventes": 19.5
+            },
+            "chili-cheese-5p": {
+              "article": "Chili Cheese 5p",
+              "categorie": "Non classé",
+              "ventes": 58.5
+            },
+            "chunks-10p": {
+              "article": "Chunks 10P",
+              "categorie": "Non classé",
+              "ventes": 41.4
+            },
+            "chunks-5p": {
+              "article": "Chunks 5P",
+              "categorie": "Non classé",
+              "ventes": 35.2
+            },
+            "compote-pomme-fraise": {
+              "article": "Compote Pomme/Fraise",
+              "categorie": "Non classé",
+              "ventes": 9.0
+            },
+            "crispy": {
+              "article": "Crispy",
+              "categorie": "Non classé",
+              "ventes": 31.0
+            },
+            "crousty-chicken-750-ml": {
+              "article": "CROUSTY CHICKEN 750 ml",
+              "categorie": "Non classé",
+              "ventes": 566.1
+            },
+            "crousty-chicken-900-ml": {
+              "article": "Crousty chicken 900 ml",
+              "categorie": "Non classé",
+              "ventes": 892.5
+            },
+            "delice": {
+              "article": "Delice",
+              "categorie": "Non classé",
+              "ventes": 120.45
+            },
+            "double-bucket-16p": {
+              "article": "Double Bucket 16p",
+              "categorie": "Non classé",
+              "ventes": 27.8
+            },
+            "double-cheese": {
+              "article": "Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 256.2
+            },
+            "eau-50cl": {
+              "article": "Eau 50cl",
+              "categorie": "Non classé",
+              "ventes": 58.0
+            },
+            "eau-gazeuse-50-cl": {
+              "article": "Eau gazeuse 50 cl",
+              "categorie": "Non classé",
+              "ventes": 18.0
+            },
+            "fish-burger": {
+              "article": "Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 58.5
+            },
+            "frite": {
+              "article": "Frite",
+              "categorie": "Non classé",
+              "ventes": 9.6
+            },
+            "frite-cheddar": {
+              "article": "FRITE CHEDDAR",
+              "categorie": "Non classé",
+              "ventes": 26.4
+            },
+            "frite-cheddar-oignons-crispy": {
+              "article": "FRITE CHEDDAR OIGNONS CRISPY",
+              "categorie": "Non classé",
+              "ventes": 22.0
+            },
+            "frites-cheddar-bacon": {
+              "article": "FRITES CHEDDAR BACON",
+              "categorie": "Non classé",
+              "ventes": 21.6
+            },
+            "grande-frite": {
+              "article": "Grande Frite",
+              "categorie": "Non classé",
+              "ventes": 180.34
+            },
+            "grande-frite-patates-douces": {
+              "article": "Grande frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 85.9
+            },
+            "hamburger": {
+              "article": "Hamburger",
+              "categorie": "Non classé",
+              "ventes": 178.0
+            },
+            "ice-tea-peche": {
+              "article": "Ice tea Pêche",
+              "categorie": "Non classé",
+              "ventes": 75.0
+            },
+            "ice-tea-petillant": {
+              "article": "Ice tea pétillant",
+              "categorie": "Non classé",
+              "ventes": 72.0
+            },
+            "ketchup": {
+              "article": "Ketchup",
+              "categorie": "Non classé",
+              "ventes": 76.72
+            },
+            "large-bucket-36p": {
+              "article": "Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 53.8
+            },
+            "mayonnaise": {
+              "article": "Mayonnaise",
+              "categorie": "Non classé",
+              "ventes": 113.44
+            },
+            "menu-asian-chunks": {
+              "article": "Menu Asian Chunks",
+              "categorie": "Non classé",
+              "ventes": 95.2
+            },
+            "menu-asian-crevettes": {
+              "article": "Menu Asian crevettes",
+              "categorie": "Non classé",
+              "ventes": 54.5
+            },
+            "menu-asian-mix": {
+              "article": "Menu Asian Mix",
+              "categorie": "Non classé",
+              "ventes": 154.7
+            },
+            "menu-asian-tenders": {
+              "article": "Menu Asian Tenders",
+              "categorie": "Non classé",
+              "ventes": 69.3
+            },
+            "menu-asian-wings": {
+              "article": "Menu Asian Wings",
+              "categorie": "Non classé",
+              "ventes": 49.5
+            },
+            "menu-bacon": {
+              "article": "Menu Bacon",
+              "categorie": "Non classé",
+              "ventes": 200.0
+            },
+            "menu-big": {
+              "article": "Menu Big",
+              "categorie": "Non classé",
+              "ventes": 347.6
+            },
+            "menu-cheeseburger": {
+              "article": "Menu Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 136.4
+            },
+            "menu-chicken-burger": {
+              "article": "Menu Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 347.6
+            },
+            "menu-crispy": {
+              "article": "Menu Crispy",
+              "categorie": "Non classé",
+              "ventes": 142.4
+            },
+            "menu-crousty-chicken-750ml": {
+              "article": "MENU CROUSTY CHICKEN 750ML",
+              "categorie": "Non classé",
+              "ventes": 556.5
+            },
+            "menu-crousty-chicken-900ml": {
+              "article": "MENU CROUSTY CHICKEN 900ML",
+              "categorie": "Non classé",
+              "ventes": 696.0
+            },
+            "menu-d1": {
+              "article": "MENU D1",
+              "categorie": "Non classé",
+              "ventes": 696.0
+            },
+            "menu-d2": {
+              "article": "MENU D2",
+              "categorie": "Non classé",
+              "ventes": 140.0
+            },
+            "menu-d3": {
+              "article": "MENU D3",
+              "categorie": "Non classé",
+              "ventes": 80.0
+            },
+            "menu-d4": {
+              "article": "MENU D4",
+              "categorie": "Non classé",
+              "ventes": 44.0
+            },
+            "menu-delice": {
+              "article": "Menu Delice",
+              "categorie": "Non classé",
+              "ventes": 50.15
+            },
+            "menu-double-bucket-18p": {
+              "article": "Menu Double Bucket 18p",
+              "categorie": "Non classé",
+              "ventes": 94.5
+            },
+            "menu-double-cheese": {
+              "article": "Menu Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 292.5
+            },
+            "menu-fish-burger": {
+              "article": "Menu Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 86.9
+            },
+            "menu-hamburger": {
+              "article": "Menu Hamburger",
+              "categorie": "Non classé",
+              "ventes": 65.45
+            },
+            "menu-kids": {
+              "article": "Menu Kids",
+              "categorie": "Non classé",
+              "ventes": 260.7
+            },
+            "menu-large-bucket-36p": {
+              "article": "Menu Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 35.9
+            },
+            "menu-montagnard": {
+              "article": "Menu Montagnard",
+              "categorie": "Non classé",
+              "ventes": 137.5
+            },
+            "menu-nuggets-8p": {
+              "article": "Menu Nuggets 8p",
+              "categorie": "Non classé",
+              "ventes": 52.0
+            },
+            "menu-pepper": {
+              "article": "Menu Pepper",
+              "categorie": "Non classé",
+              "ventes": 221.0
+            },
+            "menu-smash-crousty-edition-limitee": {
+              "article": "Menu Smash Crousty (Edition limitée)",
+              "categorie": "Non classé",
+              "ventes": 216.2
+            },
+            "menu-smash-poulet": {
+              "article": "Menu Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 347.71
+            },
+            "menu-smash-viande": {
+              "article": "Menu Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 825.6
+            },
+            "menu-tenders-4p": {
+              "article": "Menu Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 237.0
+            },
+            "menu-tolero": {
+              "article": "Menu Tolero",
+              "categorie": "Non classé",
+              "ventes": 287.1
+            },
+            "menu-vegetarien-chicken": {
+              "article": "Menu Vegetarien \"Chicken\"",
+              "categorie": "Non classé",
+              "ventes": 39.0
+            },
+            "menu-wings-6p": {
+              "article": "Menu Wings 6p",
+              "categorie": "Non classé",
+              "ventes": 371.3
+            },
+            "menu-wow": {
+              "article": "Menu WOW",
+              "categorie": "Non classé",
+              "ventes": 219.3
+            },
+            "menu-wrap-beef": {
+              "article": "MENU WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 30.9
+            },
+            "menu-wrap-chicken": {
+              "article": "MENU WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 283.36
+            },
+            "mirinda": {
+              "article": "Mirinda",
+              "categorie": "Non classé",
+              "ventes": 34.0
+            },
+            "montagnard": {
+              "article": "Montagnard",
+              "categorie": "Non classé",
+              "ventes": 19.0
+            },
+            "mozzarella-4p": {
+              "article": "Mozzarella 4p",
+              "categorie": "Non classé",
+              "ventes": 109.2
+            },
+            "mozzarella-8p": {
+              "article": "Mozzarella 8p",
+              "categorie": "Non classé",
+              "ventes": 89.7
+            },
+            "nuggets-12p": {
+              "article": "Nuggets 12p",
+              "categorie": "Non classé",
+              "ventes": 54.0
+            },
+            "nuggets-6p": {
+              "article": "Nuggets 6p",
+              "categorie": "Non classé",
+              "ventes": 77.0
+            },
+            "o-cheese-box": {
+              "article": "O'Cheese box",
+              "categorie": "Non classé",
+              "ventes": 3970.0
+            },
+            "o-cheese-family-box": {
+              "article": "O'Cheese family box",
+              "categorie": "Non classé",
+              "ventes": 1020.0
+            },
+            "o-milkshake": {
+              "article": "O'Milkshake",
+              "categorie": "Non classé",
+              "ventes": 175.5
+            },
+            "oasis-fraise-framboise": {
+              "article": "Oasis fraise framboise",
+              "categorie": "Non classé",
+              "ventes": 47.4
+            },
+            "oasis-pomme-cassis": {
+              "article": "Oasis Pomme Cassis",
+              "categorie": "Non classé",
+              "ventes": 49.8
+            },
+            "oasis-pomme-poire": {
+              "article": "oasis pomme poire",
+              "categorie": "Non classé",
+              "ventes": 8.0
+            },
+            "oignon-crispy": {
+              "article": "oignon crispy",
+              "categorie": "Non classé",
+              "ventes": 1.0
+            },
+            "onion-rings-10p": {
+              "article": "Onion Rings 10p",
+              "categorie": "Non classé",
+              "ventes": 14.7
+            },
+            "onion-rings-6p": {
+              "article": "Onion Rings 6p",
+              "categorie": "Non classé",
+              "ventes": 25.6
+            },
+            "otopshake": {
+              "article": "Otopshake",
+              "categorie": "Non classé",
+              "ventes": 32.45
+            },
+            "pepper": {
+              "article": "Pepper",
+              "categorie": "Non classé",
+              "ventes": 82.6
+            },
+            "pepsi": {
+              "article": "Pepsi",
+              "categorie": "Non classé",
+              "ventes": 160.0
+            },
+            "pepsi-max": {
+              "article": "Pepsi Max",
+              "categorie": "Non classé",
+              "ventes": 22.0
+            },
+            "pepsi-max-cherry": {
+              "article": "Pepsi Max Cherry",
+              "categorie": "Non classé",
+              "ventes": 30.0
+            },
+            "pepsi-max-lemon": {
+              "article": "Pepsi Max lemon",
+              "categorie": "Non classé",
+              "ventes": 6.0
+            },
+            "petite-frite": {
+              "article": "Petite Frite",
+              "categorie": "Non classé",
+              "ventes": 60.9
+            },
+            "petite-frite-patates-douces": {
+              "article": "Petite frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 68.9
+            },
+            "redbull": {
+              "article": "RedBull",
+              "categorie": "Non classé",
+              "ventes": 4.4
+            },
+            "redbull-edition": {
+              "article": "Redbull Édition",
+              "categorie": "Non classé",
+              "ventes": 2.3
+            },
+            "salade-classique": {
+              "article": "Salade classique",
+              "categorie": "Non classé",
+              "ventes": 4.9
+            },
+            "salade-tenders": {
+              "article": "Salade Tenders",
+              "categorie": "Non classé",
+              "ventes": 11.8
+            },
+            "samourai": {
+              "article": "Samourai",
+              "categorie": "Non classé",
+              "ventes": 83.2
+            },
+            "sauce-cheddar-o-cheese": {
+              "article": "Sauce cheddar O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 23.2
+            },
+            "sauce-frites": {
+              "article": "Sauce frites",
+              "categorie": "Non classé",
+              "ventes": 43.2
+            },
+            "sauce-fromagere-o-cheese": {
+              "article": "Sauce fromagère O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 3.25
+            },
+            "sauce-miel-moutarde-o-cheese": {
+              "article": "Sauce miel moutarde O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 5.0
+            },
+            "seven-up": {
+              "article": "Seven Up",
+              "categorie": "Non classé",
+              "ventes": 36.0
+            },
+            "smash-crousty-edition-limite": {
+              "article": "Smash Crousty (Edition limité)",
+              "categorie": "Non classé",
+              "ventes": 47.2
+            },
+            "smash-poulet": {
+              "article": "Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 94.8
+            },
+            "smash-viande": {
+              "article": "Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 313.5
+            },
+            "supplement-bacon": {
+              "article": "Supplément bacon",
+              "categorie": "Non classé",
+              "ventes": 1.5
+            },
+            "tarte-daim": {
+              "article": "Tarte Daim",
+              "categorie": "Non classé",
+              "ventes": 95.36
+            },
+            "tarte-milka": {
+              "article": "Tarte Milka",
+              "categorie": "Non classé",
+              "ventes": 9.6
+            },
+            "tenders-2p": {
+              "article": "Tenders 2p",
+              "categorie": "Non classé",
+              "ventes": 87.0
+            },
+            "tenders-5p": {
+              "article": "Tenders 5p",
+              "categorie": "Non classé",
+              "ventes": 260.0
+            },
+            "tiramisu-bueno": {
+              "article": "Tiramisu bueno",
+              "categorie": "Non classé",
+              "ventes": 66.3
+            },
+            "tiramisu-fruits-rouges": {
+              "article": "Tiramisu fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 27.3
+            },
+            "tiramisu-mangue-passion": {
+              "article": "Tiramisu mangue passion",
+              "categorie": "Non classé",
+              "ventes": 31.2
+            },
+            "tiramisu-oreo": {
+              "article": "Tiramisu Oreo",
+              "categorie": "Non classé",
+              "ventes": 93.6
+            },
+            "tiramisu-speculoos": {
+              "article": "Tiramisu Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 62.4
+            },
+            "tolero": {
+              "article": "Tolero",
+              "categorie": "Non classé",
+              "ventes": 75.9
+            },
+            "tropico": {
+              "article": "Tropico",
+              "categorie": "Non classé",
+              "ventes": 66.0
+            },
+            "wings-3-pieces": {
+              "article": "Wings 3 pièces",
+              "categorie": "Non classé",
+              "ventes": 54.08
+            },
+            "wings-6-pieces": {
+              "article": "Wings 6 pièces",
+              "categorie": "Non classé",
+              "ventes": 159.3
+            },
+            "wow": {
+              "article": "WOW",
+              "categorie": "Non classé",
+              "ventes": 89.1
+            },
+            "wrap-beef": {
+              "article": "WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 15.8
+            },
+            "wrap-chicken": {
+              "article": "WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 89.7
+            }
+          }
+        }
+      }
+    },
+    "2026-03": {
+      "O'Cheese": {
+        "restaurants": {
+          "oc_004": {
+            "aigredouce": {
+              "article": "Aigredouce",
+              "categorie": "Non classé",
+              "ventes": 33.6,
+              "quantite": 42.0
+            },
+            "algerienne": {
+              "article": "Algérienne",
+              "categorie": "Non classé",
+              "ventes": 88.72,
+              "quantite": 111.0
+            },
+            "andalouse": {
+              "article": "Andalouse",
+              "categorie": "Non classé",
+              "ventes": 128.0,
+              "quantite": 160.0
+            },
+            "asian-chunks-10p": {
+              "article": "Asian Chunks 10p",
+              "categorie": "Non classé",
+              "ventes": 178.0,
+              "quantite": 20.0
+            },
+            "asian-crevettes": {
+              "article": "Asian Crevettes",
+              "categorie": "Non classé",
+              "ventes": 102.7,
+              "quantite": 13.0
+            },
+            "asian-mix-9p": {
+              "article": "Asian Mix 9p",
+              "categorie": "Non classé",
+              "ventes": 224.66,
+              "quantite": 24.0
+            },
+            "asian-tenders-4p": {
+              "article": "Asian Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 138.0,
+              "quantite": 20.0
+            },
+            "asian-wings-5p": {
+              "article": "Asian Wings 5p",
+              "categorie": "Non classé",
+              "ventes": 165.6,
+              "quantite": 24.0
+            },
+            "bacon": {
+              "article": "Bacon",
+              "categorie": "Non classé",
+              "ventes": 120.65,
+              "quantite": 14.0
+            },
+            "banane": {
+              "article": "Banane",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 15.0
+            },
+            "barbecue": {
+              "article": "Barbecue",
+              "categorie": "Non classé",
+              "ventes": 100.72,
+              "quantite": 126.0
+            },
+            "ben-jerry-cookie-dough-100ml": {
+              "article": "Ben&Jerry Cookie Dough 100ml",
+              "categorie": "Non classé",
+              "ventes": 28.0,
+              "quantite": 8.0
+            },
+            "ben-jerry-fudge-brownie-100ml": {
+              "article": "Ben&Jerry Fudge Brownie 100ml",
+              "categorie": "Non classé",
+              "ventes": 17.5,
+              "quantite": 5.0
+            },
+            "ben-jerry-strawberry-cheesecake-100ml": {
+              "article": "Ben&Jerry Strawberry Cheesecake 100ml",
+              "categorie": "Non classé",
+              "ventes": 7.0,
+              "quantite": 2.0
+            },
+            "big": {
+              "article": "Big",
+              "categorie": "Non classé",
+              "ventes": 369.95,
+              "quantite": 197.0
+            },
+            "brazil": {
+              "article": "Brazil",
+              "categorie": "Non classé",
+              "ventes": 55.92,
+              "quantite": 70.0
+            },
+            "cafe": {
+              "article": "cafe",
+              "categorie": "Non classé",
+              "ventes": 112.5,
+              "quantite": 75.0
+            },
+            "cafe-au-lait": {
+              "article": "cafe au lait",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 42.0
+            },
+            "capri-sun": {
+              "article": "Capri-sun",
+              "categorie": "Non classé",
+              "ventes": 50.5,
+              "quantite": 54.0
+            },
+            "cheddar": {
+              "article": "cheddar",
+              "categorie": "Non classé",
+              "ventes": 51.0,
+              "quantite": 34.0
+            },
+            "cheese-enfant": {
+              "article": "cheese enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 10.0
+            },
+            "cheeseburger": {
+              "article": "Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 717.92,
+              "quantite": 257.0
+            },
+            "chef-box": {
+              "article": "Chef box",
+              "categorie": "Non classé",
+              "ventes": 945.0,
+              "quantite": 63.0
+            },
+            "chef-family-box": {
+              "article": "Chef family box",
+              "categorie": "Non classé",
+              "ventes": 245.0,
+              "quantite": 7.0
+            },
+            "chicken-burger": {
+              "article": "Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 296.55,
+              "quantite": 113.0
+            },
+            "chili-cheese-10p": {
+              "article": "Chili Cheese 10p",
+              "categorie": "Non classé",
+              "ventes": 32.5,
+              "quantite": 5.0
+            },
+            "chili-cheese-5p": {
+              "article": "Chili Cheese 5p",
+              "categorie": "Non classé",
+              "ventes": 218.4,
+              "quantite": 56.0
+            },
+            "chocolat": {
+              "article": "Chocolat",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 13.0
+            },
+            "chunks-10p": {
+              "article": "Chunks 10P",
+              "categorie": "Non classé",
+              "ventes": 55.2,
+              "quantite": 8.0
+            },
+            "chunks-5p": {
+              "article": "Chunks 5P",
+              "categorie": "Non classé",
+              "ventes": 30.8,
+              "quantite": 7.0
+            },
+            "compote-pomme-fraise": {
+              "article": "Compote Pomme/Fraise",
+              "categorie": "Non classé",
+              "ventes": 12.0,
+              "quantite": 8.0
+            },
+            "cornichons": {
+              "article": "Cornichons",
+              "categorie": "Non classé",
+              "ventes": 18.0,
+              "quantite": 18.0
+            },
+            "crazy-tiger": {
+              "article": "Crazy Tiger",
+              "categorie": "Non classé",
+              "ventes": 11.0,
+              "quantite": 5.0
+            },
+            "crispy": {
+              "article": "Crispy",
+              "categorie": "Non classé",
+              "ventes": 165.54,
+              "quantite": 67.0
+            },
+            "crousty-chicken-750-ml": {
+              "article": "CROUSTY CHICKEN 750 ml",
+              "categorie": "Non classé",
+              "ventes": 1228.5,
+              "quantite": 139.0
+            },
+            "crousty-chicken-900-ml": {
+              "article": "Crousty chicken 900 ml",
+              "categorie": "Non classé",
+              "ventes": 901.95,
+              "quantite": 86.0
+            },
+            "daim": {
+              "article": "Daim",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 5.0
+            },
+            "delice": {
+              "article": "Delice",
+              "categorie": "Non classé",
+              "ventes": 36.85,
+              "quantite": 29.0
+            },
+            "double-bucket-16p": {
+              "article": "Double Bucket 16p",
+              "categorie": "Non classé",
+              "ventes": 361.4,
+              "quantite": 26.0
+            },
+            "double-cheese": {
+              "article": "Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 488.46,
+              "quantite": 117.0
+            },
+            "eau-50cl": {
+              "article": "Eau 50cl",
+              "categorie": "Non classé",
+              "ventes": 237.4,
+              "quantite": 310.0
+            },
+            "eau-gazeuse-50-cl": {
+              "article": "Eau gazeuse 50 cl",
+              "categorie": "Non classé",
+              "ventes": 36.0,
+              "quantite": 65.0
+            },
+            "espresso": {
+              "article": "espresso",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 19.0
+            },
+            "fille": {
+              "article": "Fille",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 18.0
+            },
+            "fire-chicken": {
+              "article": "Fire Chicken",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 94.0
+            },
+            "fish-burger": {
+              "article": "Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 160.65,
+              "quantite": 52.0
+            },
+            "fish-enfants": {
+              "article": "Fish enfants",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 6.0
+            },
+            "fraise": {
+              "article": "Fraise",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 23.0
+            },
+            "frite": {
+              "article": "Frite",
+              "categorie": "Non classé",
+              "ventes": 5.6,
+              "quantite": 7.0
+            },
+            "frite-cheddar": {
+              "article": "FRITE CHEDDAR",
+              "categorie": "Non classé",
+              "ventes": 48.4,
+              "quantite": 11.0
+            },
+            "frite-cheddar-oignons-crispy": {
+              "article": "FRITE CHEDDAR OIGNONS CRISPY",
+              "categorie": "Non classé",
+              "ventes": 61.6,
+              "quantite": 14.0
+            },
+            "frites-cheddar-bacon": {
+              "article": "FRITES CHEDDAR BACON",
+              "categorie": "Non classé",
+              "ventes": 64.8,
+              "quantite": 12.0
+            },
+            "frites-cheddar-bacon-jalapenos": {
+              "article": "FRITES CHEDDAR BACON JALAPENOS",
+              "categorie": "Non classé",
+              "ventes": 38.4,
+              "quantite": 6.0
+            },
+            "galette-uniquement": {
+              "article": "Galette uniquement",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 3.0
+            },
+            "garcon": {
+              "article": "garcon",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 15.0
+            },
+            "grande-frite": {
+              "article": "Grande Frite",
+              "categorie": "Non classé",
+              "ventes": 297.54,
+              "quantite": 322.0
+            },
+            "grande-frite-patates-douces": {
+              "article": "Grande frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 176.45,
+              "quantite": 87.0
+            },
+            "hamburger": {
+              "article": "Hamburger",
+              "categorie": "Non classé",
+              "ventes": -19476.88,
+              "quantite": 366.0
+            },
+            "hamburger-enfant": {
+              "article": "hamburger enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 8.0
+            },
+            "ice-tea-peche": {
+              "article": "Ice tea Pêche",
+              "categorie": "Non classé",
+              "ventes": 98.8,
+              "quantite": 167.0
+            },
+            "ice-tea-petillant": {
+              "article": "Ice tea pétillant",
+              "categorie": "Non classé",
+              "ventes": 40.0,
+              "quantite": 22.0
+            },
+            "jalapenos": {
+              "article": "Jalapenos",
+              "categorie": "Non classé",
+              "ventes": 40.5,
+              "quantite": 27.0
+            },
+            "ketchup": {
+              "article": "Ketchup",
+              "categorie": "Non classé",
+              "ventes": 176.0,
+              "quantite": 220.0
+            },
+            "kids-cone": {
+              "article": "Kids cone",
+              "categorie": "Non classé",
+              "ventes": 55.5,
+              "quantite": 37.0
+            },
+            "kitkat": {
+              "article": "Kitkat",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 4.0
+            },
+            "large-bucket-36p": {
+              "article": "Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 26.9,
+              "quantite": 1.0
+            },
+            "lion": {
+              "article": "Lion",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 8.0
+            },
+            "lungo": {
+              "article": "Lungo",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 14.0
+            },
+            "m-ms": {
+              "article": "M&Ms",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 19.0
+            },
+            "mayonnaise": {
+              "article": "Mayonnaise",
+              "categorie": "Non classé",
+              "ventes": 205.28,
+              "quantite": 257.0
+            },
+            "menu-asian-chunks": {
+              "article": "Menu Asian Chunks",
+              "categorie": "Non classé",
+              "ventes": 166.6,
+              "quantite": 14.0
+            },
+            "menu-asian-crevettes": {
+              "article": "Menu Asian crevettes",
+              "categorie": "Non classé",
+              "ventes": 152.6,
+              "quantite": 14.0
+            },
+            "menu-asian-mix": {
+              "article": "Menu Asian Mix",
+              "categorie": "Non classé",
+              "ventes": 559.3,
+              "quantite": 47.0
+            },
+            "menu-asian-tenders": {
+              "article": "Menu Asian Tenders",
+              "categorie": "Non classé",
+              "ventes": 523.71,
+              "quantite": 53.0
+            },
+            "menu-asian-wings": {
+              "article": "Menu Asian Wings",
+              "categorie": "Non classé",
+              "ventes": 227.7,
+              "quantite": 23.0
+            },
+            "menu-bacon": {
+              "article": "Menu Bacon",
+              "categorie": "Non classé",
+              "ventes": 362.5,
+              "quantite": 29.0
+            },
+            "menu-big": {
+              "article": "Menu Big",
+              "categorie": "Non classé",
+              "ventes": 702.31,
+              "quantite": 89.0
+            },
+            "menu-cheeseburger": {
+              "article": "Menu Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 474.3,
+              "quantite": 77.0
+            },
+            "menu-chicken-burger": {
+              "article": "Menu Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 1064.13,
+              "quantite": 135.0
+            },
+            "menu-crispy": {
+              "article": "Menu Crispy",
+              "categorie": "Non classé",
+              "ventes": 473.48,
+              "quantite": 55.0
+            },
+            "menu-crousty-chicken-750ml": {
+              "article": "MENU CROUSTY CHICKEN 750ML",
+              "categorie": "Non classé",
+              "ventes": 1687.35,
+              "quantite": 161.0
+            },
+            "menu-crousty-chicken-900ml": {
+              "article": "MENU CROUSTY CHICKEN 900ML",
+              "categorie": "Non classé",
+              "ventes": 1272.0,
+              "quantite": 106.0
+            },
+            "menu-d1": {
+              "article": "MENU D1",
+              "categorie": "Non classé",
+              "ventes": 1234.8,
+              "quantite": 103.0
+            },
+            "menu-d2": {
+              "article": "MENU D2",
+              "categorie": "Non classé",
+              "ventes": 560.0,
+              "quantite": 40.0
+            },
+            "menu-d3": {
+              "article": "MENU D3",
+              "categorie": "Non classé",
+              "ventes": 446.4,
+              "quantite": 28.0
+            },
+            "menu-d4": {
+              "article": "MENU D4",
+              "categorie": "Non classé",
+              "ventes": 110.0,
+              "quantite": 5.0
+            },
+            "menu-delice": {
+              "article": "Menu Delice",
+              "categorie": "Non classé",
+              "ventes": 169.15,
+              "quantite": 20.0
+            },
+            "menu-double-bucket-18p": {
+              "article": "Menu Double Bucket 18p",
+              "categorie": "Non classé",
+              "ventes": 527.31,
+              "quantite": 28.0
+            },
+            "menu-double-cheese": {
+              "article": "Menu Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 1115.25,
+              "quantite": 149.0
+            },
+            "menu-fish-burger": {
+              "article": "Menu Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 358.66,
+              "quantite": 46.0
+            },
+            "menu-hamburger": {
+              "article": "Menu Hamburger",
+              "categorie": "Non classé",
+              "ventes": 333.85,
+              "quantite": 61.0
+            },
+            "menu-kids": {
+              "article": "Menu Kids",
+              "categorie": "Non classé",
+              "ventes": 260.7,
+              "quantite": 33.0
+            },
+            "menu-large-bucket-36p": {
+              "article": "Menu Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 143.6,
+              "quantite": 4.0
+            },
+            "menu-montagnard": {
+              "article": "Menu Montagnard",
+              "categorie": "Non classé",
+              "ventes": 175.0,
+              "quantite": 14.0
+            },
+            "menu-nuggets-8p": {
+              "article": "Menu Nuggets 8p",
+              "categorie": "Non classé",
+              "ventes": 292.5,
+              "quantite": 45.0
+            },
+            "menu-pepper": {
+              "article": "Menu Pepper",
+              "categorie": "Non classé",
+              "ventes": 314.5,
+              "quantite": 37.0
+            },
+            "menu-smash-crousty-edition-limitee": {
+              "article": "Menu Smash Crousty (Edition limitée)",
+              "categorie": "Non classé",
+              "ventes": 291.4,
+              "quantite": 31.0
+            },
+            "menu-smash-poulet": {
+              "article": "Menu Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 1034.41,
+              "quantite": 95.0
+            },
+            "menu-smash-viande": {
+              "article": "Menu Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 1750.53,
+              "quantite": 136.0
+            },
+            "menu-tenders-4p": {
+              "article": "Menu Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 1034.11,
+              "quantite": 131.0
+            },
+            "menu-tolero": {
+              "article": "Menu Tolero",
+              "categorie": "Non classé",
+              "ventes": 390.06,
+              "quantite": 40.0
+            },
+            "menu-vegetarien-chicken": {
+              "article": "Menu Vegetarien \"Chicken\"",
+              "categorie": "Non classé",
+              "ventes": 202.8,
+              "quantite": 26.0
+            },
+            "menu-wings-6p": {
+              "article": "Menu Wings 6p",
+              "categorie": "Non classé",
+              "ventes": 718.9,
+              "quantite": 91.0
+            },
+            "menu-wow": {
+              "article": "Menu WOW",
+              "categorie": "Non classé",
+              "ventes": 567.6,
+              "quantite": 44.0
+            },
+            "menu-wrap-beef": {
+              "article": "MENU WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 339.9,
+              "quantite": 33.0
+            },
+            "menu-wrap-chicken": {
+              "article": "MENU WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 634.8,
+              "quantite": 69.0
+            },
+            "mirinda": {
+              "article": "Mirinda",
+              "categorie": "Non classé",
+              "ventes": 104.0,
+              "quantite": 281.0
+            },
+            "mix-des-2-sauces": {
+              "article": "Mix des 2 sauces",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 248.0
+            },
+            "montagnard": {
+              "article": "Montagnard",
+              "categorie": "Non classé",
+              "ventes": 73.15,
+              "quantite": 9.0
+            },
+            "mozzarella-4p": {
+              "article": "Mozzarella 4p",
+              "categorie": "Non classé",
+              "ventes": 404.43,
+              "quantite": 104.0
+            },
+            "mozzarella-8p": {
+              "article": "Mozzarella 8p",
+              "categorie": "Non classé",
+              "ventes": 179.4,
+              "quantite": 26.0
+            },
+            "napage-caramel": {
+              "article": "Napage Caramel",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 37.0
+            },
+            "napage-chocolat": {
+              "article": "Napage chocolat",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 23.0
+            },
+            "napage-fraise": {
+              "article": "Napage fraise",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 20.0
+            },
+            "nuggets-12p": {
+              "article": "Nuggets 12p",
+              "categorie": "Non classé",
+              "ventes": 147.6,
+              "quantite": 25.0
+            },
+            "nuggets-6p": {
+              "article": "Nuggets 6p",
+              "categorie": "Non classé",
+              "ventes": 297.85,
+              "quantite": 86.0
+            },
+            "nuggets-enfant": {
+              "article": "nuggets enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 9.0
+            },
+            "o-cheese-box": {
+              "article": "O'Cheese box",
+              "categorie": "Non classé",
+              "ventes": 5451.0,
+              "quantite": 547.0
+            },
+            "o-cheese-family-box": {
+              "article": "O'Cheese family box",
+              "categorie": "Non classé",
+              "ventes": 2340.0,
+              "quantite": 78.0
+            },
+            "o-milkshake": {
+              "article": "O'Milkshake",
+              "categorie": "Non classé",
+              "ventes": 261.0,
+              "quantite": 58.0
+            },
+            "oasis-fraise-framboise": {
+              "article": "Oasis fraise framboise",
+              "categorie": "Non classé",
+              "ventes": 15.8,
+              "quantite": 25.0
+            },
+            "ochocice": {
+              "article": "OChocice",
+              "categorie": "Non classé",
+              "ventes": 120.9,
+              "quantite": 31.0
+            },
+            "oignon-caramelise": {
+              "article": "oignon caramelise",
+              "categorie": "Non classé",
+              "ventes": 38.85,
+              "quantite": 26.0
+            },
+            "oignon-crispy": {
+              "article": "oignon crispy",
+              "categorie": "Non classé",
+              "ventes": 9.0,
+              "quantite": 9.0
+            },
+            "oignons": {
+              "article": "oignons",
+              "categorie": "Non classé",
+              "ventes": 2.0,
+              "quantite": 2.0
+            },
+            "onion-rings-10p": {
+              "article": "Onion Rings 10p",
+              "categorie": "Non classé",
+              "ventes": 78.4,
+              "quantite": 16.0
+            },
+            "onion-rings-6p": {
+              "article": "Onion Rings 6p",
+              "categorie": "Non classé",
+              "ventes": 119.68,
+              "quantite": 38.0
+            },
+            "oreo": {
+              "article": "Oreo",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 14.0
+            },
+            "otopshake": {
+              "article": "Otopshake",
+              "categorie": "Non classé",
+              "ventes": 110.0,
+              "quantite": 20.0
+            },
+            "pepper": {
+              "article": "Pepper",
+              "categorie": "Non classé",
+              "ventes": 128.03,
+              "quantite": 62.0
+            },
+            "pepsi": {
+              "article": "Pepsi",
+              "categorie": "Non classé",
+              "ventes": -1404.7,
+              "quantite": 808.0
+            },
+            "pepsi-max": {
+              "article": "Pepsi Max",
+              "categorie": "Non classé",
+              "ventes": 90.0,
+              "quantite": 390.0
+            },
+            "pepsi-max-cherry": {
+              "article": "Pepsi Max Cherry",
+              "categorie": "Non classé",
+              "ventes": 105.4,
+              "quantite": 251.0
+            },
+            "petite-frite": {
+              "article": "Petite Frite",
+              "categorie": "Non classé",
+              "ventes": 163.85,
+              "quantite": 1284.0
+            },
+            "petite-frite-patates-douces": {
+              "article": "Petite frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 290.74,
+              "quantite": 206.0
+            },
+            "raclette": {
+              "article": "raclette",
+              "categorie": "Non classé",
+              "ventes": 21.0,
+              "quantite": 14.0
+            },
+            "redbull": {
+              "article": "RedBull",
+              "categorie": "Non classé",
+              "ventes": 88.41,
+              "quantite": 48.0
+            },
+            "redbull-edition": {
+              "article": "RedBull Edition",
+              "categorie": "Non classé",
+              "ventes": 9.2,
+              "quantite": 6.0
+            },
+            "roquette": {
+              "article": "Roquette",
+              "categorie": "Non classé",
+              "ventes": 1.5,
+              "quantite": 1.0
+            },
+            "salade": {
+              "article": "Salade",
+              "categorie": "Non classé",
+              "ventes": 3.0,
+              "quantite": 2.0
+            },
+            "salade-classique": {
+              "article": "Salade classique",
+              "categorie": "Non classé",
+              "ventes": 53.9,
+              "quantite": 11.0
+            },
+            "salade-tenders": {
+              "article": "Salade Tenders",
+              "categorie": "Non classé",
+              "ventes": 76.7,
+              "quantite": 13.0
+            },
+            "salade-thon": {
+              "article": "Salade Thon",
+              "categorie": "Non classé",
+              "ventes": 23.6,
+              "quantite": 4.0
+            },
+            "samourai": {
+              "article": "Samourai",
+              "categorie": "Non classé",
+              "ventes": 135.2,
+              "quantite": 169.0
+            },
+            "sauce-cheddar": {
+              "article": "sauce cheddar",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 201.0
+            },
+            "sauce-cheddar-o-cheese": {
+              "article": "Sauce cheddar O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 55.1,
+              "quantite": 44.0
+            },
+            "sauce-crousty": {
+              "article": "Sauce Crousty",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 58.0
+            },
+            "sauce-frites": {
+              "article": "Sauce frites",
+              "categorie": "Non classé",
+              "ventes": 90.88,
+              "quantite": 262.0
+            },
+            "sauce-fromagere-o-cheese": {
+              "article": "Sauce fromagère O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 13.0,
+              "quantite": 16.0
+            },
+            "sauce-miel-moutarde-o-cheese": {
+              "article": "Sauce miel moutarde O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 20.0,
+              "quantite": 86.0
+            },
+            "sauce-piquante": {
+              "article": "Sauce piquante",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 70.0
+            },
+            "sauce-sucree": {
+              "article": "Sauce sucrée",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 166.0
+            },
+            "seven-up": {
+              "article": "Seven Up",
+              "categorie": "Non classé",
+              "ventes": 88.0,
+              "quantite": 211.0
+            },
+            "smash-crousty-edition-limite": {
+              "article": "Smash Crousty (Edition limité)",
+              "categorie": "Non classé",
+              "ventes": 166.97,
+              "quantite": 29.0
+            },
+            "smash-poulet": {
+              "article": "Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 276.5,
+              "quantite": 54.0
+            },
+            "smash-viande": {
+              "article": "Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 551.0,
+              "quantite": 62.0
+            },
+            "sundae": {
+              "article": "Sundae",
+              "categorie": "Non classé",
+              "ventes": 98.89,
+              "quantite": 35.0
+            },
+            "tarte-daim": {
+              "article": "Tarte Daim",
+              "categorie": "Non classé",
+              "ventes": 118.4,
+              "quantite": 37.0
+            },
+            "tarte-milka": {
+              "article": "Tarte Milka",
+              "categorie": "Non classé",
+              "ventes": 64.0,
+              "quantite": 20.0
+            },
+            "tenders-2p": {
+              "article": "Tenders 2p",
+              "categorie": "Non classé",
+              "ventes": 315.23,
+              "quantite": 112.0
+            },
+            "tenders-5p": {
+              "article": "Tenders 5p",
+              "categorie": "Non classé",
+              "ventes": 456.95,
+              "quantite": 71.0
+            },
+            "the": {
+              "article": "Thé",
+              "categorie": "Non classé",
+              "ventes": 1.9,
+              "quantite": 1.0
+            },
+            "tiramisu-bueno": {
+              "article": "Tiramisu bueno",
+              "categorie": "Non classé",
+              "ventes": 101.4,
+              "quantite": 26.0
+            },
+            "tiramisu-fruits-rouges": {
+              "article": "Tiramisu fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 35.1,
+              "quantite": 9.0
+            },
+            "tiramisu-mangue-passion": {
+              "article": "Tiramisu mangue passion",
+              "categorie": "Non classé",
+              "ventes": 11.7,
+              "quantite": 3.0
+            },
+            "tiramisu-oreo": {
+              "article": "Tiramisu Oreo",
+              "categorie": "Non classé",
+              "ventes": 92.43,
+              "quantite": 24.0
+            },
+            "tiramisu-speculoos": {
+              "article": "Tiramisu Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 108.03,
+              "quantite": 28.0
+            },
+            "tokyo-flavour": {
+              "article": "Tokyo Flavour",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 149.0
+            },
+            "tolero": {
+              "article": "Tolero",
+              "categorie": "Non classé",
+              "ventes": 176.64,
+              "quantite": 26.0
+            },
+            "tolero-b-uf": {
+              "article": "Tolero Bœuf",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 50.0
+            },
+            "tolero-poulet": {
+              "article": "Tolero Poulet",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 50.0
+            },
+            "tomate": {
+              "article": "Tomate",
+              "categorie": "Non classé",
+              "ventes": 10.0,
+              "quantite": 10.0
+            },
+            "tropico": {
+              "article": "Tropico",
+              "categorie": "Non classé",
+              "ventes": 116.8,
+              "quantite": 318.0
+            },
+            "vanille": {
+              "article": "Vanille",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 27.0
+            },
+            "vegetarien": {
+              "article": "Vegetarien",
+              "categorie": "Non classé",
+              "ventes": 88.0,
+              "quantite": 16.0
+            },
+            "wings-3-pieces": {
+              "article": "Wings 3 pièces",
+              "categorie": "Non classé",
+              "ventes": 397.32,
+              "quantite": 59.0
+            },
+            "wings-6-pieces": {
+              "article": "Wings 6 pièces",
+              "categorie": "Non classé",
+              "ventes": 423.03,
+              "quantite": 72.0
+            },
+            "wow": {
+              "article": "WOW",
+              "categorie": "Non classé",
+              "ventes": 244.53,
+              "quantite": 29.0
+            },
+            "wrap-beef": {
+              "article": "WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 255.96,
+              "quantite": 33.0
+            },
+            "wrap-chicken": {
+              "article": "WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 485.76,
+              "quantite": 73.0
+            }
+          },
+          "oc_001": {
+            "aigredouce": {
+              "article": "Aigredouce",
+              "categorie": "Non classé",
+              "ventes": 74.4,
+              "quantite": 93.0
+            },
+            "algerienne": {
+              "article": "Algérienne",
+              "categorie": "Non classé",
+              "ventes": 155.2,
+              "quantite": 195.0
+            },
+            "andalouse": {
+              "article": "Andalouse",
+              "categorie": "Non classé",
+              "ventes": 343.84,
+              "quantite": 430.0
+            },
+            "asian-chunks-10p": {
+              "article": "Asian Chunks 10p",
+              "categorie": "Non classé",
+              "ventes": 534.0,
+              "quantite": 60.0
+            },
+            "asian-crevettes": {
+              "article": "Asian Crevettes",
+              "categorie": "Non classé",
+              "ventes": 142.2,
+              "quantite": 18.0
+            },
+            "asian-mix-9p": {
+              "article": "Asian Mix 9p",
+              "categorie": "Non classé",
+              "ventes": 376.0,
+              "quantite": 40.0
+            },
+            "asian-tenders-4p": {
+              "article": "Asian Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 386.4,
+              "quantite": 56.0
+            },
+            "asian-wings-5p": {
+              "article": "Asian Wings 5p",
+              "categorie": "Non classé",
+              "ventes": 303.6,
+              "quantite": 44.0
+            },
+            "bacon": {
+              "article": "Bacon",
+              "categorie": "Non classé",
+              "ventes": 323.0,
+              "quantite": 38.0
+            },
+            "banane": {
+              "article": "Banane",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 12.0
+            },
+            "barbecue": {
+              "article": "Barbecue",
+              "categorie": "Non classé",
+              "ventes": 119.2,
+              "quantite": 149.0
+            },
+            "ben-jerry-cookie-dough-100ml": {
+              "article": "Ben&Jerry Cookie Dough 100ml",
+              "categorie": "Non classé",
+              "ventes": 84.0,
+              "quantite": 24.0
+            },
+            "ben-jerry-fudge-brownie-100ml": {
+              "article": "Ben&Jerry Fudge Brownie 100ml",
+              "categorie": "Non classé",
+              "ventes": 45.5,
+              "quantite": 13.0
+            },
+            "ben-jerry-strawberry-cheesecake-100ml": {
+              "article": "Ben&Jerry Strawberry Cheesecake 100ml",
+              "categorie": "Non classé",
+              "ventes": 17.5,
+              "quantite": 5.0
+            },
+            "big": {
+              "article": "Big",
+              "categorie": "Non classé",
+              "ventes": 646.8,
+              "quantite": 284.0
+            },
+            "brazil": {
+              "article": "Brazil",
+              "categorie": "Non classé",
+              "ventes": -237.2,
+              "quantite": 143.0
+            },
+            "cafe": {
+              "article": "cafe",
+              "categorie": "Non classé",
+              "ventes": 6.0,
+              "quantite": 4.0
+            },
+            "cafe-au-lait": {
+              "article": "cafe au lait",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "capri-sun": {
+              "article": "Capri-sun",
+              "categorie": "Non classé",
+              "ventes": 21.0,
+              "quantite": 22.0
+            },
+            "cheddar": {
+              "article": "cheddar",
+              "categorie": "Non classé",
+              "ventes": 37.5,
+              "quantite": 25.0
+            },
+            "cheese-enfant": {
+              "article": "cheese enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 25.0
+            },
+            "cheeseburger": {
+              "article": "Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 862.4,
+              "quantite": 308.0
+            },
+            "chef-box": {
+              "article": "Chef box",
+              "categorie": "Non classé",
+              "ventes": 510.0,
+              "quantite": 34.0
+            },
+            "chef-family-box": {
+              "article": "Chef family box",
+              "categorie": "Non classé",
+              "ventes": 140.0,
+              "quantite": 4.0
+            },
+            "chicken-burger": {
+              "article": "Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 319.5,
+              "quantite": 129.0
+            },
+            "chili-cheese-10p": {
+              "article": "Chili Cheese 10p",
+              "categorie": "Non classé",
+              "ventes": 84.5,
+              "quantite": 13.0
+            },
+            "chili-cheese-5p": {
+              "article": "Chili Cheese 5p",
+              "categorie": "Non classé",
+              "ventes": 132.6,
+              "quantite": 34.0
+            },
+            "chocolat": {
+              "article": "Chocolat",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 19.0
+            },
+            "chunks-10p": {
+              "article": "Chunks 10P",
+              "categorie": "Non classé",
+              "ventes": 34.5,
+              "quantite": 5.0
+            },
+            "chunks-5p": {
+              "article": "Chunks 5P",
+              "categorie": "Non classé",
+              "ventes": 44.0,
+              "quantite": 10.0
+            },
+            "compote-pomme-fraise": {
+              "article": "Compote Pomme/Fraise",
+              "categorie": "Non classé",
+              "ventes": 91.5,
+              "quantite": 61.0
+            },
+            "cornichons": {
+              "article": "Cornichons",
+              "categorie": "Non classé",
+              "ventes": 13.0,
+              "quantite": 13.0
+            },
+            "crazy-tiger": {
+              "article": "Crazy Tiger",
+              "categorie": "Non classé",
+              "ventes": 8.0,
+              "quantite": 3.0
+            },
+            "crispy": {
+              "article": "Crispy",
+              "categorie": "Non classé",
+              "ventes": 359.6,
+              "quantite": 102.0
+            },
+            "crousty-chicken-750-ml": {
+              "article": "CROUSTY CHICKEN 750 ml",
+              "categorie": "Non classé",
+              "ventes": 1242.0,
+              "quantite": 139.0
+            },
+            "crousty-chicken-900-ml": {
+              "article": "Crousty chicken 900 ml",
+              "categorie": "Non classé",
+              "ventes": 1585.5,
+              "quantite": 151.0
+            },
+            "delice": {
+              "article": "Delice",
+              "categorie": "Non classé",
+              "ventes": 682.0,
+              "quantite": 173.0
+            },
+            "double-bucket-16p": {
+              "article": "Double Bucket 16p",
+              "categorie": "Non classé",
+              "ventes": 139.0,
+              "quantite": 10.0
+            },
+            "double-cheese": {
+              "article": "Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 642.6,
+              "quantite": 153.0
+            },
+            "eau-50cl": {
+              "article": "Eau 50cl",
+              "categorie": "Non classé",
+              "ventes": 72.0,
+              "quantite": 160.0
+            },
+            "eau-gazeuse-50-cl": {
+              "article": "Eau gazeuse 50 cl",
+              "categorie": "Non classé",
+              "ventes": 14.0,
+              "quantite": 58.0
+            },
+            "espresso": {
+              "article": "espresso",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 2.0
+            },
+            "fille": {
+              "article": "Fille",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 36.0
+            },
+            "fire-chicken": {
+              "article": "Fire Chicken",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 202.0
+            },
+            "fish-burger": {
+              "article": "Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 198.0,
+              "quantite": 53.0
+            },
+            "fish-enfants": {
+              "article": "Fish enfants",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 5.0
+            },
+            "fraise": {
+              "article": "Fraise",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 13.0
+            },
+            "frite": {
+              "article": "Frite",
+              "categorie": "Non classé",
+              "ventes": 8.0,
+              "quantite": 10.0
+            },
+            "frite-cheddar": {
+              "article": "FRITE CHEDDAR",
+              "categorie": "Non classé",
+              "ventes": 83.6,
+              "quantite": 19.0
+            },
+            "frite-cheddar-oignons-crispy": {
+              "article": "FRITE CHEDDAR OIGNONS CRISPY",
+              "categorie": "Non classé",
+              "ventes": 61.6,
+              "quantite": 14.0
+            },
+            "frites-cheddar-bacon": {
+              "article": "FRITES CHEDDAR BACON",
+              "categorie": "Non classé",
+              "ventes": 124.2,
+              "quantite": 23.0
+            },
+            "frites-cheddar-bacon-jalapenos": {
+              "article": "FRITES CHEDDAR BACON JALAPENOS",
+              "categorie": "Non classé",
+              "ventes": 32.0,
+              "quantite": 5.0
+            },
+            "galette-uniquement": {
+              "article": "Galette uniquement",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "garcon": {
+              "article": "garcon",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 56.0
+            },
+            "grande-frite": {
+              "article": "Grande Frite",
+              "categorie": "Non classé",
+              "ventes": 345.0,
+              "quantite": 401.0
+            },
+            "grande-frite-patates-douces": {
+              "article": "Grande frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 202.5,
+              "quantite": 103.0
+            },
+            "hamburger": {
+              "article": "Hamburger",
+              "categorie": "Non classé",
+              "ventes": 1166.0,
+              "quantite": 584.0
+            },
+            "hamburger-enfant": {
+              "article": "hamburger enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 29.0
+            },
+            "ice-tea-peche": {
+              "article": "Ice tea Pêche",
+              "categorie": "Non classé",
+              "ventes": 106.6,
+              "quantite": 204.0
+            },
+            "ice-tea-petillant": {
+              "article": "Ice tea pétillant",
+              "categorie": "Non classé",
+              "ventes": 20.0,
+              "quantite": 18.0
+            },
+            "jalapenos": {
+              "article": "Jalapenos",
+              "categorie": "Non classé",
+              "ventes": 25.5,
+              "quantite": 17.0
+            },
+            "ketchup": {
+              "article": "Ketchup",
+              "categorie": "Non classé",
+              "ventes": 194.32,
+              "quantite": 243.0
+            },
+            "kids-cone": {
+              "article": "Kids cone",
+              "categorie": "Non classé",
+              "ventes": 18.0,
+              "quantite": 13.0
+            },
+            "kitkat": {
+              "article": "Kitkat",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 5.0
+            },
+            "lion": {
+              "article": "Lion",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 8.0
+            },
+            "lungo": {
+              "article": "Lungo",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "m-ms": {
+              "article": "M&Ms",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 7.0
+            },
+            "mayonnaise": {
+              "article": "Mayonnaise",
+              "categorie": "Non classé",
+              "ventes": -2540.36,
+              "quantite": 693.0
+            },
+            "menu-asian-chunks": {
+              "article": "Menu Asian Chunks",
+              "categorie": "Non classé",
+              "ventes": 380.8,
+              "quantite": 32.0
+            },
+            "menu-asian-crevettes": {
+              "article": "Menu Asian crevettes",
+              "categorie": "Non classé",
+              "ventes": 65.4,
+              "quantite": 6.0
+            },
+            "menu-asian-mix": {
+              "article": "Menu Asian Mix",
+              "categorie": "Non classé",
+              "ventes": 630.7,
+              "quantite": 53.0
+            },
+            "menu-asian-tenders": {
+              "article": "Menu Asian Tenders",
+              "categorie": "Non classé",
+              "ventes": 603.9,
+              "quantite": 61.0
+            },
+            "menu-asian-wings": {
+              "article": "Menu Asian Wings",
+              "categorie": "Non classé",
+              "ventes": 247.5,
+              "quantite": 25.0
+            },
+            "menu-bacon": {
+              "article": "Menu Bacon",
+              "categorie": "Non classé",
+              "ventes": 1600.0,
+              "quantite": 128.0
+            },
+            "menu-big": {
+              "article": "Menu Big",
+              "categorie": "Non classé",
+              "ventes": 1618.71,
+              "quantite": 205.0
+            },
+            "menu-cheeseburger": {
+              "article": "Menu Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 452.6,
+              "quantite": 73.0
+            },
+            "menu-chicken-burger": {
+              "article": "Menu Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 994.61,
+              "quantite": 126.0
+            },
+            "menu-crispy": {
+              "article": "Menu Crispy",
+              "categorie": "Non classé",
+              "ventes": 862.41,
+              "quantite": 97.0
+            },
+            "menu-crousty-chicken-750ml": {
+              "article": "MENU CROUSTY CHICKEN 750ML",
+              "categorie": "Non classé",
+              "ventes": 1470.0,
+              "quantite": 140.0
+            },
+            "menu-crousty-chicken-900ml": {
+              "article": "MENU CROUSTY CHICKEN 900ML",
+              "categorie": "Non classé",
+              "ventes": 1908.0,
+              "quantite": 160.0
+            },
+            "menu-d1": {
+              "article": "MENU D1",
+              "categorie": "Non classé",
+              "ventes": 1608.0,
+              "quantite": 134.0
+            },
+            "menu-d2": {
+              "article": "MENU D2",
+              "categorie": "Non classé",
+              "ventes": 616.0,
+              "quantite": 44.0
+            },
+            "menu-d3": {
+              "article": "MENU D3",
+              "categorie": "Non classé",
+              "ventes": 192.0,
+              "quantite": 12.0
+            },
+            "menu-d4": {
+              "article": "MENU D4",
+              "categorie": "Non classé",
+              "ventes": 220.0,
+              "quantite": 10.0
+            },
+            "menu-delice": {
+              "article": "Menu Delice",
+              "categorie": "Non classé",
+              "ventes": 1666.0,
+              "quantite": 196.0
+            },
+            "menu-double-bucket-18p": {
+              "article": "Menu Double Bucket 18p",
+              "categorie": "Non classé",
+              "ventes": 793.8,
+              "quantite": 42.0
+            },
+            "menu-double-cheese": {
+              "article": "Menu Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 1200.0,
+              "quantite": 160.0
+            },
+            "menu-fish-burger": {
+              "article": "Menu Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 395.0,
+              "quantite": 50.0
+            },
+            "menu-hamburger": {
+              "article": "Menu Hamburger",
+              "categorie": "Non classé",
+              "ventes": 473.0,
+              "quantite": 86.0
+            },
+            "menu-kids": {
+              "article": "Menu Kids",
+              "categorie": "Non classé",
+              "ventes": 790.0,
+              "quantite": 100.0
+            },
+            "menu-large-bucket-36p": {
+              "article": "Menu Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 251.3,
+              "quantite": 7.0
+            },
+            "menu-montagnard": {
+              "article": "Menu Montagnard",
+              "categorie": "Non classé",
+              "ventes": 675.0,
+              "quantite": 54.0
+            },
+            "menu-nuggets-8p": {
+              "article": "Menu Nuggets 8p",
+              "categorie": "Non classé",
+              "ventes": 324.35,
+              "quantite": 50.0
+            },
+            "menu-pepper": {
+              "article": "Menu Pepper",
+              "categorie": "Non classé",
+              "ventes": 875.5,
+              "quantite": 103.0
+            },
+            "menu-smash-crousty-edition-limitee": {
+              "article": "Menu Smash Crousty (Edition limitée)",
+              "categorie": "Non classé",
+              "ventes": 150.4,
+              "quantite": 17.0
+            },
+            "menu-smash-poulet": {
+              "article": "Menu Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 1090.0,
+              "quantite": 100.0
+            },
+            "menu-smash-viande": {
+              "article": "Menu Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 1457.7,
+              "quantite": 113.0
+            },
+            "menu-tenders-4p": {
+              "article": "Menu Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 647.8,
+              "quantite": 82.0
+            },
+            "menu-tolero": {
+              "article": "Menu Tolero",
+              "categorie": "Non classé",
+              "ventes": 1603.8,
+              "quantite": 162.0
+            },
+            "menu-vegetarien-chicken": {
+              "article": "Menu Vegetarien \"Chicken\"",
+              "categorie": "Non classé",
+              "ventes": 117.0,
+              "quantite": 15.0
+            },
+            "menu-wings-6p": {
+              "article": "Menu Wings 6p",
+              "categorie": "Non classé",
+              "ventes": 758.4,
+              "quantite": 96.0
+            },
+            "menu-wow": {
+              "article": "Menu WOW",
+              "categorie": "Non classé",
+              "ventes": 2783.82,
+              "quantite": 217.0
+            },
+            "menu-wrap-beef": {
+              "article": "MENU WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 226.6,
+              "quantite": 22.0
+            },
+            "menu-wrap-chicken": {
+              "article": "MENU WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 533.6,
+              "quantite": 58.0
+            },
+            "mirinda": {
+              "article": "Mirinda",
+              "categorie": "Non classé",
+              "ventes": 54.0,
+              "quantite": 263.0
+            },
+            "mix-des-2-sauces": {
+              "article": "Mix des 2 sauces",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 274.0
+            },
+            "montagnard": {
+              "article": "Montagnard",
+              "categorie": "Non classé",
+              "ventes": 180.5,
+              "quantite": 25.0
+            },
+            "mozzarella-4p": {
+              "article": "Mozzarella 4p",
+              "categorie": "Non classé",
+              "ventes": 284.7,
+              "quantite": 73.0
+            },
+            "mozzarella-8p": {
+              "article": "Mozzarella 8p",
+              "categorie": "Non classé",
+              "ventes": 193.2,
+              "quantite": 28.0
+            },
+            "napage-caramel": {
+              "article": "Napage Caramel",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 9.0
+            },
+            "napage-chocolat": {
+              "article": "Napage chocolat",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 8.0
+            },
+            "napage-fraise": {
+              "article": "Napage fraise",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 4.0
+            },
+            "nuggets-12p": {
+              "article": "Nuggets 12p",
+              "categorie": "Non classé",
+              "ventes": 258.0,
+              "quantite": 43.0
+            },
+            "nuggets-6p": {
+              "article": "Nuggets 6p",
+              "categorie": "Non classé",
+              "ventes": 283.5,
+              "quantite": 81.0
+            },
+            "nuggets-enfant": {
+              "article": "nuggets enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 41.0
+            },
+            "o-cheese-box": {
+              "article": "O'Cheese box",
+              "categorie": "Non classé",
+              "ventes": 4890.0,
+              "quantite": 490.0
+            },
+            "o-cheese-family-box": {
+              "article": "O'Cheese family box",
+              "categorie": "Non classé",
+              "ventes": 2280.0,
+              "quantite": 76.0
+            },
+            "o-milkshake": {
+              "article": "O'Milkshake",
+              "categorie": "Non classé",
+              "ventes": 301.5,
+              "quantite": 67.0
+            },
+            "oasis-fraise-framboise": {
+              "article": "Oasis fraise framboise",
+              "categorie": "Non classé",
+              "ventes": 77.4,
+              "quantite": 144.0
+            },
+            "oasis-pomme-cassis": {
+              "article": "Oasis Pomme Cassis",
+              "categorie": "Non classé",
+              "ventes": 97.4,
+              "quantite": 172.0
+            },
+            "ochocice": {
+              "article": "OChocice",
+              "categorie": "Non classé",
+              "ventes": 15.6,
+              "quantite": 4.0
+            },
+            "oignon-caramelise": {
+              "article": "oignon caramelise",
+              "categorie": "Non classé",
+              "ventes": 42.0,
+              "quantite": 28.0
+            },
+            "oignon-crispy": {
+              "article": "oignon crispy",
+              "categorie": "Non classé",
+              "ventes": 22.0,
+              "quantite": 22.0
+            },
+            "oignons": {
+              "article": "oignons",
+              "categorie": "Non classé",
+              "ventes": 2.0,
+              "quantite": 2.0
+            },
+            "onion-rings-10p": {
+              "article": "Onion Rings 10p",
+              "categorie": "Non classé",
+              "ventes": 49.0,
+              "quantite": 10.0
+            },
+            "onion-rings-6p": {
+              "article": "Onion Rings 6p",
+              "categorie": "Non classé",
+              "ventes": 131.2,
+              "quantite": 41.0
+            },
+            "oreo": {
+              "article": "Oreo",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 3.0
+            },
+            "otopshake": {
+              "article": "Otopshake",
+              "categorie": "Non classé",
+              "ventes": 104.5,
+              "quantite": 19.0
+            },
+            "pepper": {
+              "article": "Pepper",
+              "categorie": "Non classé",
+              "ventes": 342.2,
+              "quantite": 102.0
+            },
+            "pepsi": {
+              "article": "Pepsi",
+              "categorie": "Non classé",
+              "ventes": -28.0,
+              "quantite": 741.0
+            },
+            "pepsi-max": {
+              "article": "Pepsi Max",
+              "categorie": "Non classé",
+              "ventes": 56.0,
+              "quantite": 853.0
+            },
+            "pepsi-max-cherry": {
+              "article": "Pepsi Max Cherry",
+              "categorie": "Non classé",
+              "ventes": 42.0,
+              "quantite": 272.0
+            },
+            "pepsi-max-lemon": {
+              "article": "Pepsi Max lemon",
+              "categorie": "Non classé",
+              "ventes": 24.0,
+              "quantite": 12.0
+            },
+            "petite-frite": {
+              "article": "Petite Frite",
+              "categorie": "Non classé",
+              "ventes": 342.2,
+              "quantite": 2195.0
+            },
+            "petite-frite-patates-douces": {
+              "article": "Petite frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 209.7,
+              "quantite": 173.0
+            },
+            "raclette": {
+              "article": "raclette",
+              "categorie": "Non classé",
+              "ventes": 34.5,
+              "quantite": 23.0
+            },
+            "redbull": {
+              "article": "Redbull",
+              "categorie": "Non classé",
+              "ventes": 27.7,
+              "quantite": 14.0
+            },
+            "roquette": {
+              "article": "Roquette",
+              "categorie": "Non classé",
+              "ventes": 4.5,
+              "quantite": 3.0
+            },
+            "salade": {
+              "article": "Salade",
+              "categorie": "Non classé",
+              "ventes": 1.5,
+              "quantite": 1.0
+            },
+            "salade-classique": {
+              "article": "Salade classique",
+              "categorie": "Non classé",
+              "ventes": 49.0,
+              "quantite": 10.0
+            },
+            "salade-tenders": {
+              "article": "Salade Tenders",
+              "categorie": "Non classé",
+              "ventes": 53.1,
+              "quantite": 9.0
+            },
+            "salade-thon": {
+              "article": "Salade Thon",
+              "categorie": "Non classé",
+              "ventes": 23.6,
+              "quantite": 4.0
+            },
+            "samourai": {
+              "article": "Samourai",
+              "categorie": "Non classé",
+              "ventes": 180.0,
+              "quantite": 225.0
+            },
+            "sauce-cheddar-o-cheese": {
+              "article": "Sauce cheddar O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 34.8,
+              "quantite": 31.0
+            },
+            "sauce-frites": {
+              "article": "Sauce frites",
+              "categorie": "Non classé",
+              "ventes": 103.2,
+              "quantite": 139.0
+            },
+            "sauce-fromagere-o-cheese": {
+              "article": "Sauce fromagère O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 9.75,
+              "quantite": 14.0
+            },
+            "sauce-miel-moutarde-o-cheese": {
+              "article": "Sauce miel moutarde O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 12.0,
+              "quantite": 13.0
+            },
+            "sauce-piquante": {
+              "article": "Sauce piquante",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 59.0
+            },
+            "sauce-sucree": {
+              "article": "Sauce sucrée",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 252.0
+            },
+            "seven-up": {
+              "article": "Seven Up",
+              "categorie": "Non classé",
+              "ventes": 50.0,
+              "quantite": 233.0
+            },
+            "smash-crousty-edition-limite": {
+              "article": "Smash Crousty (Edition limité)",
+              "categorie": "Non classé",
+              "ventes": 118.0,
+              "quantite": 20.0
+            },
+            "smash-poulet": {
+              "article": "Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 260.7,
+              "quantite": 43.0
+            },
+            "smash-viande": {
+              "article": "Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 361.0,
+              "quantite": 42.0
+            },
+            "tarte-daim": {
+              "article": "Tarte Daim",
+              "categorie": "Non classé",
+              "ventes": 89.6,
+              "quantite": 28.0
+            },
+            "tarte-milka": {
+              "article": "Tarte Milka",
+              "categorie": "Non classé",
+              "ventes": 41.6,
+              "quantite": 13.0
+            },
+            "tenders-2p": {
+              "article": "Tenders 2p",
+              "categorie": "Non classé",
+              "ventes": 234.9,
+              "quantite": 81.0
+            },
+            "tenders-5p": {
+              "article": "Tenders 5p",
+              "categorie": "Non classé",
+              "ventes": 474.5,
+              "quantite": 73.0
+            },
+            "tiramisu-bueno": {
+              "article": "Tiramisu bueno",
+              "categorie": "Non classé",
+              "ventes": 234.0,
+              "quantite": 60.0
+            },
+            "tiramisu-fruits-rouges": {
+              "article": "Tiramisu fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 93.6,
+              "quantite": 24.0
+            },
+            "tiramisu-mangue-passion": {
+              "article": "Tiramisu mangue passion",
+              "categorie": "Non classé",
+              "ventes": 31.2,
+              "quantite": 8.0
+            },
+            "tiramisu-oreo": {
+              "article": "Tiramisu Oreo",
+              "categorie": "Non classé",
+              "ventes": 234.0,
+              "quantite": 60.0
+            },
+            "tiramisu-speculoos": {
+              "article": "Tiramisu Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 109.2,
+              "quantite": 28.0
+            },
+            "tokyo-flavour": {
+              "article": "Tokyo Flavour",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 182.0
+            },
+            "tolero": {
+              "article": "Tolero",
+              "categorie": "Non classé",
+              "ventes": 379.5,
+              "quantite": 55.0
+            },
+            "tolero-b-uf": {
+              "article": "Tolero Bœuf",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 100.0
+            },
+            "tolero-poulet": {
+              "article": "Tolero Poulet",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 127.0
+            },
+            "tomate": {
+              "article": "Tomate",
+              "categorie": "Non classé",
+              "ventes": 5.0,
+              "quantite": 5.0
+            },
+            "tropico": {
+              "article": "Tropico",
+              "categorie": "Non classé",
+              "ventes": 54.0,
+              "quantite": 352.0
+            },
+            "truffe": {
+              "article": "truffe",
+              "categorie": "Non classé",
+              "ventes": 0.8,
+              "quantite": 1.0
+            },
+            "vanille": {
+              "article": "Vanille",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 41.0
+            },
+            "vegetarien": {
+              "article": "Vegetarien",
+              "categorie": "Non classé",
+              "ventes": 27.5,
+              "quantite": 5.0
+            },
+            "wings-3-pieces": {
+              "article": "Wings 3 pièces",
+              "categorie": "Non classé",
+              "ventes": 147.2,
+              "quantite": 46.0
+            },
+            "wings-6-pieces": {
+              "article": "Wings 6 pièces",
+              "categorie": "Non classé",
+              "ventes": 454.3,
+              "quantite": 77.0
+            },
+            "wow": {
+              "article": "WOW",
+              "categorie": "Non classé",
+              "ventes": 603.9,
+              "quantite": 67.0
+            },
+            "wrap-beef": {
+              "article": "WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 110.6,
+              "quantite": 14.0
+            },
+            "wrap-chicken": {
+              "article": "WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 324.3,
+              "quantite": 49.0
+            }
+          },
+          "oc_005": {
+            "aigredouce": {
+              "article": "Aigredouce",
+              "categorie": "Non classé",
+              "ventes": 20.0,
+              "quantite": 25.0
+            },
+            "algerienne": {
+              "article": "Algérienne",
+              "categorie": "Non classé",
+              "ventes": 28.0,
+              "quantite": 35.0
+            },
+            "andalouse": {
+              "article": "Andalouse",
+              "categorie": "Non classé",
+              "ventes": 115.2,
+              "quantite": 144.0
+            },
+            "asian-chunks-10p": {
+              "article": "Asian Chunks 10p",
+              "categorie": "Non classé",
+              "ventes": 178.0,
+              "quantite": 20.0
+            },
+            "asian-crevettes": {
+              "article": "Asian Crevettes",
+              "categorie": "Non classé",
+              "ventes": 86.11,
+              "quantite": 11.0
+            },
+            "asian-mix-9p": {
+              "article": "Asian Mix 9p",
+              "categorie": "Non classé",
+              "ventes": 75.2,
+              "quantite": 8.0
+            },
+            "asian-tenders-4p": {
+              "article": "Asian Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 62.1,
+              "quantite": 9.0
+            },
+            "asian-wings-5p": {
+              "article": "Asian Wings 5p",
+              "categorie": "Non classé",
+              "ventes": 103.5,
+              "quantite": 15.0
+            },
+            "bacon": {
+              "article": "Bacon",
+              "categorie": "Non classé",
+              "ventes": 85.5,
+              "quantite": 10.0
+            },
+            "banane": {
+              "article": "Banane",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 3.0
+            },
+            "barbecue": {
+              "article": "Barbecue",
+              "categorie": "Non classé",
+              "ventes": 51.2,
+              "quantite": 64.0
+            },
+            "ben-jerry-cookie-dough-100ml": {
+              "article": "Ben&Jerry Cookie Dough 100ml",
+              "categorie": "Non classé",
+              "ventes": 17.5,
+              "quantite": 5.0
+            },
+            "ben-jerry-fudge-brownie-100ml": {
+              "article": "Ben&Jerry Fudge Brownie 100ml",
+              "categorie": "Non classé",
+              "ventes": 7.0,
+              "quantite": 2.0
+            },
+            "ben-jerry-strawberry-cheesecake-100ml": {
+              "article": "Ben&Jerry Strawberry Cheesecake 100ml",
+              "categorie": "Non classé",
+              "ventes": 7.0,
+              "quantite": 2.0
+            },
+            "big": {
+              "article": "Big",
+              "categorie": "Non classé",
+              "ventes": 181.3,
+              "quantite": 108.0
+            },
+            "brazil": {
+              "article": "Brazil",
+              "categorie": "Non classé",
+              "ventes": 16.8,
+              "quantite": 21.0
+            },
+            "cafe": {
+              "article": "cafe",
+              "categorie": "Non classé",
+              "ventes": 3.0,
+              "quantite": 2.0
+            },
+            "capri-sun": {
+              "article": "Capri-sun",
+              "categorie": "Non classé",
+              "ventes": 26.0,
+              "quantite": 26.0
+            },
+            "cheddar": {
+              "article": "cheddar",
+              "categorie": "Non classé",
+              "ventes": 3.0,
+              "quantite": 2.0
+            },
+            "cheese-enfant": {
+              "article": "cheese enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 4.0
+            },
+            "cheeseburger": {
+              "article": "Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 308.0,
+              "quantite": 110.0
+            },
+            "chef-box": {
+              "article": "Chef box",
+              "categorie": "Non classé",
+              "ventes": 315.0,
+              "quantite": 21.0
+            },
+            "chef-family-box": {
+              "article": "Chef family box",
+              "categorie": "Non classé",
+              "ventes": 70.0,
+              "quantite": 2.0
+            },
+            "chicken-burger": {
+              "article": "Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 90.0,
+              "quantite": 48.0
+            },
+            "chili-cheese-10p": {
+              "article": "Chili Cheese 10p",
+              "categorie": "Non classé",
+              "ventes": 19.5,
+              "quantite": 3.0
+            },
+            "chili-cheese-5p": {
+              "article": "Chili Cheese 5p",
+              "categorie": "Non classé",
+              "ventes": 58.5,
+              "quantite": 15.0
+            },
+            "chocolat": {
+              "article": "Chocolat",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 4.0
+            },
+            "chunks-10p": {
+              "article": "Chunks 10P",
+              "categorie": "Non classé",
+              "ventes": 41.4,
+              "quantite": 6.0
+            },
+            "chunks-5p": {
+              "article": "Chunks 5P",
+              "categorie": "Non classé",
+              "ventes": 35.2,
+              "quantite": 8.0
+            },
+            "compote-pomme-fraise": {
+              "article": "Compote Pomme/Fraise",
+              "categorie": "Non classé",
+              "ventes": 9.0,
+              "quantite": 6.0
+            },
+            "crispy": {
+              "article": "Crispy",
+              "categorie": "Non classé",
+              "ventes": 31.0,
+              "quantite": 15.0
+            },
+            "crousty-chicken-750-ml": {
+              "article": "CROUSTY CHICKEN 750 ml",
+              "categorie": "Non classé",
+              "ventes": 566.1,
+              "quantite": 63.0
+            },
+            "crousty-chicken-900-ml": {
+              "article": "Crousty chicken 900 ml",
+              "categorie": "Non classé",
+              "ventes": 892.5,
+              "quantite": 85.0
+            },
+            "delice": {
+              "article": "Delice",
+              "categorie": "Non classé",
+              "ventes": 120.45,
+              "quantite": 30.0
+            },
+            "double-bucket-16p": {
+              "article": "Double Bucket 16p",
+              "categorie": "Non classé",
+              "ventes": 27.8,
+              "quantite": 2.0
+            },
+            "double-cheese": {
+              "article": "Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 256.2,
+              "quantite": 61.0
+            },
+            "eau-50cl": {
+              "article": "Eau 50cl",
+              "categorie": "Non classé",
+              "ventes": 58.0,
+              "quantite": 79.0
+            },
+            "eau-gazeuse-50-cl": {
+              "article": "Eau gazeuse 50 cl",
+              "categorie": "Non classé",
+              "ventes": 18.0,
+              "quantite": 46.0
+            },
+            "fille": {
+              "article": "Fille",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 18.0
+            },
+            "fire-chicken": {
+              "article": "Fire Chicken",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 33.0
+            },
+            "fish-burger": {
+              "article": "Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 58.5,
+              "quantite": 22.0
+            },
+            "fish-enfants": {
+              "article": "Fish enfants",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 3.0
+            },
+            "fraise": {
+              "article": "Fraise",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 11.0
+            },
+            "frite": {
+              "article": "Frite",
+              "categorie": "Non classé",
+              "ventes": 9.6,
+              "quantite": 12.0
+            },
+            "frite-cheddar": {
+              "article": "FRITE CHEDDAR",
+              "categorie": "Non classé",
+              "ventes": 26.4,
+              "quantite": 6.0
+            },
+            "frite-cheddar-oignons-crispy": {
+              "article": "FRITE CHEDDAR OIGNONS CRISPY",
+              "categorie": "Non classé",
+              "ventes": 22.0,
+              "quantite": 5.0
+            },
+            "frites-cheddar-bacon": {
+              "article": "FRITES CHEDDAR BACON",
+              "categorie": "Non classé",
+              "ventes": 21.6,
+              "quantite": 4.0
+            },
+            "garcon": {
+              "article": "garcon",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 15.0
+            },
+            "grande-frite": {
+              "article": "Grande Frite",
+              "categorie": "Non classé",
+              "ventes": 180.34,
+              "quantite": 204.0
+            },
+            "grande-frite-patates-douces": {
+              "article": "Grande frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 85.9,
+              "quantite": 41.0
+            },
+            "hamburger": {
+              "article": "Hamburger",
+              "categorie": "Non classé",
+              "ventes": 178.0,
+              "quantite": 89.0
+            },
+            "hamburger-enfant": {
+              "article": "hamburger enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 13.0
+            },
+            "i": {
+              "article": "I",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "ice-tea-peche": {
+              "article": "Ice tea Pêche",
+              "categorie": "Non classé",
+              "ventes": 75.0,
+              "quantite": 105.0
+            },
+            "ice-tea-petillant": {
+              "article": "Ice tea pétillant",
+              "categorie": "Non classé",
+              "ventes": 72.0,
+              "quantite": 36.0
+            },
+            "ketchup": {
+              "article": "Ketchup",
+              "categorie": "Non classé",
+              "ventes": 76.72,
+              "quantite": 96.0
+            },
+            "large-bucket-36p": {
+              "article": "Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 53.8,
+              "quantite": 2.0
+            },
+            "lungo": {
+              "article": "Lungo",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 3.0
+            },
+            "m-ms": {
+              "article": "M&Ms",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 2.0
+            },
+            "mayonnaise": {
+              "article": "Mayonnaise",
+              "categorie": "Non classé",
+              "ventes": 113.44,
+              "quantite": 142.0
+            },
+            "menu-asian-chunks": {
+              "article": "Menu Asian Chunks",
+              "categorie": "Non classé",
+              "ventes": 95.2,
+              "quantite": 8.0
+            },
+            "menu-asian-crevettes": {
+              "article": "Menu Asian crevettes",
+              "categorie": "Non classé",
+              "ventes": 54.5,
+              "quantite": 5.0
+            },
+            "menu-asian-mix": {
+              "article": "Menu Asian Mix",
+              "categorie": "Non classé",
+              "ventes": 154.7,
+              "quantite": 13.0
+            },
+            "menu-asian-tenders": {
+              "article": "Menu Asian Tenders",
+              "categorie": "Non classé",
+              "ventes": 69.3,
+              "quantite": 7.0
+            },
+            "menu-asian-wings": {
+              "article": "Menu Asian Wings",
+              "categorie": "Non classé",
+              "ventes": 49.5,
+              "quantite": 5.0
+            },
+            "menu-bacon": {
+              "article": "Menu Bacon",
+              "categorie": "Non classé",
+              "ventes": 200.0,
+              "quantite": 16.0
+            },
+            "menu-big": {
+              "article": "Menu Big",
+              "categorie": "Non classé",
+              "ventes": 347.6,
+              "quantite": 44.0
+            },
+            "menu-cheeseburger": {
+              "article": "Menu Cheeseburger",
+              "categorie": "Non classé",
+              "ventes": 136.4,
+              "quantite": 22.0
+            },
+            "menu-chicken-burger": {
+              "article": "Menu Chicken Burger",
+              "categorie": "Non classé",
+              "ventes": 347.6,
+              "quantite": 44.0
+            },
+            "menu-crispy": {
+              "article": "Menu Crispy",
+              "categorie": "Non classé",
+              "ventes": 142.4,
+              "quantite": 16.0
+            },
+            "menu-crousty-chicken-750ml": {
+              "article": "MENU CROUSTY CHICKEN 750ML",
+              "categorie": "Non classé",
+              "ventes": 556.5,
+              "quantite": 53.0
+            },
+            "menu-crousty-chicken-900ml": {
+              "article": "MENU CROUSTY CHICKEN 900ML",
+              "categorie": "Non classé",
+              "ventes": 696.0,
+              "quantite": 58.0
+            },
+            "menu-d1": {
+              "article": "MENU D1",
+              "categorie": "Non classé",
+              "ventes": 696.0,
+              "quantite": 58.0
+            },
+            "menu-d2": {
+              "article": "MENU D2",
+              "categorie": "Non classé",
+              "ventes": 140.0,
+              "quantite": 10.0
+            },
+            "menu-d3": {
+              "article": "MENU D3",
+              "categorie": "Non classé",
+              "ventes": 80.0,
+              "quantite": 5.0
+            },
+            "menu-d4": {
+              "article": "MENU D4",
+              "categorie": "Non classé",
+              "ventes": 44.0,
+              "quantite": 2.0
+            },
+            "menu-delice": {
+              "article": "Menu Delice",
+              "categorie": "Non classé",
+              "ventes": 50.15,
+              "quantite": 6.0
+            },
+            "menu-double-bucket-18p": {
+              "article": "Menu Double Bucket 18p",
+              "categorie": "Non classé",
+              "ventes": 94.5,
+              "quantite": 5.0
+            },
+            "menu-double-cheese": {
+              "article": "Menu Double Cheese",
+              "categorie": "Non classé",
+              "ventes": 292.5,
+              "quantite": 39.0
+            },
+            "menu-fish-burger": {
+              "article": "Menu Fish Burger",
+              "categorie": "Non classé",
+              "ventes": 86.9,
+              "quantite": 11.0
+            },
+            "menu-hamburger": {
+              "article": "Menu Hamburger",
+              "categorie": "Non classé",
+              "ventes": 65.45,
+              "quantite": 12.0
+            },
+            "menu-kids": {
+              "article": "Menu Kids",
+              "categorie": "Non classé",
+              "ventes": 260.7,
+              "quantite": 33.0
+            },
+            "menu-large-bucket-36p": {
+              "article": "Menu Large Bucket 36p",
+              "categorie": "Non classé",
+              "ventes": 35.9,
+              "quantite": 1.0
+            },
+            "menu-montagnard": {
+              "article": "Menu Montagnard",
+              "categorie": "Non classé",
+              "ventes": 137.5,
+              "quantite": 11.0
+            },
+            "menu-nuggets-8p": {
+              "article": "Menu Nuggets 8p",
+              "categorie": "Non classé",
+              "ventes": 52.0,
+              "quantite": 8.0
+            },
+            "menu-pepper": {
+              "article": "Menu Pepper",
+              "categorie": "Non classé",
+              "ventes": 221.0,
+              "quantite": 26.0
+            },
+            "menu-smash-crousty-edition-limitee": {
+              "article": "Menu Smash Crousty (Edition limitée)",
+              "categorie": "Non classé",
+              "ventes": 216.2,
+              "quantite": 23.0
+            },
+            "menu-smash-poulet": {
+              "article": "Menu Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 347.71,
+              "quantite": 32.0
+            },
+            "menu-smash-viande": {
+              "article": "Menu Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 825.6,
+              "quantite": 64.0
+            },
+            "menu-tenders-4p": {
+              "article": "Menu Tenders 4p",
+              "categorie": "Non classé",
+              "ventes": 237.0,
+              "quantite": 30.0
+            },
+            "menu-tolero": {
+              "article": "Menu Tolero",
+              "categorie": "Non classé",
+              "ventes": 287.1,
+              "quantite": 29.0
+            },
+            "menu-vegetarien-chicken": {
+              "article": "Menu Vegetarien \"Chicken\"",
+              "categorie": "Non classé",
+              "ventes": 39.0,
+              "quantite": 5.0
+            },
+            "menu-wings-6p": {
+              "article": "Menu Wings 6p",
+              "categorie": "Non classé",
+              "ventes": 371.3,
+              "quantite": 47.0
+            },
+            "menu-wow": {
+              "article": "Menu WOW",
+              "categorie": "Non classé",
+              "ventes": 219.3,
+              "quantite": 17.0
+            },
+            "menu-wrap-beef": {
+              "article": "MENU WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 30.9,
+              "quantite": 3.0
+            },
+            "menu-wrap-chicken": {
+              "article": "MENU WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 283.36,
+              "quantite": 31.0
+            },
+            "mirinda": {
+              "article": "Mirinda",
+              "categorie": "Non classé",
+              "ventes": 34.0,
+              "quantite": 82.0
+            },
+            "mix-des-2-sauces": {
+              "article": "Mix des 2 sauces",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 151.0
+            },
+            "montagnard": {
+              "article": "Montagnard",
+              "categorie": "Non classé",
+              "ventes": 19.0,
+              "quantite": 3.0
+            },
+            "mozzarella-4p": {
+              "article": "Mozzarella 4p",
+              "categorie": "Non classé",
+              "ventes": 109.2,
+              "quantite": 28.0
+            },
+            "mozzarella-8p": {
+              "article": "Mozzarella 8p",
+              "categorie": "Non classé",
+              "ventes": 89.7,
+              "quantite": 13.0
+            },
+            "napage-chocolat": {
+              "article": "Napage chocolat",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "nuggets-12p": {
+              "article": "Nuggets 12p",
+              "categorie": "Non classé",
+              "ventes": 54.0,
+              "quantite": 9.0
+            },
+            "nuggets-6p": {
+              "article": "Nuggets 6p",
+              "categorie": "Non classé",
+              "ventes": 77.0,
+              "quantite": 22.0
+            },
+            "nuggets-enfant": {
+              "article": "nuggets enfant",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 13.0
+            },
+            "o-cheese-box": {
+              "article": "O'Cheese box",
+              "categorie": "Non classé",
+              "ventes": 3970.0,
+              "quantite": 397.0
+            },
+            "o-cheese-family-box": {
+              "article": "O'Cheese family box",
+              "categorie": "Non classé",
+              "ventes": 1020.0,
+              "quantite": 34.0
+            },
+            "o-milkshake": {
+              "article": "O'Milkshake",
+              "categorie": "Non classé",
+              "ventes": 175.5,
+              "quantite": 39.0
+            },
+            "oasis-fraise-framboise": {
+              "article": "Oasis fraise framboise",
+              "categorie": "Non classé",
+              "ventes": 47.4,
+              "quantite": 75.0
+            },
+            "oasis-pomme-cassis": {
+              "article": "Oasis Pomme Cassis",
+              "categorie": "Non classé",
+              "ventes": 49.8,
+              "quantite": 87.0
+            },
+            "oasis-pomme-poire": {
+              "article": "oasis pomme poire",
+              "categorie": "Non classé",
+              "ventes": 8.0,
+              "quantite": 4.0
+            },
+            "oignon-crispy": {
+              "article": "oignon crispy",
+              "categorie": "Non classé",
+              "ventes": 1.0,
+              "quantite": 1.0
+            },
+            "onion-rings-10p": {
+              "article": "Onion Rings 10p",
+              "categorie": "Non classé",
+              "ventes": 14.7,
+              "quantite": 3.0
+            },
+            "onion-rings-6p": {
+              "article": "Onion Rings 6p",
+              "categorie": "Non classé",
+              "ventes": 25.6,
+              "quantite": 8.0
+            },
+            "oreo": {
+              "article": "Oreo",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 4.0
+            },
+            "otopshake": {
+              "article": "Otopshake",
+              "categorie": "Non classé",
+              "ventes": 32.45,
+              "quantite": 6.0
+            },
+            "pepper": {
+              "article": "Pepper",
+              "categorie": "Non classé",
+              "ventes": 82.6,
+              "quantite": 24.0
+            },
+            "pepsi": {
+              "article": "Pepsi",
+              "categorie": "Non classé",
+              "ventes": 160.0,
+              "quantite": 275.0
+            },
+            "pepsi-max": {
+              "article": "Pepsi Max",
+              "categorie": "Non classé",
+              "ventes": 22.0,
+              "quantite": 68.0
+            },
+            "pepsi-max-cherry": {
+              "article": "Pepsi Max Cherry",
+              "categorie": "Non classé",
+              "ventes": 30.0,
+              "quantite": 45.0
+            },
+            "pepsi-max-lemon": {
+              "article": "Pepsi Max lemon",
+              "categorie": "Non classé",
+              "ventes": 6.0,
+              "quantite": 3.0
+            },
+            "petite-frite": {
+              "article": "Petite Frite",
+              "categorie": "Non classé",
+              "ventes": 60.9,
+              "quantite": 423.0
+            },
+            "petite-frite-patates-douces": {
+              "article": "Petite frite patates douces",
+              "categorie": "Non classé",
+              "ventes": 68.9,
+              "quantite": 66.0
+            },
+            "redbull": {
+              "article": "RedBull",
+              "categorie": "Non classé",
+              "ventes": 4.4,
+              "quantite": 3.0
+            },
+            "redbull-edition": {
+              "article": "Redbull Édition",
+              "categorie": "Non classé",
+              "ventes": 2.3,
+              "quantite": 1.0
+            },
+            "salade-classique": {
+              "article": "Salade classique",
+              "categorie": "Non classé",
+              "ventes": 4.9,
+              "quantite": 1.0
+            },
+            "salade-tenders": {
+              "article": "Salade Tenders",
+              "categorie": "Non classé",
+              "ventes": 11.8,
+              "quantite": 2.0
+            },
+            "samourai": {
+              "article": "Samourai",
+              "categorie": "Non classé",
+              "ventes": 83.2,
+              "quantite": 104.0
+            },
+            "sauce-cheddar-o-cheese": {
+              "article": "Sauce cheddar O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 23.2,
+              "quantite": 17.0
+            },
+            "sauce-frites": {
+              "article": "Sauce frites",
+              "categorie": "Non classé",
+              "ventes": 43.2,
+              "quantite": 63.0
+            },
+            "sauce-fromagere-o-cheese": {
+              "article": "Sauce fromagère O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 3.25,
+              "quantite": 5.0
+            },
+            "sauce-miel-moutarde-o-cheese": {
+              "article": "Sauce miel moutarde O'Cheese",
+              "categorie": "Non classé",
+              "ventes": 5.0,
+              "quantite": 7.0
+            },
+            "sauce-piquante": {
+              "article": "Sauce piquante",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 6.0
+            },
+            "sauce-sucree": {
+              "article": "Sauce sucrée",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 99.0
+            },
+            "seven-up": {
+              "article": "Seven Up",
+              "categorie": "Non classé",
+              "ventes": 36.0,
+              "quantite": 65.0
+            },
+            "smash-crousty-edition-limite": {
+              "article": "Smash Crousty (Edition limité)",
+              "categorie": "Non classé",
+              "ventes": 47.2,
+              "quantite": 8.0
+            },
+            "smash-poulet": {
+              "article": "Smash Poulet",
+              "categorie": "Non classé",
+              "ventes": 94.8,
+              "quantite": 14.0
+            },
+            "smash-viande": {
+              "article": "Smash Viande",
+              "categorie": "Non classé",
+              "ventes": 313.5,
+              "quantite": 34.0
+            },
+            "tarte-daim": {
+              "article": "Tarte Daim",
+              "categorie": "Non classé",
+              "ventes": 95.36,
+              "quantite": 30.0
+            },
+            "tarte-milka": {
+              "article": "Tarte Milka",
+              "categorie": "Non classé",
+              "ventes": 9.6,
+              "quantite": 3.0
+            },
+            "tenders-2p": {
+              "article": "Tenders 2p",
+              "categorie": "Non classé",
+              "ventes": 87.0,
+              "quantite": 30.0
+            },
+            "tenders-5p": {
+              "article": "Tenders 5p",
+              "categorie": "Non classé",
+              "ventes": 260.0,
+              "quantite": 40.0
+            },
+            "tiramisu-bueno": {
+              "article": "Tiramisu bueno",
+              "categorie": "Non classé",
+              "ventes": 66.3,
+              "quantite": 17.0
+            },
+            "tiramisu-fruits-rouges": {
+              "article": "Tiramisu fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 27.3,
+              "quantite": 7.0
+            },
+            "tiramisu-mangue-passion": {
+              "article": "Tiramisu mangue passion",
+              "categorie": "Non classé",
+              "ventes": 31.2,
+              "quantite": 8.0
+            },
+            "tiramisu-oreo": {
+              "article": "Tiramisu Oreo",
+              "categorie": "Non classé",
+              "ventes": 93.6,
+              "quantite": 24.0
+            },
+            "tiramisu-speculoos": {
+              "article": "Tiramisu Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 62.4,
+              "quantite": 16.0
+            },
+            "tokyo-flavour": {
+              "article": "Tokyo Flavour",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 67.0
+            },
+            "tolero": {
+              "article": "Tolero",
+              "categorie": "Non classé",
+              "ventes": 75.9,
+              "quantite": 11.0
+            },
+            "tolero-b-uf": {
+              "article": "Tolero Bœuf",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 17.0
+            },
+            "tolero-poulet": {
+              "article": "Tolero Poulet",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 30.0
+            },
+            "tropico": {
+              "article": "Tropico",
+              "categorie": "Non classé",
+              "ventes": 66.0,
+              "quantite": 122.0
+            },
+            "vanille": {
+              "article": "Vanille",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 27.0
+            },
+            "wings-3-pieces": {
+              "article": "Wings 3 pièces",
+              "categorie": "Non classé",
+              "ventes": 54.08,
+              "quantite": 17.0
+            },
+            "wings-6-pieces": {
+              "article": "Wings 6 pièces",
+              "categorie": "Non classé",
+              "ventes": 159.3,
+              "quantite": 27.0
+            },
+            "wow": {
+              "article": "WOW",
+              "categorie": "Non classé",
+              "ventes": 89.1,
+              "quantite": 10.0
+            },
+            "wrap-beef": {
+              "article": "WRAP BEEF",
+              "categorie": "Non classé",
+              "ventes": 15.8,
+              "quantite": 2.0
+            },
+            "wrap-chicken": {
+              "article": "WRAP CHICKEN",
+              "categorie": "Non classé",
+              "ventes": 89.7,
+              "quantite": 14.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "ventes_produits_imports": {
+    "2026-04": {
+      "Chamas Tacos": {
+        "filename": "Export dashboard (2).xlsx",
+        "imported_at": "2026-04-14 17:36:33",
+        "stats": {
+          "rows_total": 1003,
+          "rows_kept": 144,
+          "rows_negative_skipped": 176,
+          "rows_zero_skipped": 270,
+          "rows_unknown_restaurant": 413,
+          "rows_missing_sales": 0
+        }
+      },
+      "O'Cheese": {
+        "filename": "Export dashboard (2).xlsx",
+        "imported_at": "2026-04-15 11:22:05",
+        "stats": {
+          "rows_total": 1003,
+          "rows_kept": 399,
+          "rows_negative_skipped": 176,
+          "rows_zero_skipped": 270,
+          "rows_unknown_restaurant": 158,
+          "rows_missing_sales": 0
+        }
+      }
+    },
+    "2026-03": {
+      "O'Cheese": {
+        "filename": "Export dashboard (2).xlsx",
+        "imported_at": "2026-04-15 15:17:44",
+        "stats": {
+          "rows_total": 1003,
+          "rows_kept": 514,
+          "rows_negative_skipped": 13,
+          "rows_zero_skipped": 0,
+          "rows_unknown_restaurant": 0,
+          "rows_missing_sales": 0,
+          "rows_excluded_product": 75,
+          "quantity_column_found": true,
+          "quantity_column_name": "Quantité",
+          "detected_headers": {
+            "restaurant": "Magasin",
+            "category": null,
+            "product": "Article",
+            "sales": "Total",
+            "quantity": "Quantité",
+            "unit_price": null
+          },
+          "rows_total_raw": 928
+        }
+      }
+    }
+  }
+}

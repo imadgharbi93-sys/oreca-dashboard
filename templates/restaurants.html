@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block title %}Classement — Oreca Group{% endblock %}
+{% block page_title %}Classement des Restaurants{% endblock %}
+
+{% block content %}
+
+{# ── Podium top 3 ──────────────────────────────────────────────────────────── #}
+{% if restaurant_totals | length >= 3 %}
+<div class="grid-3" style="margin-bottom:24px;">
+  {% for r in restaurant_totals[:3] %}
+  {% set slug = 'chamas' if 'Chamas' in r.brand else ('ocheese' if 'Cheese' in r.brand else 'delys') %}
+  <div class="kpi-card" style="border-top:3px solid {{ brand_colors[r.brand] }};">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <span class="rank rank-{{ r.rank }}">{{ r.rank }}</span>
+      <span class="badge badge-{{ slug }}">{{ r.brand }}</span>
+    </div>
+    <div style="font-weight:600;font-size:.9rem;margin-bottom:6px;color:var(--text-primary);">
+      {{ r.name }}
+    </div>
+    <div style="font-size:1.7rem;font-weight:800;color:{{ brand_colors[r.brand] }};letter-spacing:-.03em;">
+      {{ r.total | fr_number }} €
+    </div>
+    <div style="font-size:.72rem;color:var(--text-muted);margin-top:4px;">sur {{ months|length }} mois · moy. {{ (r.total / months|length) | fr_number }} €/mois</div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{# ── Full ranking table ────────────────────────────────────────────────────── #}
+<div class="card">
+  <div class="card-header" style="padding-bottom:14px;">
+    <div class="card-title">Classement complet — {{ restaurant_totals | length }} restaurants</div>
+  </div>
+  <div class="card-body" style="padding-top:0;">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:46px;">#</th>
+            <th>Restaurant</th>
+            <th>Marque</th>
+            {% for lbl in month_labels %}<th>{{ lbl }}</th>{% endfor %}
+            <th>Total 6 mois</th>
+            <th>Moy./mois</th>
+            <th>Marge brute</th>
+            <th>Food Cost</th>
+            <th>Labor Cost</th>
+            <th>Prime Cost</th>
+            <th>Objectif {{ last_month_label }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in restaurant_totals %}
+          {% set slug = 'chamas' if 'Chamas' in r.brand else ('ocheese' if 'Cheese' in r.brand else 'delys') %}
+          <tr{% if r.profil_id %} onclick="window.location.href='/restaurant/{{ r.profil_id }}'" style="cursor:pointer;"{% endif %}>
+            <td>
+              {% if r.rank <= 3 %}
+                <span class="rank rank-{{ r.rank }}">{{ r.rank }}</span>
+              {% else %}
+                <span class="rank rank-n" style="font-size:.72rem;">{{ r.rank }}</span>
+              {% endif %}
+            </td>
+            <td style="font-weight:500;">{{ r.name }}</td>
+            <td><span class="badge badge-{{ slug }}">{{ r.brand }}</span></td>
+            {% for m in months %}
+            <td>{{ r.monthly[m] | fr_number }} €</td>
+            {% endfor %}
+            <td style="font-weight:700;color:{{ brand_colors[r.brand] }};">
+              {{ r.total | fr_number }} €
+            </td>
+            <td style="color:var(--text-muted);">{{ (r.total / months|length) | fr_number }} €</td>
+            <td style="min-width:80px;font-weight:700;
+              {% if r.marge_brute_pct is not none %}
+                {% if r.marge_brute_pct > 20 %}color:#166534;
+                {% elif r.marge_brute_pct >= 10 %}color:#92400e;
+                {% else %}color:#991b1b;{% endif %}
+              {% else %}color:var(--text-muted);font-weight:400;{% endif %}">
+              {% if r.marge_brute_pct is not none %}
+                {{ r.marge_brute_pct | string | replace('.', ',') }} %
+              {% else %}—{% endif %}
+            </td>
+            <td style="min-width:80px;font-weight:700;
+              {% if r.food_cost_pct is not none %}
+                {% if r.food_cost_pct < 30 %}color:#166534;
+                {% elif r.food_cost_pct <= 35 %}color:#92400e;
+                {% else %}color:#991b1b;{% endif %}
+              {% else %}color:var(--text-muted);font-weight:400;{% endif %}">
+              {% if r.food_cost_pct is not none %}
+                {{ r.food_cost_pct | string | replace('.', ',') }} %
+              {% else %}—{% endif %}
+            </td>
+            <td style="min-width:80px;font-weight:700;
+              {% if r.labor_cost_pct is not none %}
+                {% if r.labor_cost_pct < 30 %}color:#166534;
+                {% elif r.labor_cost_pct <= 35 %}color:#92400e;
+                {% else %}color:#991b1b;{% endif %}
+              {% else %}color:var(--text-muted);font-weight:400;{% endif %}">
+              {% if r.labor_cost_pct is not none %}
+                {{ r.labor_cost_pct | string | replace('.', ',') }} %
+              {% else %}—{% endif %}
+            </td>
+            <td style="min-width:80px;font-weight:700;
+              {% if r.prime_cost_pct is not none %}
+                {% if r.prime_cost_pct < 55 %}color:#166534;
+                {% elif r.prime_cost_pct <= 65 %}color:#92400e;
+                {% else %}color:#991b1b;{% endif %}
+              {% else %}color:var(--text-muted);font-weight:400;{% endif %}">
+              {% if r.prime_cost_pct is not none %}
+                {{ r.prime_cost_pct | string | replace('.', ',') }} %
+              {% else %}—{% endif %}
+            </td>
+            <td style="min-width:150px;">
+              {% if r.progress_last %}
+                {% set taux = r.progress_last.taux %}
+                {% set capped = [taux, 100] | min %}
+                {% if taux >= 90 %}{% set bar_color = '#639922' %}
+                {% elif taux >= 70 %}{% set bar_color = '#E8A000' %}
+                {% else %}{% set bar_color = '#E11D48' %}{% endif %}
+                <div style="display:flex;align-items:center;gap:7px;">
+                  <div class="obj-progress" style="flex:1;">
+                    <div class="obj-progress-fill" style="width:{{ capped }}%;background:{{ bar_color }};"></div>
+                  </div>
+                  <span class="obj-pct" style="color:{{ bar_color }};">{{ taux }}%</span>
+                </div>
+              {% else %}
+                <span style="color:var(--text-muted);font-size:.72rem;">—</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
