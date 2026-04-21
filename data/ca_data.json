@@ -6089,6 +6089,1334 @@
             }
           }
         }
+      },
+      "Delys Station": {
+        "restaurants": {
+          "ds_001": {
+            "abricot-jam": {
+              "article": "Abricot Jam",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "almond": {
+              "article": "Almond",
+              "categorie": "Non classé",
+              "ventes": 4.2,
+              "quantite": 7.0
+            },
+            "americano": {
+              "article": "Americano",
+              "categorie": "Non classé",
+              "ventes": 86.4,
+              "quantite": 27.0
+            },
+            "banoffee-banane-cafe-speculoos-caramel": {
+              "article": "Banoffee (Banane,café,spéculoos, caramel)",
+              "categorie": "Non classé",
+              "ventes": 26.0,
+              "quantite": 9.0
+            },
+            "biscuit-lotus-speculoos": {
+              "article": "Biscuit lotus Speculoos",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "boule-de-glace-de-vanille": {
+              "article": "Boule de glace de vanille",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 21.0
+            },
+            "brown-sugar": {
+              "article": "Brown Sugar",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 9.0
+            },
+            "cafe-latte": {
+              "article": "Cafe Latte",
+              "categorie": "Non classé",
+              "ventes": 262.5,
+              "quantite": 76.0
+            },
+            "cake-vanille-fruits-rouge": {
+              "article": "Cake vanille fruits rouge",
+              "categorie": "Non classé",
+              "ventes": 182.0,
+              "quantite": 38.0
+            },
+            "cappucino": {
+              "article": "Cappucino",
+              "categorie": "Non classé",
+              "ventes": 311.5,
+              "quantite": 89.0
+            },
+            "caramel": {
+              "article": "Caramel",
+              "categorie": "Non classé",
+              "ventes": 20.4,
+              "quantite": 36.0
+            },
+            "caramel-beurre-sale-layer-cake": {
+              "article": "Caramel beurre salé layer cake",
+              "categorie": "Non classé",
+              "ventes": 228.8,
+              "quantite": 48.0
+            },
+            "cassonade": {
+              "article": "cassonade",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 20.0
+            },
+            "chantilly": {
+              "article": "CHANTILLY",
+              "categorie": "Non classé",
+              "ventes": 1.5,
+              "quantite": 3.0
+            },
+            "cheesecake-citron": {
+              "article": "Cheesecake citron",
+              "categorie": "Non classé",
+              "ventes": 187.2,
+              "quantite": 41.0
+            },
+            "cheesecake-nature": {
+              "article": "Cheesecake nature",
+              "categorie": "Non classé",
+              "ventes": 130.0,
+              "quantite": 28.0
+            },
+            "cheesecake-oreo": {
+              "article": "Cheesecake oreo",
+              "categorie": "Non classé",
+              "ventes": 218.4,
+              "quantite": 49.0
+            },
+            "chocolat-au-lait": {
+              "article": "Chocolat au lait",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 13.0
+            },
+            "chocolat-blanc": {
+              "article": "Chocolat blanc",
+              "categorie": "Non classé",
+              "ventes": 1.0,
+              "quantite": 14.0
+            },
+            "chocolat-noir": {
+              "article": "Chocolat noir",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 3.0
+            },
+            "classic-hot-chocolate": {
+              "article": "Classic Hot Chocolate",
+              "categorie": "Non classé",
+              "ventes": 192.5,
+              "quantite": 64.0
+            },
+            "cookie-pizza-brownie": {
+              "article": "Cookie Pizza Brownie",
+              "categorie": "Non classé",
+              "ventes": 135.0,
+              "quantite": 31.0
+            },
+            "cookie-pizza-fruits-rouges": {
+              "article": "Cookie Pizza Fruits Rouges",
+              "categorie": "Non classé",
+              "ventes": 63.0,
+              "quantite": 15.0
+            },
+            "cookie-pizza-noisette": {
+              "article": "Cookie Pizza Noisette",
+              "categorie": "Non classé",
+              "ventes": 31.5,
+              "quantite": 11.0
+            },
+            "cookie-pizza-pecan": {
+              "article": "Cookie Pizza Pécan",
+              "categorie": "Non classé",
+              "ventes": 67.5,
+              "quantite": 16.0
+            },
+            "cookie-pizza-pistache": {
+              "article": "Cookie Pizza Pistache",
+              "categorie": "Non classé",
+              "ventes": 85.5,
+              "quantite": 21.0
+            },
+            "crepe-aux-fruits": {
+              "article": "Crêpe aux fruits",
+              "categorie": "Non classé",
+              "ventes": 34.5,
+              "quantite": 6.0
+            },
+            "crepe-caramello-caramel-amandes-et-noix-de-pecan": {
+              "article": "Crêpe Caramello (caramel, amandes et noix de pecan)",
+              "categorie": "Non classé",
+              "ventes": 108.8,
+              "quantite": 18.0
+            },
+            "crepe-chocolat": {
+              "article": "Crêpe chocolat",
+              "categorie": "Non classé",
+              "ventes": 858.0,
+              "quantite": 178.0
+            },
+            "crepe-cocotella-nutella-banane-et-coco": {
+              "article": "Crêpe cocotella (Nutella, banane et coco)",
+              "categorie": "Non classé",
+              "ventes": 96.0,
+              "quantite": 20.0
+            },
+            "crepe-fraise-banane": {
+              "article": "Crêpe fraise & banane",
+              "categorie": "Non classé",
+              "ventes": 455.0,
+              "quantite": 89.0
+            },
+            "crepe-oreo-coulis-chocolat-au-lait-chocolat-blanc-boule-de-glace-et-oreo": {
+              "article": "Crêpe oreo ( coulis chocolat au lait,chocolat blanc boule de glace et oreo)",
+              "categorie": "Non classé",
+              "ventes": 198.0,
+              "quantite": 33.0
+            },
+            "crepe-speculoos-caramel-glace-vanille-et-speculoos": {
+              "article": "Crêpe spéculoos (caramel,glace vanille et spéculoos)",
+              "categorie": "Non classé",
+              "ventes": 237.6,
+              "quantite": 40.0
+            },
+            "crepe-sucree": {
+              "article": "Crêpe sucrée",
+              "categorie": "Non classé",
+              "ventes": 196.0,
+              "quantite": 45.0
+            },
+            "crookies": {
+              "article": "Crookies",
+              "categorie": "Non classé",
+              "ventes": 151.9,
+              "quantite": 40.0
+            },
+            "crookies-pistache": {
+              "article": "Crookies Pistache",
+              "categorie": "Non classé",
+              "ventes": 127.4,
+              "quantite": 30.0
+            },
+            "double-espresso": {
+              "article": "Double Espresso",
+              "categorie": "Non classé",
+              "ventes": 34.0,
+              "quantite": 10.0
+            },
+            "dubai-cup": {
+              "article": "Dubai Cup",
+              "categorie": "Non classé",
+              "ventes": 2420.6,
+              "quantite": 247.0
+            },
+            "eau-chaudfontaine": {
+              "article": "Eau chaudfontaine",
+              "categorie": "Non classé",
+              "ventes": 175.0,
+              "quantite": 79.0
+            },
+            "eau-gazeuse-chaudfontaine": {
+              "article": "Eau gazeuse chaudfontaine",
+              "categorie": "Non classé",
+              "ventes": 20.0,
+              "quantite": 10.0
+            },
+            "espresso": {
+              "article": "Espresso",
+              "categorie": "Non classé",
+              "ventes": 127.4,
+              "quantite": 52.0
+            },
+            "flate-white": {
+              "article": "Flate White",
+              "categorie": "Non classé",
+              "ventes": 7.0,
+              "quantite": 2.0
+            },
+            "hazelnut": {
+              "article": "Hazelnut",
+              "categorie": "Non classé",
+              "ventes": 3.0,
+              "quantite": 5.0
+            },
+            "iced-americano": {
+              "article": "Iced Americano",
+              "categorie": "Non classé",
+              "ventes": 9.0,
+              "quantite": 2.0
+            },
+            "iced-latte": {
+              "article": "Iced Latte",
+              "categorie": "Non classé",
+              "ventes": 240.1,
+              "quantite": 53.0
+            },
+            "jus-d-orange-frais": {
+              "article": "Jus d'orange frais",
+              "categorie": "Non classé",
+              "ventes": 68.8,
+              "quantite": 18.0
+            },
+            "la-pavlova-passion-coulis-passion-mangue-fruit-de-la-passion-et-meringue-pavlova": {
+              "article": "La pavlova passion (coulis passion, mangue,fruit de la passion et meringue pavlova)",
+              "categorie": "Non classé",
+              "ventes": 26.7,
+              "quantite": 3.0
+            },
+            "la-tiramisu-classique-coulis-moka-creme-vanille-cacao-et-boudoir": {
+              "article": "La tiramisu classique (coulis moka, crème vanille, cacao et boudoir)",
+              "categorie": "Non classé",
+              "ventes": 142.2,
+              "quantite": 19.0
+            },
+            "la-tiramisu-lotus-coulis-moka-creme-vanille-cacao-et-speculoos": {
+              "article": "La tiramisu lotus (coulis moka,crème vanille,cacao et spéculoos)",
+              "categorie": "Non classé",
+              "ventes": 450.3,
+              "quantite": 65.0
+            },
+            "large": {
+              "article": "Large",
+              "categorie": "Non classé",
+              "ventes": 9.0,
+              "quantite": 9.0
+            },
+            "latte-macchiato": {
+              "article": "Latte Macchiato",
+              "categorie": "Non classé",
+              "ventes": 77.0,
+              "quantite": 24.0
+            },
+            "layer-cake-au-chocolat": {
+              "article": "Layer cake au chocolat",
+              "categorie": "Non classé",
+              "ventes": 582.4,
+              "quantite": 129.0
+            },
+            "lungo": {
+              "article": "Lungo",
+              "categorie": "Non classé",
+              "ventes": 156.8,
+              "quantite": 53.0
+            },
+            "medium": {
+              "article": "Medium",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 450.0
+            },
+            "milkshake-avocat": {
+              "article": "Milkshake Avocat",
+              "categorie": "Non classé",
+              "ventes": 71.4,
+              "quantite": 15.0
+            },
+            "milkshake-brownie": {
+              "article": "Milkshake Brownie",
+              "categorie": "Non classé",
+              "ventes": 148.75,
+              "quantite": 29.0
+            },
+            "milkshake-bueno": {
+              "article": "Milkshake Bueno",
+              "categorie": "Non classé",
+              "ventes": 684.25,
+              "quantite": 135.0
+            },
+            "milkshake-bueno-blanc": {
+              "article": "Milkshake Bueno blanc",
+              "categorie": "Non classé",
+              "ventes": 208.25,
+              "quantite": 46.0
+            },
+            "milkshake-chocolat": {
+              "article": "Milkshake Chocolat",
+              "categorie": "Non classé",
+              "ventes": 102.6,
+              "quantite": 20.0
+            },
+            "milkshake-fraise": {
+              "article": "Milkshake Fraise",
+              "categorie": "Non classé",
+              "ventes": 170.5,
+              "quantite": 31.0
+            },
+            "milkshake-moka": {
+              "article": "Milkshake Moka",
+              "categorie": "Non classé",
+              "ventes": 101.15,
+              "quantite": 19.0
+            },
+            "milkshake-oreo": {
+              "article": "Milkshake Oreo",
+              "categorie": "Non classé",
+              "ventes": 416.5,
+              "quantite": 83.0
+            },
+            "milkshake-speculoos": {
+              "article": "Milkshake Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 136.85,
+              "quantite": 25.0
+            },
+            "milkshake-vanille": {
+              "article": "Milkshake Vanille",
+              "categorie": "Non classé",
+              "ventes": 319.0,
+              "quantite": 71.0
+            },
+            "mocktail-fraise": {
+              "article": "Mocktail fraise",
+              "categorie": "Non classé",
+              "ventes": 731.5,
+              "quantite": 149.0
+            },
+            "mocktail-fruits-rouges": {
+              "article": "Mocktail fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 390.5,
+              "quantite": 78.0
+            },
+            "mocktail-menthe": {
+              "article": "Mocktail menthe",
+              "categorie": "Non classé",
+              "ventes": 291.5,
+              "quantite": 59.0
+            },
+            "mocktail-passion": {
+              "article": "Mocktail Passion",
+              "categorie": "Non classé",
+              "ventes": 675.4,
+              "quantite": 142.0
+            },
+            "mocktail-red-bull": {
+              "article": "Mocktail Red Bull",
+              "categorie": "Non classé",
+              "ventes": 408.0,
+              "quantite": 77.0
+            },
+            "moelleux-au-chocolat": {
+              "article": "Moelleux au Chocolat",
+              "categorie": "Non classé",
+              "ventes": 270.4,
+              "quantite": 56.0
+            },
+            "moins-de-sucre": {
+              "article": "MOINS DE SUCRE",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 29.0
+            },
+            "nutella": {
+              "article": "Nutella",
+              "categorie": "Non classé",
+              "ventes": 2.0,
+              "quantite": 246.0
+            },
+            "pas-de-chantilly": {
+              "article": "PAS DE CHANTILLY",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 440.0
+            },
+            "pavlova-fruits-rouges-coulis-passion-fraise-framboise-myrtilles-et-meringue-pavlova": {
+              "article": "Pavlova fruits rouges (coulis passion,fraise,framboise,myrtilles et meringue pavlova)",
+              "categorie": "Non classé",
+              "ventes": 62.3,
+              "quantite": 7.0
+            },
+            "peanut-butter": {
+              "article": "Peanut Butter",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "pistache-fruits-rouges": {
+              "article": "Pistache fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 280.8,
+              "quantite": 64.0
+            },
+            "plus-de-sucre": {
+              "article": "PLUS DE SUCRE",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 2.0
+            },
+            "praline-noisette-layer-cake": {
+              "article": "Praliné noisette layer cake",
+              "categorie": "Non classé",
+              "ventes": 5.2,
+              "quantite": 1.0
+            },
+            "red-velvet": {
+              "article": "Red Velvet",
+              "categorie": "Non classé",
+              "ventes": 913.0,
+              "quantite": 188.0
+            },
+            "redbull": {
+              "article": "RedBull",
+              "categorie": "Non classé",
+              "ventes": 37.0,
+              "quantite": 16.0
+            },
+            "smoothie-fruits-rouges": {
+              "article": "Smoothie fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 288.0,
+              "quantite": 50.0
+            },
+            "snickers-layer-cake": {
+              "article": "Snickers layer cake",
+              "categorie": "Non classé",
+              "ventes": 156.0,
+              "quantite": 36.0
+            },
+            "soja": {
+              "article": "Soja",
+              "categorie": "Non classé",
+              "ventes": 2.4,
+              "quantite": 4.0
+            },
+            "sunset-orange-fraise-et-banane": {
+              "article": "Sunset (Orange, fraise et banane)",
+              "categorie": "Non classé",
+              "ventes": 236.5,
+              "quantite": 52.0
+            },
+            "sunshine-orange-ananas-mangue": {
+              "article": "Sunshine (Orange, ananas; mangue)",
+              "categorie": "Non classé",
+              "ventes": 412.5,
+              "quantite": 82.0
+            },
+            "tablette-single-chocolat-au-lait-pistache": {
+              "article": "Tablette Single chocolat au lait Pistache",
+              "categorie": "Non classé",
+              "ventes": 48.45,
+              "quantite": 14.0
+            },
+            "tablette-xl-pistache": {
+              "article": "Tablette XL - Pistache",
+              "categorie": "Non classé",
+              "ventes": 1382.9,
+              "quantite": 95.0
+            },
+            "tablette-xl-chocolat-au-lait-noisette": {
+              "article": "Tablette XL chocolat au lait noisette",
+              "categorie": "Non classé",
+              "ventes": 95.0,
+              "quantite": 13.0
+            },
+            "tarte-au-tiramisu": {
+              "article": "Tarte au tiramisu",
+              "categorie": "Non classé",
+              "ventes": 525.2,
+              "quantite": 118.0
+            },
+            "the": {
+              "article": "Thé",
+              "categorie": "Non classé",
+              "ventes": 217.6,
+              "quantite": 70.0
+            },
+            "trio-de-chocolat": {
+              "article": "Trio de chocolat",
+              "categorie": "Non classé",
+              "ventes": 135.2,
+              "quantite": 33.0
+            },
+            "trompe-l-oeil-cacahuete": {
+              "article": "Trompe l'oeil \"Cacahuète\"",
+              "categorie": "Non classé",
+              "ventes": 2259.4,
+              "quantite": 304.0
+            },
+            "trompe-l-oeil-cacao": {
+              "article": "Trompe l'oeil \"Cacao\"",
+              "categorie": "Non classé",
+              "ventes": 31.6,
+              "quantite": 4.0
+            },
+            "trompe-l-oeil-cafe": {
+              "article": "Trompe l'oeil \"Café\"",
+              "categorie": "Non classé",
+              "ventes": 47.4,
+              "quantite": 10.0
+            },
+            "trompe-l-oeil-citron": {
+              "article": "Trompe l'oeil \"Citron\"",
+              "categorie": "Non classé",
+              "ventes": 932.2,
+              "quantite": 125.0
+            },
+            "trompe-l-oeil-framboise": {
+              "article": "Trompe l'oeil \"FRAMBOISE\"",
+              "categorie": "Non classé",
+              "ventes": 1592.5,
+              "quantite": 270.0
+            },
+            "trompe-l-oeil-mangue": {
+              "article": "Trompe l'oeil \"MANGUE\"",
+              "categorie": "Non classé",
+              "ventes": 2077.7,
+              "quantite": 291.0
+            },
+            "trompe-l-oeil-pecan": {
+              "article": "Trompe l'oeil \"Pécan\"",
+              "categorie": "Non classé",
+              "ventes": 994.5,
+              "quantite": 125.0
+            },
+            "trompe-l-oeil-pistache": {
+              "article": "Trompe l'oeil \"Pistache\"",
+              "categorie": "Non classé",
+              "ventes": 174.8,
+              "quantite": 37.0
+            },
+            "vanilla": {
+              "article": "Vanilla",
+              "categorie": "Non classé",
+              "ventes": 3.6,
+              "quantite": 6.0
+            }
+          },
+          "ds_002": {
+            "almond": {
+              "article": "Almond",
+              "categorie": "Non classé",
+              "ventes": 94.2,
+              "quantite": 157.0
+            },
+            "americano": {
+              "article": "Americano",
+              "categorie": "Non classé",
+              "ventes": 604.5,
+              "quantite": 156.0
+            },
+            "avocado": {
+              "article": "Avocado",
+              "categorie": "Non classé",
+              "ventes": 10.0,
+              "quantite": 10.0
+            },
+            "banana": {
+              "article": "Banana",
+              "categorie": "Non classé",
+              "ventes": 27.0,
+              "quantite": 27.0
+            },
+            "banoffee-banane-cafe-speculoos-caramel": {
+              "article": "Banoffee (Banane,café,spéculoos, caramel)",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "biscuit-lotus-speculoos": {
+              "article": "Biscuit lotus Speculoos",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 35.0
+            },
+            "boule-de-glace-de-vanille": {
+              "article": "Boule de glace de vanille",
+              "categorie": "Non classé",
+              "ventes": 220.0,
+              "quantite": 220.0
+            },
+            "brown-sugar": {
+              "article": "Brown Sugar",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 36.0
+            },
+            "brownies": {
+              "article": "Brownies",
+              "categorie": "Non classé",
+              "ventes": 20.0,
+              "quantite": 20.0
+            },
+            "bueno": {
+              "article": "Bueno",
+              "categorie": "Non classé",
+              "ventes": 43.0,
+              "quantite": 43.0
+            },
+            "cafe-latte": {
+              "article": "Cafe Latte",
+              "categorie": "Non classé",
+              "ventes": 2406.3,
+              "quantite": 618.0
+            },
+            "cake-vanille-fruits-rouge": {
+              "article": "Cake vanille fruits rouge",
+              "categorie": "Non classé",
+              "ventes": 1105.5,
+              "quantite": 201.0
+            },
+            "cappucino": {
+              "article": "Cappucino",
+              "categorie": "Non classé",
+              "ventes": 2616.6,
+              "quantite": 623.0
+            },
+            "cappucino-l": {
+              "article": "Cappucino L",
+              "categorie": "Non classé",
+              "ventes": 4.5,
+              "quantite": 1.0
+            },
+            "caramel": {
+              "article": "Caramel",
+              "categorie": "Non classé",
+              "ventes": 254.4,
+              "quantite": 449.0
+            },
+            "caramel-beurre-sale-layer-cake": {
+              "article": "Caramel beurre salé layer cake",
+              "categorie": "Non classé",
+              "ventes": 1020.3,
+              "quantite": 180.0
+            },
+            "cassonade": {
+              "article": "cassonade",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 91.0
+            },
+            "chantilly": {
+              "article": "CHANTILLY",
+              "categorie": "Non classé",
+              "ventes": 189.5,
+              "quantite": 379.0
+            },
+            "cheesecake-citron": {
+              "article": "Cheesecake citron",
+              "categorie": "Non classé",
+              "ventes": 781.0,
+              "quantite": 149.0
+            },
+            "cheesecake-nature": {
+              "article": "Cheesecake nature",
+              "categorie": "Non classé",
+              "ventes": 829.1,
+              "quantite": 138.0
+            },
+            "cheesecake-oreo": {
+              "article": "Cheesecake oreo",
+              "categorie": "Non classé",
+              "ventes": 907.5,
+              "quantite": 166.0
+            },
+            "chocolat-au-lait": {
+              "article": "Chocolat au lait",
+              "categorie": "Non classé",
+              "ventes": 5.0,
+              "quantite": 85.0
+            },
+            "chocolat-blanc": {
+              "article": "Chocolat blanc",
+              "categorie": "Non classé",
+              "ventes": 25.0,
+              "quantite": 103.0
+            },
+            "chocolat-noir": {
+              "article": "Chocolat noir",
+              "categorie": "Non classé",
+              "ventes": 5.0,
+              "quantite": 50.0
+            },
+            "classic-hot-chocolate": {
+              "article": "Classic Hot Chocolate",
+              "categorie": "Non classé",
+              "ventes": 1341.4,
+              "quantite": 353.0
+            },
+            "cookie-pizza-brownie": {
+              "article": "Cookie Pizza Brownie",
+              "categorie": "Non classé",
+              "ventes": 1444.5,
+              "quantite": 322.0
+            },
+            "cookie-pizza-fruits-rouges": {
+              "article": "Cookie Pizza Fruits Rouges",
+              "categorie": "Non classé",
+              "ventes": 699.9,
+              "quantite": 151.0
+            },
+            "cookie-pizza-noisette": {
+              "article": "Cookie Pizza Noisette",
+              "categorie": "Non classé",
+              "ventes": 382.5,
+              "quantite": 85.0
+            },
+            "cookie-pizza-pecan": {
+              "article": "Cookie Pizza Pécan",
+              "categorie": "Non classé",
+              "ventes": 702.0,
+              "quantite": 156.0
+            },
+            "cookie-pizza-pistache": {
+              "article": "Cookie Pizza Pistache",
+              "categorie": "Non classé",
+              "ventes": 792.0,
+              "quantite": 180.0
+            },
+            "crepe-aux-fruits": {
+              "article": "Crêpe aux fruits",
+              "categorie": "Non classé",
+              "ventes": 840.0,
+              "quantite": 112.0
+            },
+            "crepe-caramello-caramel-amandes-et-noix-de-pecan": {
+              "article": "Crêpe Caramello (caramel, amandes et noix de pecan)",
+              "categorie": "Non classé",
+              "ventes": 372.6,
+              "quantite": 54.0
+            },
+            "crepe-chocolat": {
+              "article": "Crêpe chocolat",
+              "categorie": "Non classé",
+              "ventes": 3773.4,
+              "quantite": 662.0
+            },
+            "crepe-cocotella-nutella-banane-et-coco": {
+              "article": "Crêpe cocotella (Nutella, banane et coco)",
+              "categorie": "Non classé",
+              "ventes": 1352.4,
+              "quantite": 196.0
+            },
+            "crepe-fraise-banane": {
+              "article": "Crêpe fraise & banane",
+              "categorie": "Non classé",
+              "ventes": 2504.7,
+              "quantite": 363.0
+            },
+            "crepe-oreo-coulis-chocolat-au-lait-chocolat-blanc-boule-de-glace-et-oreo": {
+              "article": "Crêpe oreo ( coulis chocolat au lait,chocolat blanc boule de glace et oreo)",
+              "categorie": "Non classé",
+              "ventes": 1612.5,
+              "quantite": 215.0
+            },
+            "crepe-speculoos-caramel-glace-vanille-et-speculoos": {
+              "article": "Crêpe spéculoos (caramel,glace vanille et spéculoos)",
+              "categorie": "Non classé",
+              "ventes": 2180.4,
+              "quantite": 316.0
+            },
+            "crepe-sucree": {
+              "article": "Crêpe sucrée",
+              "categorie": "Non classé",
+              "ventes": 1241.37,
+              "quantite": 247.0
+            },
+            "croissant": {
+              "article": "Croissant",
+              "categorie": "Non classé",
+              "ventes": 1.5,
+              "quantite": 1.0
+            },
+            "crookies": {
+              "article": "Crookies",
+              "categorie": "Non classé",
+              "ventes": 1724.8,
+              "quantite": 363.0
+            },
+            "crookies-pistache": {
+              "article": "Crookies Pistache",
+              "categorie": "Non classé",
+              "ventes": 1023.3,
+              "quantite": 209.0
+            },
+            "double-espresso": {
+              "article": "Double Espresso",
+              "categorie": "Non classé",
+              "ventes": 588.2,
+              "quantite": 173.0
+            },
+            "dubai-cup": {
+              "article": "Dubai Cup",
+              "categorie": "Non classé",
+              "ventes": 14339.1,
+              "quantite": 1459.0
+            },
+            "eau-chaudfontaine": {
+              "article": "Eau chaudfontaine",
+              "categorie": "Non classé",
+              "ventes": 1277.5,
+              "quantite": 511.0
+            },
+            "eau-gazeuse-chaudfontaine": {
+              "article": "Eau gazeuse chaudfontaine",
+              "categorie": "Non classé",
+              "ventes": 155.0,
+              "quantite": 62.0
+            },
+            "espresso": {
+              "article": "Espresso",
+              "categorie": "Non classé",
+              "ventes": 931.7,
+              "quantite": 342.0
+            },
+            "flate-white": {
+              "article": "Flate White",
+              "categorie": "Non classé",
+              "ventes": 310.5,
+              "quantite": 69.0
+            },
+            "gateau-aux-carottes": {
+              "article": "Gâteau aux carottes",
+              "categorie": "Non classé",
+              "ventes": 44.0,
+              "quantite": 8.0
+            },
+            "gift-box-3-tablettes": {
+              "article": "Gift box 3 tablettes",
+              "categorie": "Non classé",
+              "ventes": 75.0,
+              "quantite": 2.0
+            },
+            "hazelnut": {
+              "article": "Hazelnut",
+              "categorie": "Non classé",
+              "ventes": 136.2,
+              "quantite": 227.0
+            },
+            "honey": {
+              "article": "Honey",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 30.0
+            },
+            "iced-americano": {
+              "article": "Iced Americano",
+              "categorie": "Non classé",
+              "ventes": 130.5,
+              "quantite": 29.0
+            },
+            "iced-latte": {
+              "article": "Iced Latte",
+              "categorie": "Non classé",
+              "ventes": 1994.3,
+              "quantite": 409.0
+            },
+            "iced-latte-l": {
+              "article": "Iced Latte L",
+              "categorie": "Non classé",
+              "ventes": 5.9,
+              "quantite": 1.0
+            },
+            "iced-vanilla-matcha": {
+              "article": "Iced Vanilla Matcha",
+              "categorie": "Non classé",
+              "ventes": 369.5,
+              "quantite": 40.0
+            },
+            "jus-d-orange-frais": {
+              "article": "Jus d'orange frais",
+              "categorie": "Non classé",
+              "ventes": 900.0,
+              "quantite": 200.0
+            },
+            "l-essentiel": {
+              "article": "L'ESSENTIEL",
+              "categorie": "Non classé",
+              "ventes": 12.8,
+              "quantite": 2.0
+            },
+            "l-express": {
+              "article": "L'EXPRESS",
+              "categorie": "Non classé",
+              "ventes": 50.4,
+              "quantite": 15.0
+            },
+            "la-pavlova-passion-coulis-passion-mangue-fruit-de-la-passion-et-meringue-pavlova": {
+              "article": "La pavlova passion (coulis passion, mangue,fruit de la passion et meringue pavlova)",
+              "categorie": "Non classé",
+              "ventes": 160.2,
+              "quantite": 19.0
+            },
+            "la-tiramisu-classique-coulis-moka-creme-vanille-cacao-et-boudoir": {
+              "article": "La tiramisu classique (coulis moka, crème vanille, cacao et boudoir)",
+              "categorie": "Non classé",
+              "ventes": 462.8,
+              "quantite": 52.0
+            },
+            "la-tiramisu-lotus-coulis-moka-creme-vanille-cacao-et-speculoos": {
+              "article": "La tiramisu lotus (coulis moka,crème vanille,cacao et spéculoos)",
+              "categorie": "Non classé",
+              "ventes": 703.1,
+              "quantite": 88.0
+            },
+            "large": {
+              "article": "Large",
+              "categorie": "Non classé",
+              "ventes": 446.0,
+              "quantite": 446.0
+            },
+            "latte-macchiato": {
+              "article": "Latte Macchiato",
+              "categorie": "Non classé",
+              "ventes": 846.0,
+              "quantite": 188.0
+            },
+            "layer-cake-au-chocolat": {
+              "article": "Layer cake au chocolat",
+              "categorie": "Non classé",
+              "ventes": 2909.5,
+              "quantite": 529.0
+            },
+            "lungo": {
+              "article": "Lungo",
+              "categorie": "Non classé",
+              "ventes": 619.5,
+              "quantite": 179.0
+            },
+            "medium": {
+              "article": "Medium",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 2357.0
+            },
+            "milkshake-avocat": {
+              "article": "Milkshake Avocat",
+              "categorie": "Non classé",
+              "ventes": 916.3,
+              "quantite": 154.0
+            },
+            "milkshake-brownie": {
+              "article": "Milkshake Brownie",
+              "categorie": "Non classé",
+              "ventes": 452.2,
+              "quantite": 76.0
+            },
+            "milkshake-bueno": {
+              "article": "Milkshake Bueno",
+              "categorie": "Non classé",
+              "ventes": 2040.85,
+              "quantite": 343.0
+            },
+            "milkshake-bueno-blanc": {
+              "article": "Milkshake Bueno blanc",
+              "categorie": "Non classé",
+              "ventes": 2201.5,
+              "quantite": 370.0
+            },
+            "milkshake-chocolat": {
+              "article": "Milkshake Chocolat",
+              "categorie": "Non classé",
+              "ventes": 598.5,
+              "quantite": 106.0
+            },
+            "milkshake-fraise": {
+              "article": "Milkshake Fraise",
+              "categorie": "Non classé",
+              "ventes": 815.1,
+              "quantite": 143.0
+            },
+            "milkshake-moka": {
+              "article": "Milkshake Moka",
+              "categorie": "Non classé",
+              "ventes": 297.5,
+              "quantite": 50.0
+            },
+            "milkshake-oreo": {
+              "article": "Milkshake Oreo",
+              "categorie": "Non classé",
+              "ventes": 1671.95,
+              "quantite": 281.0
+            },
+            "milkshake-speculoos": {
+              "article": "Milkshake Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 595.0,
+              "quantite": 100.0
+            },
+            "milkshake-vanille": {
+              "article": "Milkshake Vanille",
+              "categorie": "Non classé",
+              "ventes": 1333.2,
+              "quantite": 234.0
+            },
+            "mocktail-fraise": {
+              "article": "Mocktail fraise",
+              "categorie": "Non classé",
+              "ventes": 3432.0,
+              "quantite": 629.0
+            },
+            "mocktail-fruits-rouges": {
+              "article": "Mocktail fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 2233.0,
+              "quantite": 410.0
+            },
+            "mocktail-menthe": {
+              "article": "Mocktail menthe",
+              "categorie": "Non classé",
+              "ventes": 1543.8,
+              "quantite": 276.0
+            },
+            "mocktail-passion": {
+              "article": "Mocktail Passion",
+              "categorie": "Non classé",
+              "ventes": 2464.0,
+              "quantite": 450.0
+            },
+            "mocktail-red-bull": {
+              "article": "Mocktail Red Bull",
+              "categorie": "Non classé",
+              "ventes": 1788.0,
+              "quantite": 299.0
+            },
+            "moelleux-au-chocolat": {
+              "article": "Moelleux au Chocolat",
+              "categorie": "Non classé",
+              "ventes": 597.8,
+              "quantite": 122.0
+            },
+            "moins-de-sucre": {
+              "article": "MOINS DE SUCRE",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 501.0
+            },
+            "nutella": {
+              "article": "Nutella",
+              "categorie": "Non classé",
+              "ventes": 83.0,
+              "quantite": 1016.0
+            },
+            "pain-au-chocolat": {
+              "article": "Pain au chocolat",
+              "categorie": "Non classé",
+              "ventes": 15.0,
+              "quantite": 20.0
+            },
+            "pas-de-chantilly": {
+              "article": "PAS DE CHANTILLY",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1335.0
+            },
+            "pavlova-fruits-rouges-coulis-passion-fraise-framboise-myrtilles-et-meringue-pavlova": {
+              "article": "Pavlova fruits rouges (coulis passion,fraise,framboise,myrtilles et meringue pavlova)",
+              "categorie": "Non classé",
+              "ventes": 249.2,
+              "quantite": 34.0
+            },
+            "peanut-butter": {
+              "article": "Peanut Butter",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 1.0
+            },
+            "pistache-fruits-rouges": {
+              "article": "Pistache fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 1435.5,
+              "quantite": 262.0
+            },
+            "plus-de-sucre": {
+              "article": "PLUS DE SUCRE",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 329.0
+            },
+            "red-velvet": {
+              "article": "Red Velvet",
+              "categorie": "Non classé",
+              "ventes": 3776.0,
+              "quantite": 640.0
+            },
+            "redbull": {
+              "article": "RedBull",
+              "categorie": "Non classé",
+              "ventes": 398.0,
+              "quantite": 127.0
+            },
+            "smoothie-fruits-rouges": {
+              "article": "Smoothie fruits rouges",
+              "categorie": "Non classé",
+              "ventes": 1410.1,
+              "quantite": 239.0
+            },
+            "snickers-layer-cake": {
+              "article": "Snickers layer cake",
+              "categorie": "Non classé",
+              "ventes": 572.0,
+              "quantite": 104.0
+            },
+            "soja": {
+              "article": "Soja",
+              "categorie": "Non classé",
+              "ventes": 82.8,
+              "quantite": 138.0
+            },
+            "speculoos": {
+              "article": "Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 12.0,
+              "quantite": 12.0
+            },
+            "strawberry-jam": {
+              "article": "Strawberry Jam",
+              "categorie": "Non classé",
+              "ventes": 0.0,
+              "quantite": 3.0
+            },
+            "sunset-orange-fraise-et-banane": {
+              "article": "Sunset (Orange, fraise et banane)",
+              "categorie": "Non classé",
+              "ventes": 1083.0,
+              "quantite": 190.0
+            },
+            "sunshine-orange-ananas-mangue": {
+              "article": "Sunshine (Orange, ananas; mangue)",
+              "categorie": "Non classé",
+              "ventes": 1909.5,
+              "quantite": 335.0
+            },
+            "tablette-single-chocolat-au-lait-pistache": {
+              "article": "Tablette Single chocolat au lait Pistache",
+              "categorie": "Non classé",
+              "ventes": 318.5,
+              "quantite": 92.0
+            },
+            "tablette-single-chocolat-au-lait-speculoos": {
+              "article": "Tablette Single chocolat au lait Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 2.95,
+              "quantite": 1.0
+            },
+            "tablette-single-chocolat-blanc-pistache": {
+              "article": "Tablette Single chocolat blanc Pistache",
+              "categorie": "Non classé",
+              "ventes": 3.5,
+              "quantite": 2.0
+            },
+            "tablette-single-chocolat-blanc-speculoos": {
+              "article": "Tablette Single chocolat blanc Spéculoos",
+              "categorie": "Non classé",
+              "ventes": 2.95,
+              "quantite": 1.0
+            },
+            "tablette-single-chocolat-noir-pistache": {
+              "article": "Tablette Single chocolat noir Pistache",
+              "categorie": "Non classé",
+              "ventes": 17.5,
+              "quantite": 5.0
+            },
+            "tablette-xl-pistache": {
+              "article": "Tablette XL - Pistache",
+              "categorie": "Non classé",
+              "ventes": 5199.3,
+              "quantite": 353.0
+            },
+            "tablette-xl-chocolat-au-lait-noisette": {
+              "article": "Tablette XL chocolat au lait noisette",
+              "categorie": "Non classé",
+              "ventes": 134.1,
+              "quantite": 9.0
+            },
+            "tarte-au-tiramisu": {
+              "article": "Tarte au tiramisu",
+              "categorie": "Non classé",
+              "ventes": 1299.6,
+              "quantite": 229.0
+            },
+            "the": {
+              "article": "Thé",
+              "categorie": "Non classé",
+              "ventes": 618.8,
+              "quantite": 183.0
+            },
+            "the-au-choix-regular": {
+              "article": "Thé au choix Regular",
+              "categorie": "Non classé",
+              "ventes": 3.2,
+              "quantite": 1.0
+            },
+            "trio-de-chocolat": {
+              "article": "Trio de chocolat",
+              "categorie": "Non classé",
+              "ventes": 82.6,
+              "quantite": 14.0
+            },
+            "trompe-l-oeil-cacahuete": {
+              "article": "Trompe l'oeil \"Cacahuète\"",
+              "categorie": "Non classé",
+              "ventes": 6106.7,
+              "quantite": 774.0
+            },
+            "trompe-l-oeil-cacao": {
+              "article": "Trompe l'oeil \"Cacao\"",
+              "categorie": "Non classé",
+              "ventes": 260.7,
+              "quantite": 33.0
+            },
+            "trompe-l-oeil-cafe": {
+              "article": "Trompe l'oeil \"Café\"",
+              "categorie": "Non classé",
+              "ventes": 276.5,
+              "quantite": 35.0
+            },
+            "trompe-l-oeil-citron": {
+              "article": "Trompe l'oeil \"Citron\"",
+              "categorie": "Non classé",
+              "ventes": 2370.0,
+              "quantite": 301.0
+            },
+            "trompe-l-oeil-framboise": {
+              "article": "Trompe l'oeil \"FRAMBOISE\"",
+              "categorie": "Non classé",
+              "ventes": 5109.0,
+              "quantite": 786.0
+            },
+            "trompe-l-oeil-mangue": {
+              "article": "Trompe l'oeil \"MANGUE\"",
+              "categorie": "Non classé",
+              "ventes": 6106.7,
+              "quantite": 773.0
+            },
+            "trompe-l-oeil-pecan": {
+              "article": "Trompe l'oeil \"Pécan\"",
+              "categorie": "Non classé",
+              "ventes": 3459.75,
+              "quantite": 409.0
+            },
+            "trompe-l-oeil-pistache": {
+              "article": "Trompe l'oeil \"Pistache\"",
+              "categorie": "Non classé",
+              "ventes": 1205.2,
+              "quantite": 140.0
+            },
+            "truffe-classique": {
+              "article": "Truffe classique",
+              "categorie": "Non classé",
+              "ventes": 14.9,
+              "quantite": 10.0
+            },
+            "vanilla": {
+              "article": "Vanilla",
+              "categorie": "Non classé",
+              "ventes": 108.6,
+              "quantite": 181.0
+            }
+          }
+        }
       }
     }
   },
@@ -6142,6 +7470,30 @@
             "unit_price": null
           },
           "rows_total_raw": 928
+        }
+      },
+      "Delys Station": {
+        "filename": "DELYS MARS 2025 .xlsx",
+        "imported_at": "2026-04-16 16:40:11",
+        "stats": {
+          "rows_total": 614,
+          "rows_kept": 220,
+          "rows_negative_skipped": 11,
+          "rows_zero_skipped": 0,
+          "rows_unknown_restaurant": 0,
+          "rows_missing_sales": 0,
+          "rows_excluded_product": 7,
+          "quantity_column_found": true,
+          "quantity_column_name": "Quantité",
+          "detected_headers": {
+            "restaurant": "Magasin",
+            "category": null,
+            "product": "Article",
+            "sales": "Total",
+            "quantity": "Quantité",
+            "unit_price": null
+          },
+          "rows_total_raw": 607
         }
       }
     }

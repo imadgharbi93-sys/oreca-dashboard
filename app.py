@@ -52,9 +52,9 @@ BRAND_COLORS = {
 }
 
 PRODUCT_BRAND_COLORS = {
-    "Chamas Tacos": "#D85A30",
-    "O'Cheese": "#378ADD",
-    "Delys Station": "#639922",
+    "Chamas Tacos":"#E28F0A",
+    "O'Cheese": "#D82E2E",
+    "Delys Station": "#DB29C9",
 }
 
 
@@ -248,6 +248,8 @@ _MANUAL_ALIASES = {
     "O'Cheese Jambes":     {"jane wane", "ocheese jambes"},
     "O'Cheese Rogier":     {"coopsa rogier", "ocheese rogier"},
     "O'Cheese Anderlecht": {"eas", "ocheese anderlecht"},
+    "Delys 1 Anspach":     {"delys station debrouchere", "delys station debroukere", "delys station anspach", "debrouchere", "debroukere"},
+    "Delys 2 Rue Neuve":   {"delys station rue neuve", "rue neuve"},
 }
 
 def _build_restaurant_aliases(restaurants):
@@ -917,9 +919,9 @@ def dashboard():
 
     # ── Classement restaurants (bar chart horizontal) ─────────────────────────
     BAR_COLORS = {
-        "Chamas Tacos":  "#D85A30",
-        "O'Cheese":      "#378ADD",
-        "Delys Station": "#639922",
+        "Chamas Tacos":  "#E28F0A",
+        "O'Cheese":      "#D82E2E",
+        "Delys Station": "#DB29C9",
     }
     restaurants_classement = sorted(
         [
@@ -2322,5 +2324,5 @@ def logout():
 
 
 if __name__ == "__main__":
-   import os
-app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)), debug=False)
+    import os
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 8080)), debug=False)
