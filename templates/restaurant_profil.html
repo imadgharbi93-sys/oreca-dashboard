@@ -154,13 +154,66 @@
 .rp-hl-sub { font-size: 10.5px; color: var(--text-muted); margin-top: 2px; }
 .rp-hl-divider { width: 0.5px; background: #E5E7EB; }
 
-/* ── KPI grid ──────────────────────────────────────────────────────────────── */
-.rp-kpi-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 12px; margin-bottom: 18px;
+/* ── Month selector (pill-button style) ─────────────────────────────────── */
+.rp-mois-bar {
+  background: #fff; border: 1px solid #E5E7EB; border-radius: 12px;
+  padding: 10px 14px; display: flex; flex-wrap: wrap; gap: 6px;
+  align-items: center; margin-bottom: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.06);
 }
-@media (max-width: 1100px) { .rp-kpi-grid { grid-template-columns: repeat(3, 1fr); } }
-@media (max-width: 700px)  { .rp-kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+.rp-mois-lbl {
+  font-size: .65rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-muted);
+  margin-right: 4px; white-space: nowrap; flex-shrink: 0;
+}
+.rp-mois-btn {
+  padding: 5px 13px; border-radius: 20px;
+  border: 1.5px solid #E5E7EB; background: #fff;
+  color: var(--text-muted); font-size: .76rem; font-weight: 600;
+  cursor: pointer; font-family: inherit; transition: all .13s; white-space: nowrap;
+}
+.rp-mois-btn:hover { border-color: var(--brand); color: var(--brand); }
+.rp-mois-btn.active { background: var(--brand); border-color: var(--brand); color: #fff; }
+.rp-year-sep { width: 1px; height: 24px; background: #E5E7EB; flex-shrink: 0; margin: 0 4px; }
+.rp-year-lbl {
+  font-size: .65rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-muted); white-space: nowrap;
+  padding: 3px 8px; background: #F3F4F6; border-radius: 20px;
+}
+.rp-year-lbl.y2026 { color: var(--brand); background: var(--brand-soft); }
+
+/* ── KPI blocs ──────────────────────────────────────────────────────────────── */
+.rp-kpi-bloc { margin-bottom: 18px; }
+.rp-kpi-bloc-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--text-muted);
+  margin-bottom: 8px; padding-left: 2px;
+  display: flex; align-items: center; gap: 6px;
+}
+.rp-kpi-bloc-title::after {
+  content: ''; flex: 1; height: 1px; background: #E5E7EB;
+}
+.rp-kpi-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.rp-kpi-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.rp-kpi-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+.rp-kpi-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
+.rp-kpi-grid.cols-6 { grid-template-columns: repeat(6, 1fr); }
+@media (max-width: 1200px) {
+  .rp-kpi-grid.cols-6 { grid-template-columns: repeat(3, 1fr); }
+  .rp-kpi-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 1100px) {
+  .rp-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .rp-kpi-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .rp-kpi-grid.cols-5 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .rp-kpi-grid, .rp-kpi-grid.cols-2, .rp-kpi-grid.cols-4,
+  .rp-kpi-grid.cols-5, .rp-kpi-grid.cols-6 { grid-template-columns: 1fr 1fr; }
+}
 
 .rp-kpi {
   background: #fff; border: 0.5px solid #E5E7EB;
@@ -171,8 +224,27 @@
   content: ''; position: absolute; left: 0; top: 0; bottom: 0;
   width: 3px; background: var(--brand);
 }
-.rp-kpi-lbl { font-size: 10.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 7px; }
-.rp-kpi-val { font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+.rp-kpi.kpi-green::before  { background: #1D9E75; }
+.rp-kpi.kpi-orange::before { background: #F59E0B; }
+.rp-kpi.kpi-red::before    { background: #E11D48; }
+
+.rp-kpi-lbl { font-size: 10.5px; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
+.rp-kpi-val { font-size: 1.2rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+.rp-kpi-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+/* M-1 badge */
+.rp-m1 {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 10px; font-weight: 700; margin-top: 7px;
+  padding: 2px 7px; border-radius: 20px; white-space: nowrap;
+}
+.rp-m1.pos     { background: rgba(29,158,117,.1);  color: #065f46; }
+.rp-m1.neg     { background: rgba(225,29,72,.1);   color: #9f1239; }
+.rp-m1.inv-pos { background: rgba(225,29,72,.1);   color: #9f1239; }
+.rp-m1.inv-neg { background: rgba(29,158,117,.1);  color: #065f46; }
+.rp-m1.neu     { background: #F3F4F6; color: var(--text-muted); }
+
+/* backward compat */
 .rp-kpi-evol {
   display: inline-flex; align-items: center; gap: 3px;
   font-size: 10.5px; font-weight: 700; margin-top: 6px;
@@ -457,43 +529,257 @@
   {% endif %}
 </div>
 
-{# ── KPI cards ───────────────────────────────────────────────────────────── #}
-{% if dernier %}
-<div style="font-size:10.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;">
-  Indicateurs — {{ dernier.label }}
-</div>
-<div class="rp-kpi-grid">
+{# ── Sélecteur de mois (pill buttons) ───────────────────────────────────── #}
+{% if available_months %}
+<div class="rp-mois-bar">
+  <span class="rp-mois-lbl">Période :</span>
 
-  {% set kpis = [
-    ('CA du mois',   dernier.ca | fr_number ~ ' €', dernier.evol_ca, 'pos', 'neg', True),
-    ('Ticket moyen', (dernier.tkt | string | replace('.', ',') ~ ' €') if dernier.tkt is not none else '—', dernier.evol_tkt, 'pos', 'neg', True),
-    ('Marge brute',  (dernier.mb | string | replace('.', ',') ~ '%') if dernier.mb is not none else '—', dernier.evol_mb, 'pos', 'neg', False),
-    ('Food Cost',    (dernier.fc | string | replace('.', ',') ~ '%') if dernier.fc is not none else '—', dernier.evol_fc, 'inv-pos', 'inv-neg', False),
-    ('Prime Cost',   (dernier.pc | string | replace('.', ',') ~ '%') if dernier.pc is not none else '—', dernier.evol_pc, 'inv-pos', 'inv-neg', False),
-  ] %}
+  {# Bouton "Tous" #}
+  <button class="rp-mois-btn {% if not selected_month %}active{% endif %}"
+          onclick="rpChangeMois('')">Tous</button>
 
-  {% for lbl, val, evol, cls_up, cls_dn, is_pct in kpis %}
-  <div class="rp-kpi">
-    <div class="rp-kpi-lbl">{{ lbl }}</div>
-    <div class="rp-kpi-val">{{ val }}</div>
-    {% if evol is not none %}
-      {% set sign = '+' if evol > 0 else '' %}
-      {% set unit = '%' if is_pct else ' pts' %}
-      {% if evol > 0 %}
-        <div class="rp-kpi-evol {{ cls_up }}">▲ {{ sign }}{{ evol | string | replace('.', ',') }}{{ unit }}</div>
-      {% elif evol < 0 %}
-        <div class="rp-kpi-evol {{ cls_dn }}">▼ {{ evol | string | replace('.', ',') }}{{ unit }}</div>
-      {% else %}
-        <div class="rp-kpi-evol neu">= Stable</div>
-      {% endif %}
-    {% else %}
-      <div class="rp-kpi-evol neu">—</div>
-    {% endif %}
-  </div>
+  {# Mois 2025 #}
+  {% set has_2025 = namespace(v=false) %}
+  {% for mo in available_months %}{% if mo.key[:4] == '2025' %}{% set has_2025.v = true %}{% endif %}{% endfor %}
+  {% if has_2025.v %}
+  <div class="rp-year-sep"></div>
+  <span class="rp-year-lbl">2025</span>
+  {% for mo in available_months if mo.key[:4] == '2025' %}
+  <button class="rp-mois-btn {% if selected_month == mo.key %}active{% endif %}"
+          onclick="rpChangeMois('{{ mo.key }}')">{{ mo.label | replace(' 2025', '') }}</button>
   {% endfor %}
+  {% endif %}
 
+  {# Mois 2026 #}
+  {% set has_2026 = namespace(v=false) %}
+  {% for mo in available_months %}{% if mo.key[:4] == '2026' %}{% set has_2026.v = true %}{% endif %}{% endfor %}
+  {% if has_2026.v %}
+  <div class="rp-year-sep"></div>
+  <span class="rp-year-lbl y2026">2026</span>
+  {% for mo in available_months if mo.key[:4] == '2026' %}
+  <button class="rp-mois-btn {% if selected_month == mo.key %}active{% endif %}"
+          onclick="rpChangeMois('{{ mo.key }}')">{{ mo.label | replace(' 2026', '') }}</button>
+  {% endfor %}
+  {% endif %}
 </div>
+<script>
+function rpChangeMois(val) {
+  const url = new URL(window.location.href);
+  if (val) { url.searchParams.set('mois', val); }
+  else      { url.searchParams.delete('mois'); }
+  window.location.href = url.toString();
+}
+</script>
 {% endif %}
+
+{# ── KPI cards — 3 blocs ─────────────────────────────────────────────────── #}
+{% if kpi %}
+
+{# Macro M-1 badge (monetaire: absolu en € + relatif en %) #}
+{% macro m1_money(abs_val, rel_pct, inv=false) %}
+  {% if abs_val is not none and rel_pct is not none %}
+    {% if abs_val > 0 %}
+      {% set cls = 'inv-pos' if inv else 'pos' %}
+      <div class="rp-m1 {{ cls }}">↑ +{{ abs_val | fr_number }} € (+{{ rel_pct | string | replace('.', ',') }}%)</div>
+    {% elif abs_val < 0 %}
+      {% set cls = 'inv-neg' if inv else 'neg' %}
+      <div class="rp-m1 {{ cls }}">↓ {{ abs_val | fr_number }} € ({{ rel_pct | string | replace('.', ',') }}%)</div>
+    {% else %}
+      <div class="rp-m1 neu">= Stable vs M-1</div>
+    {% endif %}
+  {% else %}
+    <div class="rp-m1 neu">— M-1 non disponible</div>
+  {% endif %}
+{% endmacro %}
+
+{# Macro M-1 badge (ratio %: pts) #}
+{% macro m1_pct(pts_val, inv=false) %}
+  {% if pts_val is not none %}
+    {% if pts_val > 0 %}
+      {% set cls = 'inv-pos' if inv else 'pos' %}
+      <div class="rp-m1 {{ cls }}">↑ +{{ pts_val | string | replace('.', ',') }} pts vs M-1</div>
+    {% elif pts_val < 0 %}
+      {% set cls = 'inv-neg' if inv else 'neg' %}
+      <div class="rp-m1 {{ cls }}">↓ {{ pts_val | string | replace('.', ',') }} pts vs M-1</div>
+    {% else %}
+      <div class="rp-m1 neu">= Stable vs M-1</div>
+    {% endif %}
+  {% else %}
+    <div class="rp-m1 neu">— M-1 non disponible</div>
+  {% endif %}
+{% endmacro %}
+
+{# Macro N-1 badge monétaire #}
+{% macro n1_money(abs_val, rel_pct, lbl, inv=false) %}
+  {% set lbl_str = lbl if lbl else 'N-1' %}
+  {% if abs_val is not none and rel_pct is not none %}
+    {% if abs_val > 0 %}
+      {% set cls = 'inv-pos' if inv else 'pos' %}
+      <div class="rp-m1 {{ cls }}" style="border-left:2px solid currentColor;margin-top:3px;">N-1&nbsp;↑ +{{ abs_val | fr_number }} € (+{{ rel_pct | string | replace('.', ',') }}%)</div>
+    {% elif abs_val < 0 %}
+      {% set cls = 'inv-neg' if inv else 'neg' %}
+      <div class="rp-m1 {{ cls }}" style="border-left:2px solid currentColor;margin-top:3px;">N-1&nbsp;↓ {{ abs_val | fr_number }} € ({{ rel_pct | string | replace('.', ',') }}%)</div>
+    {% else %}
+      <div class="rp-m1 neu" style="margin-top:3px;">N-1 = Stable</div>
+    {% endif %}
+  {% else %}
+    <div class="rp-m1 neu" style="margin-top:3px;">— N-1 non disponible</div>
+  {% endif %}
+{% endmacro %}
+
+{# Macro N-1 badge en points #}
+{% macro n1_pct(pts_val, inv=false) %}
+  {% if pts_val is not none %}
+    {% if pts_val > 0 %}
+      {% set cls = 'inv-pos' if inv else 'pos' %}
+      <div class="rp-m1 {{ cls }}" style="border-left:2px solid currentColor;margin-top:3px;">N-1&nbsp;↑ +{{ pts_val | string | replace('.', ',') }} pts</div>
+    {% elif pts_val < 0 %}
+      {% set cls = 'inv-neg' if inv else 'neg' %}
+      <div class="rp-m1 {{ cls }}" style="border-left:2px solid currentColor;margin-top:3px;">N-1&nbsp;↓ {{ pts_val | string | replace('.', ',') }} pts</div>
+    {% else %}
+      <div class="rp-m1 neu" style="margin-top:3px;">N-1 = Stable</div>
+    {% endif %}
+  {% else %}
+    <div class="rp-m1 neu" style="margin-top:3px;">— N-1 non disponible</div>
+  {% endif %}
+{% endmacro %}
+
+{# ── Ligne 1 — Revenus ────────────────────────────────────────────────── #}
+<div class="rp-kpi-bloc">
+  <div class="rp-kpi-bloc-title">Revenus</div>
+  <div class="rp-kpi-grid cols-4">
+
+    {# CA période #}
+    <div class="rp-kpi">
+      <div class="rp-kpi-lbl">{% if selected_month %}CA — {{ kpi_label }}{% else %}CA total (tous mois){% endif %}</div>
+      <div class="rp-kpi-val" style="color:{{ color }};">{{ kpi.ca | fr_number }} €</div>
+      {{ m1_money(kpi.evol_ca_abs, kpi.evol_ca) }}
+      {{ n1_money(kpi.n1_ca_abs, kpi.n1_ca_pct, kpi.n1_label) }}
+    </div>
+
+    {# CA cumulé #}
+    <div class="rp-kpi">
+      <div class="rp-kpi-lbl">CA cumulé (tous mois)</div>
+      <div class="rp-kpi-val" style="color:{{ color }};">{{ ca_cumule | fr_number }} €</div>
+      <div class="rp-m1 neu">{{ nb_mois }} mois encodé{{ 's' if nb_mois > 1 }}</div>
+      {% if ca_cumule_2025 > 0 %}
+        {% set n1_tot_abs = ca_cumule_2026 - ca_cumule_2025 %}
+        {% set n1_tot_pct = ((ca_cumule_2026 - ca_cumule_2025) / ca_cumule_2025 * 100) | round(1) %}
+        {% if n1_tot_abs > 0 %}
+          <div class="rp-m1 pos" style="border-left:2px solid currentColor;margin-top:3px;">N-1&nbsp;↑ +{{ n1_tot_abs | fr_number }} € (+{{ n1_tot_pct | string | replace('.', ',') }}%)</div>
+        {% elif n1_tot_abs < 0 %}
+          <div class="rp-m1 neg" style="border-left:2px solid currentColor;margin-top:3px;">N-1&nbsp;↓ {{ n1_tot_abs | fr_number }} € ({{ n1_tot_pct | string | replace('.', ',') }}%)</div>
+        {% else %}
+          <div class="rp-m1 neu" style="margin-top:3px;">N-1 = Stable</div>
+        {% endif %}
+      {% else %}
+        <div class="rp-m1 neu" style="margin-top:3px;">— N-1 non disponible</div>
+      {% endif %}
+    </div>
+
+    {# Classement #}
+    <div class="rp-kpi">
+      <div class="rp-kpi-lbl">Classement CA — {{ ranking.brand if ranking else resto.brand }}</div>
+      {% if ranking %}
+        {% set suffix = 'er' if ranking.pos == 1 else 'e' %}
+        <div class="rp-kpi-val">{{ ranking.pos }}{{ suffix }} / {{ ranking.total }}</div>
+        <div class="rp-kpi-sub">{{ ranking.brand }}</div>
+      {% else %}
+        <div class="rp-kpi-val">—</div>
+      {% endif %}
+      <div class="rp-m1 neu">— M-1 non disponible</div>
+      <div class="rp-m1 neu" style="margin-top:3px;">— N-1 non disponible</div>
+    </div>
+
+    {# Ticket moyen #}
+    <div class="rp-kpi">
+      <div class="rp-kpi-lbl">Ticket moyen</div>
+      <div class="rp-kpi-val">{% if kpi.tkt is not none %}{{ kpi.tkt | string | replace('.', ',') }} €{% else %}—{% endif %}</div>
+      {{ m1_money(kpi.evol_tkt_abs, kpi.evol_tkt) }}
+      {{ n1_money(kpi.n1_tkt_abs, kpi.n1_tkt_pct, kpi.n1_label) }}
+    </div>
+
+  </div>
+</div>
+
+{# ── Ligne 2 — Coûts & Résultat ──────────────────────────────────────── #}
+{% if kpi.mn is not none %}
+  {% set mn_cls = 'kpi-green' if (kpi.mn_pct is not none and kpi.mn_pct > 20) else ('kpi-orange' if (kpi.mn_pct is not none and kpi.mn_pct >= 10) else 'kpi-red') %}
+{% else %}
+  {% set mn_cls = '' %}
+{% endif %}
+<div class="rp-kpi-bloc">
+  <div class="rp-kpi-bloc-title">Coûts & Résultat</div>
+  <div class="rp-kpi-grid cols-6">
+
+    {# Food Cost #}
+    {% set fc_cls = 'kpi-green' if (kpi.fc is not none and kpi.fc < 30) else ('kpi-orange' if (kpi.fc is not none and kpi.fc <= 35) else 'kpi-red') %}
+    <div class="rp-kpi {{ fc_cls if kpi.fc is not none else '' }}">
+      <div class="rp-kpi-lbl">Food Cost</div>
+      <div class="rp-kpi-val">{% if kpi.fc is not none %}{{ kpi.fc | string | replace('.', ',') }}%{% else %}—{% endif %}</div>
+      {% if kpi.cm > 0 %}<div class="rp-kpi-sub">{{ kpi.cm | fr_number }} €</div>{% endif %}
+      {{ m1_pct(kpi.evol_fc, inv=true) }}
+      {{ n1_pct(kpi.n1_fc_pts, inv=true) }}
+    </div>
+
+    {# Labor Cost #}
+    {% set lc_cls = 'kpi-green' if (kpi.lc is not none and kpi.lc < 30) else ('kpi-orange' if (kpi.lc is not none and kpi.lc <= 35) else 'kpi-red') %}
+    <div class="rp-kpi {{ lc_cls if kpi.lc is not none else '' }}">
+      <div class="rp-kpi-lbl">Labor Cost</div>
+      <div class="rp-kpi-val">{% if kpi.lc is not none %}{{ kpi.lc | string | replace('.', ',') }}%{% else %}—{% endif %}</div>
+      {% if kpi.cp > 0 %}<div class="rp-kpi-sub">{{ kpi.cp | fr_number }} €</div>{% endif %}
+      {{ m1_pct(kpi.evol_lc, inv=true) }}
+      {{ n1_pct(kpi.n1_lc_pts, inv=true) }}
+    </div>
+
+    {# Coûts fixes #}
+    <div class="rp-kpi">
+      <div class="rp-kpi-lbl">Coûts fixes</div>
+      <div class="rp-kpi-val">{% if kpi.cf > 0 %}{{ kpi.cf | fr_number }} €{% else %}—{% endif %}</div>
+      {% if kpi.cf == 0 %}<div class="rp-kpi-sub" style="font-style:italic;">non encodés</div>{% endif %}
+      {{ m1_money(kpi.evol_cf_abs, kpi.evol_cf_pct, inv=true) }}
+      {{ n1_money(kpi.n1_cf_abs, kpi.n1_cf_pct, kpi.n1_label, inv=true) }}
+    </div>
+
+    {# Coûts variables #}
+    <div class="rp-kpi">
+      <div class="rp-kpi-lbl">Coûts variables</div>
+      <div class="rp-kpi-val">{% if kpi.cv > 0 %}{{ kpi.cv | fr_number }} €{% else %}—{% endif %}</div>
+      {% if kpi.cv == 0 %}<div class="rp-kpi-sub" style="font-style:italic;">non encodés</div>{% endif %}
+      {{ m1_money(kpi.evol_cv_abs, kpi.evol_cv_pct, inv=true) }}
+      {{ n1_money(kpi.n1_cv_abs, kpi.n1_cv_pct, kpi.n1_label, inv=true) }}
+    </div>
+
+    {# Marge nette € #}
+    <div class="rp-kpi {{ mn_cls }}">
+      <div class="rp-kpi-lbl">Marge nette</div>
+      <div class="rp-kpi-val"
+           style="color:{% if kpi.mn is not none %}{% if kpi.mn_pct is not none and kpi.mn_pct > 20 %}#1D9E75{% elif kpi.mn_pct is not none and kpi.mn_pct >= 10 %}#F59E0B{% else %}#E11D48{% endif %}{% else %}var(--text-primary){% endif %};">
+        {% if kpi.mn is not none %}{{ kpi.mn | fr_number }} €{% else %}—{% endif %}
+      </div>
+      {% if kpi.mn_pct is not none %}<div class="rp-kpi-sub">{{ kpi.mn_pct | string | replace('.', ',') }}% du CA</div>{% endif %}
+      {{ m1_money(kpi.evol_mn_abs, kpi.evol_mn_rel) }}
+      {{ n1_money(kpi.n1_mn_abs, kpi.n1_mn_pct, kpi.n1_label) }}
+    </div>
+
+    {# Marge nette % #}
+    <div class="rp-kpi {{ mn_cls }}">
+      <div class="rp-kpi-lbl">Marge nette %</div>
+      <div class="rp-kpi-val"
+           style="color:{% if kpi.mn_pct is not none %}{% if kpi.mn_pct > 20 %}#1D9E75{% elif kpi.mn_pct >= 10 %}#F59E0B{% else %}#E11D48{% endif %}{% else %}var(--text-primary){% endif %};">
+        {% if kpi.mn_pct is not none %}{{ kpi.mn_pct | string | replace('.', ',') }}%{% else %}—{% endif %}
+      </div>
+      <div class="rp-kpi-sub">
+        {% if kpi.mn_pct is not none %}{% if kpi.mn_pct > 20 %}Bonne marge{% elif kpi.mn_pct >= 10 %}Marge à améliorer{% else %}Marge insuffisante{% endif %}{% endif %}
+      </div>
+      {{ m1_pct(kpi.evol_mn_pct) }}
+      {{ n1_pct(kpi.n1_mn_pct_pts) }}
+    </div>
+
+  </div>
+</div>
+
+{% endif %} {# /kpi #}
 
 {# ── Graphique CA ────────────────────────────────────────────────────────── #}
 {% if mois_data %}
@@ -527,10 +813,12 @@
         <th>CA</th>
         <th>Commandes</th>
         <th>Ticket moyen</th>
-        <th>Marge brute</th>
         <th>Food Cost</th>
         <th>Labor Cost</th>
-        <th>Prime Cost</th>
+        <th>Coûts fixes</th>
+        <th>Coûts variables</th>
+        <th>Marge nette</th>
+        <th>Marge nette %</th>
       </tr>
     </thead>
     <tbody>
@@ -540,13 +828,6 @@
         <td style="font-weight:800;color:{{ color }};">{{ m.ca | fr_number }} €</td>
         <td style="color:var(--text-muted);">{% if m.cmd > 0 %}{{ m.cmd | fr_number }}{% else %}—{% endif %}</td>
         <td>{% if m.tkt is not none %}{{ m.tkt | string | replace('.', ',') }} €{% else %}—{% endif %}</td>
-
-        {# Marge brute #}
-        <td>{% if m.mb is not none %}
-          <span class="kpi-pill {% if m.mb > 20 %}green{% elif m.mb >= 10 %}orange{% else %}red{% endif %}">
-            {{ m.mb | string | replace('.', ',') }}%
-          </span>
-        {% else %}<span class="kpi-pill neu">—</span>{% endif %}</td>
 
         {# Food Cost #}
         <td>{% if m.fc is not none %}
@@ -562,10 +843,21 @@
           </span>
         {% else %}<span class="kpi-pill neu">—</span>{% endif %}</td>
 
-        {# Prime Cost #}
-        <td>{% if m.pc is not none %}
-          <span class="kpi-pill {% if m.pc < 55 %}green{% elif m.pc <= 65 %}orange{% else %}red{% endif %}">
-            {{ m.pc | string | replace('.', ',') }}%
+        {# Coûts fixes #}
+        <td style="color:var(--text-muted);">{% if m.cf > 0 %}{{ m.cf | fr_number }} €{% else %}—{% endif %}</td>
+
+        {# Coûts variables #}
+        <td style="color:var(--text-muted);">{% if m.cv > 0 %}{{ m.cv | fr_number }} €{% else %}—{% endif %}</td>
+
+        {# Marge nette € #}
+        <td style="font-weight:700;color:{% if m.mn is not none %}{% if m.mn_pct is not none and m.mn_pct > 20 %}#1D9E75{% elif m.mn_pct is not none and m.mn_pct >= 10 %}#F59E0B{% else %}#E11D48{% endif %}{% else %}var(--text-muted){% endif %};">
+          {% if m.mn is not none %}{{ m.mn | fr_number }} €{% else %}—{% endif %}
+        </td>
+
+        {# Marge nette % #}
+        <td>{% if m.mn_pct is not none %}
+          <span class="kpi-pill {% if m.mn_pct > 20 %}green{% elif m.mn_pct >= 10 %}orange{% else %}red{% endif %}">
+            {{ m.mn_pct | string | replace('.', ',') }}%
           </span>
         {% else %}<span class="kpi-pill neu">—</span>{% endif %}</td>
       </tr>
@@ -577,10 +869,12 @@
         <td style="color:{{ color }};">{% if moyennes.ca is not none %}{{ moyennes.ca | fr_number }} €{% else %}—{% endif %}</td>
         <td style="color:var(--text-muted);">—</td>
         <td>{% if moyennes.tkt is not none %}{{ moyennes.tkt | string | replace('.', ',') }} €{% else %}—{% endif %}</td>
-        <td>{% if moyennes.mb is not none %}{{ moyennes.mb | string | replace('.', ',') }}%{% else %}—{% endif %}</td>
         <td>{% if moyennes.fc is not none %}{{ moyennes.fc | string | replace('.', ',') }}%{% else %}—{% endif %}</td>
         <td>{% if moyennes.lc is not none %}{{ moyennes.lc | string | replace('.', ',') }}%{% else %}—{% endif %}</td>
-        <td>{% if moyennes.pc is not none %}{{ moyennes.pc | string | replace('.', ',') }}%{% else %}—{% endif %}</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
       </tr>
     </tbody>
   </table>
@@ -588,66 +882,85 @@
 
 <script>
 (function() {
-  const labels = {{ chart_labels | tojson }};
-  const ca     = {{ chart_ca | tojson }};
-  const color  = '{{ color }}';
-  const max    = Math.max(...ca);
+  const color   = '{{ color }}';
+  const ca2025  = {{ chart_ca_2025 | tojson }};
+  const ca2026  = {{ chart_ca_2026 | tojson }};
+  const labels  = {{ chart_labels_short | tojson }};
+  const has2025 = ca2025.some(v => v > 0);
+  const has2026 = ca2026.some(v => v > 0);
+  const max2026 = has2026 ? Math.max(...ca2026) : 0;
+
+  const datasets = [];
+
+  if (has2025) {
+    datasets.push({
+      label: '2025',
+      data: ca2025,
+      borderColor: '#9CA3AF',
+      backgroundColor: 'transparent',
+      borderWidth: 1.5,
+      borderDash: [4, 3],
+      pointRadius: 2,
+      pointHoverRadius: 5,
+      pointBackgroundColor: '#9CA3AF',
+      fill: false,
+      tension: 0.35,
+    });
+  }
+
+  if (has2026) {
+    datasets.push({
+      label: '2026',
+      data: ca2026,
+      borderColor: color,
+      backgroundColor: function(ctx) {
+        const chart = ctx.chart;
+        const { ctx: c, chartArea } = chart;
+        if (!chartArea) return color + '15';
+        const grad = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+        grad.addColorStop(0, color + '28');
+        grad.addColorStop(1, color + '02');
+        return grad;
+      },
+      borderWidth: 2.5,
+      pointRadius: 3,
+      pointHoverRadius: 7,
+      pointBackgroundColor: ca2026.map(v => v === max2026 && v > 0 ? '#fff' : color),
+      pointBorderColor:     ca2026.map(v => v === max2026 && v > 0 ? color : 'transparent'),
+      pointBorderWidth:     ca2026.map(v => v === max2026 && v > 0 ? 2.5 : 0),
+      fill: has2025 ? false : true,
+      tension: 0.35,
+    });
+  }
 
   new Chart(document.getElementById('rp-chart'), {
     type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'CA',
-        data: ca,
-        borderColor: color,
-        backgroundColor: function(ctx) {
-          const chart = ctx.chart;
-          const { ctx: c, chartArea } = chart;
-          if (!chartArea) return color + '15';
-          const grad = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-          grad.addColorStop(0, color + '28');
-          grad.addColorStop(1, color + '02');
-          return grad;
-        },
-        borderWidth: 2.5,
-        pointRadius: ca.length <= 6 ? 5 : 3,
-        pointHoverRadius: 7,
-        pointBackgroundColor: ca.map(v => v === max ? '#fff' : color),
-        pointBorderColor:     ca.map(v => v === max ? color : 'transparent'),
-        pointBorderWidth:     ca.map(v => v === max ? 2.5 : 0),
-        fill: true,
-        tension: 0.35,
-      }]
-    },
+    data: { labels, datasets },
     options: {
       responsive: true,
       interaction: { mode: 'index', intersect: false },
       plugins: {
-        legend: { display: false },
+        legend: {
+          display: has2025 && has2026,
+          position: 'top',
+          align: 'end',
+          labels: { font: { size: 11, weight: '600' }, boxWidth: 24, padding: 12 }
+        },
         tooltip: {
           backgroundColor: '#1e293b',
           titleFont: { size: 11 },
           bodyFont: { size: 12, weight: '700' },
           padding: 10,
           callbacks: {
-            label: ctx => '  ' + ctx.parsed.y.toLocaleString('fr-BE') + ' €'
+            label: ctx => '  ' + ctx.dataset.label + ' : ' + ctx.parsed.y.toLocaleString('fr-BE') + ' €'
           }
         }
       },
       scales: {
-        x: {
-          grid: { display: false },
-          ticks: { font: { size: 11 }, color: '#9CA3AF' },
-          border: { display: false }
-        },
+        x: { grid: { display: false }, ticks: { font: { size: 11 }, color: '#9CA3AF' }, border: { display: false } },
         y: {
-          ticks: {
-            font: { size: 11 }, color: '#9CA3AF',
-            callback: v => v >= 1000 ? (v/1000).toFixed(0) + ' k€' : v + ' €'
-          },
-          grid: { color: '#F3F4F6' },
-          border: { display: false }
+          ticks: { font: { size: 11 }, color: '#9CA3AF', callback: v => v >= 1000 ? (v/1000).toFixed(0) + ' k€' : v + ' €' },
+          grid: { color: '#F3F4F6' }, border: { display: false }
         }
       }
     }
@@ -661,6 +974,325 @@
   <div style="font-size:12px;">Ajoutez des données via la <a href="{{ url_for('donnees') }}" style="color:var(--brand);">saisie CA</a>.</div>
 </div>
 {% endif %}
+
+
+{# ── Performance produits ─────────────────────────────────────────────────── #}
+<style>
+.rp-prod-wrap { margin-top: 8px; }
+.rp-prod-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+}
+@media (max-width: 900px) { .rp-prod-grid { grid-template-columns: 1fr; } }
+
+.rp-prod-card {
+  background: #fff; border: 0.5px solid #E5E7EB;
+  border-radius: 12px; padding: 16px 18px;
+}
+.rp-prod-card-hdr {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+}
+.rp-prod-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 9px; border-radius: 20px;
+  font-size: 10px; font-weight: 800; letter-spacing: .06em; white-space: nowrap;
+}
+.rp-prod-badge.top  { background: rgba(29,158,117,.12); color: #065f46; }
+.rp-prod-badge.flop { background: rgba(225,29,72,.1);   color: #9f1239; }
+.rp-prod-card-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--text-muted);
+}
+.rp-prod-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 0; border-bottom: 0.5px solid #F3F4F6;
+}
+.rp-prod-row:last-child { border-bottom: none; }
+.rp-prod-rank {
+  width: 22px; height: 22px; border-radius: 6px;
+  background: #F3F4F6; color: var(--text-muted);
+  font-size: 10px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.rp-prod-rank.rank-1-top  { background: var(--brand); color: #fff; }
+.rp-prod-rank.rank-1-flop { background: #E11D48; color: #fff; }
+.rp-prod-info { flex: 1; min-width: 0; }
+.rp-prod-name {
+  font-size: 12px; font-weight: 600; color: var(--text-primary);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+.rp-prod-bar-wrap {
+  height: 4px; background: #F3F4F6; border-radius: 4px; overflow: hidden;
+}
+.rp-prod-bar-fill {
+  height: 100%; border-radius: 4px; transition: width .4s ease;
+}
+.rp-prod-bar-fill.top  { background: var(--brand); opacity: .7; }
+.rp-prod-bar-fill.flop { background: #E11D48;      opacity: .6; }
+.rp-prod-val {
+  font-size: 12px; font-weight: 800; color: var(--text-primary);
+  white-space: nowrap; flex-shrink: 0; min-width: 60px; text-align: right;
+}
+.rp-prod-empty-msg {
+  text-align: center; padding: 48px 20px;
+  background: #fff; border: 0.5px solid #E5E7EB; border-radius: 12px;
+  color: var(--text-muted); font-size: 13px; font-weight: 500;
+}
+</style>
+
+{# ── Macro tableau produit ────────────────────────────────────────────────── #}
+{% macro prod_table(badge, title, items, val_key, unit) %}
+{% set is_flop = badge == 'FLOP' %}
+{% set max_val = (items[-1][val_key] if is_flop else items[0][val_key]) if items else 1 %}
+<div class="rp-prod-card">
+  <div class="rp-prod-card-hdr">
+    <span class="rp-prod-badge {{ 'flop' if is_flop else 'top' }}">{{ badge }} 5</span>
+    <span class="rp-prod-card-title">{{ title }}</span>
+  </div>
+  {% if items %}
+    {% for item in items %}
+    {% set pct = ((item[val_key] / max_val) * 100) | round(0) if max_val > 0 else 0 %}
+    <div class="rp-prod-row">
+      <div class="rp-prod-rank {% if loop.index == 1 %}{{ 'rank-1-flop' if is_flop else 'rank-1-top' }}{% endif %}">
+        {{ loop.index }}
+      </div>
+      <div class="rp-prod-info">
+        <div class="rp-prod-name" title="{{ item.nom }}">{{ item.nom }}</div>
+        <div class="rp-prod-bar-wrap">
+          <div class="rp-prod-bar-fill {{ 'flop' if is_flop else 'top' }}" style="width:{{ pct }}%;"></div>
+        </div>
+      </div>
+      <div class="rp-prod-val">
+        {% if val_key == 'ca' %}{{ item.ca | fr_number }} €
+        {% else %}{{ item.quantite | fr_number }}
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div style="text-align:center;padding:24px;color:var(--text-muted);font-size:12px;">—</div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+<div class="rp-prod-wrap">
+  <div class="rp-kpi-bloc-title" style="margin-bottom:12px;">
+    Performance produits
+    {% if selected_month %}<span style="font-size:9px;font-weight:600;color:var(--brand);background:var(--brand-soft);padding:2px 8px;border-radius:20px;margin-left:4px;text-transform:none;letter-spacing:0;">{{ kpi_label }}</span>{% endif %}
+  </div>
+
+  {% if products_data.has_data %}
+  <div class="rp-prod-grid">
+    {# Colonne gauche — par quantité #}
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      {{ prod_table('TOP',  'par quantité vendue', products_data.top5_qty,  'quantite', 'qty') }}
+      {{ prod_table('FLOP', 'par quantité vendue', products_data.flop5_qty, 'quantite', 'qty') }}
+    </div>
+    {# Colonne droite — par CA #}
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      {{ prod_table('TOP',  'par CA généré (€)', products_data.top5_ca,  'ca', '€') }}
+      {{ prod_table('FLOP', 'par CA généré (€)', products_data.flop5_ca, 'ca', '€') }}
+    </div>
+  </div>
+  {% else %}
+  <div class="rp-prod-empty-msg">
+    <div style="font-size:1.6rem;margin-bottom:10px;">📦</div>
+    Aucune donnée produit disponible pour cette période.
+  </div>
+  {% endif %}
+</div>
+
+
+{# ── Benchmarking interne ──────────────────────────────────────────────────── #}
+<style>
+.rp-bench-wrap { margin-top: 8px; }
+.rp-bench-grid { display: flex; flex-direction: column; gap: 12px; }
+
+.rp-bench-card {
+  background: #fff; border: 0.5px solid #E5E7EB; border-radius: 12px;
+  padding: 18px 22px;
+}
+.rp-bench-card-hdr {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+}
+.rp-bench-kpi-name {
+  font-size: 13px; font-weight: 800; color: var(--text-primary);
+}
+.rp-bench-gap {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+}
+.rp-bench-gap.above { background: rgba(29,158,117,.12); color: #065f46; }
+.rp-bench-gap.below { background: rgba(225,29,72,.1);   color: #9f1239; }
+.rp-bench-gap.equal { background: #F3F4F6; color: var(--text-muted); }
+
+.rp-bench-cols {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 10px; margin-bottom: 16px;
+}
+@media (max-width: 700px) { .rp-bench-cols { grid-template-columns: 1fr 1fr; } }
+
+.rp-bench-col { text-align: center; }
+.rp-bench-col-lbl {
+  font-size: 9.5px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .07em; color: var(--text-muted); margin-bottom: 6px;
+}
+.rp-bench-col-val {
+  font-size: 1.15rem; font-weight: 800; letter-spacing: -.03em; line-height: 1.1;
+}
+.rp-bench-col-sub { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+
+/* Barre de positionnement */
+.rp-bench-bar-wrap {
+  position: relative; margin-top: 4px;
+}
+.rp-bench-bar-track {
+  height: 6px; background: #F3F4F6; border-radius: 6px; position: relative;
+}
+.rp-bench-bar-range {
+  position: absolute; top: 0; left: 0; right: 0; height: 100%;
+  background: linear-gradient(to right, #F3F4F6 0%, #E5E7EB 100%);
+  border-radius: 6px;
+}
+.rp-bench-bar-marker {
+  position: absolute; top: 50%; transform: translate(-50%, -50%);
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+  z-index: 2;
+}
+.rp-bench-bar-avg-line {
+  position: absolute; top: -3px; bottom: -3px; width: 1.5px;
+  background: #9CA3AF; z-index: 1;
+}
+.rp-bench-bar-labels {
+  display: flex; justify-content: space-between;
+  font-size: 9px; color: var(--text-muted); margin-top: 4px;
+}
+.rp-bench-sentence {
+  font-size: 11.5px; color: var(--text-muted); margin-top: 10px;
+  line-height: 1.5;
+}
+.rp-bench-sentence strong { color: var(--text-primary); }
+.rp-bench-empty {
+  text-align: center; padding: 40px 20px;
+  background: #fff; border: 0.5px solid #E5E7EB; border-radius: 12px;
+  color: var(--text-muted); font-size: 12.5px; font-weight: 500;
+}
+</style>
+
+<div class="rp-bench-wrap">
+  <div class="rp-kpi-bloc-title" style="margin-bottom:12px;">
+    Benchmarking — Comparaison enseigne
+    {% if selected_month %}<span style="font-size:9px;font-weight:600;color:var(--brand);background:var(--brand-soft);padding:2px 8px;border-radius:20px;margin-left:4px;text-transform:none;letter-spacing:0;">{{ kpi_label }}</span>{% endif %}
+  </div>
+
+  {% if not bench_data.has_data %}
+  <div class="rp-bench-empty">
+    {% if bench_data.n < 2 %}
+      Pas assez de restaurants pour comparer ({{ bench_data.n }} restaurant avec des données sur cette période).
+    {% else %}
+      Aucune donnée disponible pour ce benchmarking.
+    {% endif %}
+  </div>
+
+  {% else %}
+  {# ── Macro carte benchmark ──────────────────────────────────────────────── #}
+  {% macro bench_card(label, stat, unit, higher_is_better, is_pct) %}
+  {% if stat %}
+  {% set gap_cls = 'above' if stat.better else ('below' if stat.better == false else 'equal') %}
+  <div class="rp-bench-card">
+    <div class="rp-bench-card-hdr">
+      <div class="rp-bench-kpi-name">{{ label }}</div>
+      {% if stat.gap is not none %}
+        {% if stat.better %}
+          <span class="rp-bench-gap above">
+            ↑ +{% if is_pct %}{{ stat.gap | string | replace('.', ',') }} pts{% else %}{{ stat.gap | fr_number }} {{ unit }}{% endif %}
+            vs moyenne
+          </span>
+        {% elif stat.better == false %}
+          <span class="rp-bench-gap below">
+            ↓ {% if is_pct %}{{ stat.gap | string | replace('.', ',') }} pts{% else %}{{ stat.gap | fr_number }} {{ unit }}{% endif %}
+            vs moyenne
+          </span>
+        {% else %}
+          <span class="rp-bench-gap equal">= Dans la moyenne</span>
+        {% endif %}
+      {% endif %}
+    </div>
+
+    {# 3 colonnes : ce resto / moyenne / meilleur #}
+    <div class="rp-bench-cols">
+      <div class="rp-bench-col">
+        <div class="rp-bench-col-lbl">Ce restaurant</div>
+        <div class="rp-bench-col-val" style="color:var(--brand);">
+          {% if stat.me is not none %}{% if is_pct %}{{ stat.me | string | replace('.', ',') }}%{% else %}{{ stat.me | fr_number }} {{ unit }}{% endif %}{% else %}—{% endif %}
+        </div>
+      </div>
+      <div class="rp-bench-col">
+        <div class="rp-bench-col-lbl">Moyenne enseigne</div>
+        <div class="rp-bench-col-val" style="color:var(--text-primary);">
+          {% if is_pct %}{{ stat.avg | string | replace('.', ',') }}%{% else %}{{ stat.avg | fr_number }} {{ unit }}{% endif %}
+        </div>
+        <div class="rp-bench-col-sub">{{ stat.n }} restaurants</div>
+      </div>
+      <div class="rp-bench-col">
+        <div class="rp-bench-col-lbl">{% if higher_is_better %}Meilleur{% else %}Meilleur (le plus bas){% endif %}</div>
+        <div class="rp-bench-col-val" style="color:#1D9E75;">
+          {% if is_pct %}{{ stat.best | string | replace('.', ',') }}%{% else %}{{ stat.best | fr_number }} {{ unit }}{% endif %}
+        </div>
+        <div class="rp-bench-col-sub">{{ stat.best_name }}</div>
+      </div>
+    </div>
+
+    {# Barre de positionnement #}
+    {% if stat.pos_pct is not none and stat.me is not none %}
+    {% set avg_pos = ((stat.avg - stat.min) / (stat.max - stat.min) * 100) | round(0) if stat.max != stat.min else 50 %}
+    <div class="rp-bench-bar-wrap">
+      <div class="rp-bench-bar-track">
+        <div class="rp-bench-bar-range"></div>
+        {# Ligne moyenne #}
+        <div class="rp-bench-bar-avg-line" style="left:{{ avg_pos }}%;"></div>
+        {# Marqueur restaurant #}
+        <div class="rp-bench-bar-marker"
+             style="left:{{ stat.pos_pct }}%; background:{{ 'var(--brand)' }};"></div>
+      </div>
+      <div class="rp-bench-bar-labels">
+        <span>{% if is_pct %}{{ stat.min | string | replace('.', ',') }}%{% else %}{{ stat.min | fr_number }} {{ unit }}{% endif %}</span>
+        <span style="color:#9CA3AF;">⟵ enseigne ⟶</span>
+        <span>{% if is_pct %}{{ stat.max | string | replace('.', ',') }}%{% else %}{{ stat.max | fr_number }} {{ unit }}{% endif %}</span>
+      </div>
+    </div>
+    {% endif %}
+
+    {# Phrase lisible #}
+    {% if stat.me is not none and stat.gap is not none %}
+    <div class="rp-bench-sentence">
+      {% if stat.better %}
+        Ce restaurant est <strong>au-dessus</strong> de la moyenne {{ bench_data.brand }}
+        {% if not is_pct and stat.gap_pct is not none %}de <strong>{{ stat.gap_pct | string | replace('.', ',') }}%</strong>{% elif is_pct %}de <strong>{{ stat.gap | string | replace('.', ',') }} pts</strong>{% endif %}.
+      {% elif stat.better == false %}
+        Ce restaurant est <strong>en dessous</strong> de la moyenne {{ bench_data.brand }}
+        {% if not is_pct and stat.gap_pct is not none %}de <strong>{{ (stat.gap * -1) | string | replace('.', ',') if (stat.gap * -1) == (stat.gap * -1) | int else (stat.gap * -1) | string | replace('.', ',') }}%</strong>{% elif is_pct %}de <strong>{{ (stat.gap | abs) | string | replace('.', ',') }} pts</strong>{% endif %}
+        sur le {{ label }}.
+      {% else %}
+        Ce restaurant est <strong>dans la moyenne</strong> {{ bench_data.brand }} sur le {{ label }}.
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+  {% endmacro %}
+
+  <div class="rp-bench-grid">
+    {{ bench_card('CA',         bench_data.ca, '€',  true,  false) }}
+    {{ bench_card('Food Cost',  bench_data.fc, '%',  false, true)  }}
+    {{ bench_card('Labor Cost', bench_data.lc, '%',  false, true)  }}
+  </div>
+  {% endif %}
+</div>
 
 </div>{# /rp #}
 {% endblock %}

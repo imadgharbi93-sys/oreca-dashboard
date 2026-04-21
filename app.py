@@ -44,6 +44,19 @@ MONTH_LABELS = [
     "Mai 2026", "Juin 2026", "Juil 2026", "Août 2026",
     "Sep 2026", "Oct 2026", "Nov 2026", "Déc 2026",
 ]
+MONTHS_2025 = [
+    "2025-01", "2025-02", "2025-03", "2025-04",
+    "2025-05", "2025-06", "2025-07", "2025-08",
+    "2025-09", "2025-10", "2025-11", "2025-12",
+]
+MONTH_LABELS_2025 = [
+    "Jan 2025", "Fév 2025", "Mar 2025", "Avr 2025",
+    "Mai 2025", "Juin 2025", "Juil 2025", "Août 2025",
+    "Sep 2025", "Oct 2025", "Nov 2025", "Déc 2025",
+]
+# Tous les mois (2025 + 2026) — utilisé pour saisie et profil restaurant
+ALL_MONTHS       = MONTHS_2025 + MONTHS
+ALL_MONTH_LABELS = MONTH_LABELS_2025 + MONTH_LABELS
 
 BRAND_COLORS = {
     "Chamas Tacos":  "#E28F0A",
@@ -1367,6 +1380,8 @@ def donnees():
         ca_raw     = request.form.get("ca", "").strip()
         cmd_raw    = request.form.get("commandes", "").strip()
         chg_raw    = request.form.get("charges", "").strip()
+        cf_raw     = request.form.get("couts_fixes", "").strip()
+        cv_raw     = request.form.get("couts_variables", "").strip()
         cm_raw     = request.form.get("cout_matieres", "").strip()
         cp_raw     = request.form.get("cout_personnel", "").strip()
 
@@ -1374,7 +1389,7 @@ def donnees():
             flash("Tous les champs sont obligatoires.", "error")
             return redirect(url_for("donnees"))
 
-        if month not in MONTHS:
+        if month not in ALL_MONTHS:
             flash("Mois invalide.", "error")
             return redirect(url_for("donnees"))
 
@@ -1408,6 +1423,22 @@ def donnees():
             return redirect(url_for("donnees"))
 
         try:
+            cf_value = int(float(cf_raw)) if cf_raw else 0
+            if cf_value < 0:
+                raise ValueError
+        except ValueError:
+            flash("Les coûts fixes doivent être un nombre positif.", "error")
+            return redirect(url_for("donnees"))
+
+        try:
+            cv_value = int(float(cv_raw)) if cv_raw else 0
+            if cv_value < 0:
+                raise ValueError
+        except ValueError:
+            flash("Les coûts variables doivent être un nombre positif.", "error")
+            return redirect(url_for("donnees"))
+
+        try:
             cm_value = int(float(cm_raw)) if cm_raw else 0
             if cm_value < 0:
                 raise ValueError
@@ -1432,6 +1463,18 @@ def donnees():
             data.setdefault("commandes", {}).setdefault(resto_id, {})[month] = cmd_value
         if chg_value > 0:
             data.setdefault("charges", {}).setdefault(resto_id, {})[month] = chg_value
+        if cf_value > 0:
+            old_cf = data.get("couts_fixes", {}).get(resto_id, {}).get(month, 0) or 0
+            data.setdefault("couts_fixes", {}).setdefault(resto_id, {})[month] = cf_value
+            # Propagation aux mois suivants sans valeur
+            if cf_value != old_cf:
+                mois_idx = ALL_MONTHS.index(month)
+                for future_m in ALL_MONTHS[mois_idx + 1:]:
+                    existing_cf = data.get("couts_fixes", {}).get(resto_id, {}).get(future_m, 0) or 0
+                    if existing_cf == 0:
+                        data.setdefault("couts_fixes", {}).setdefault(resto_id, {})[future_m] = cf_value
+        if cv_value > 0:
+            data.setdefault("couts_variables", {}).setdefault(resto_id, {})[month] = cv_value
         if cm_value > 0:
             data.setdefault("cout_matieres", {}).setdefault(resto_id, {})[month] = cm_value
         if cp_value > 0:
@@ -1439,7 +1482,7 @@ def donnees():
         _save_data(data)
 
         resto_name  = next(r["name"] for r in RESTAURANTS if r["id"] == resto_id)
-        month_label = MONTH_LABELS[MONTHS.index(month)]
+        month_label = ALL_MONTH_LABELS[ALL_MONTHS.index(month)]
         parts = []
         if cmd_value > 0:
             tm = round(ca_value / cmd_value, 2)
@@ -1466,9 +1509,14 @@ def donnees():
     data        = load_data()
     all_restos  = _get_all_restaurants(data)
     today_m     = datetime.now().strftime("%Y-%m")
-    today_idx   = MONTHS.index(today_m) if today_m in MONTHS else len(MONTHS) - 1
-    months_avail = MONTHS[:today_idx + 1]
-    labels_avail = MONTH_LABELS[:today_idx + 1]
+    # Tous les mois jusqu'à aujourd'hui (2025 + 2026 partiel)
+    today_idx    = ALL_MONTHS.index(today_m) if today_m in ALL_MONTHS else len(ALL_MONTHS) - 1
+    months_avail = ALL_MONTHS[:today_idx + 1]
+    labels_avail = ALL_MONTH_LABELS[:today_idx + 1]
+    # Séparation par année pour les onglets du sélecteur
+    months_2025_avail = [(m, l) for m, l in zip(months_avail, labels_avail) if m.startswith("2025")]
+    months_2026_avail = [(m, l) for m, l in zip(months_avail, labels_avail) if m.startswith("2026")]
+
     selected_import_brand = request.args.get("import_brand", list(BRAND_COLORS.keys())[0])
     if selected_import_brand not in BRAND_COLORS:
         selected_import_brand = list(BRAND_COLORS.keys())[0]
@@ -1482,16 +1530,18 @@ def donnees():
         dispo    = [m for m in months_avail if mo_totals[m] > 0]
         selected = dispo[-1] if dispo else months_avail[-1]
 
-    sel_idx = MONTHS.index(selected)
+    sel_idx = ALL_MONTHS.index(selected)
 
     all_data = {}
     for r in all_restos:
         all_data[r["id"]] = {
-            "ca":             {m: data.get(r["id"], {}).get(m, 0) or 0 for m in MONTHS},
-            "commandes":      {m: data.get("commandes", {}).get(r["id"], {}).get(m, 0) or 0 for m in MONTHS},
-            "charges":        {m: data.get("charges", {}).get(r["id"], {}).get(m, 0) or 0 for m in MONTHS},
-            "cout_matieres":  {m: data.get("cout_matieres", {}).get(r["id"], {}).get(m, 0) or 0 for m in MONTHS},
-            "cout_personnel": {m: data.get("cout_personnel", {}).get(r["id"], {}).get(m, 0) or 0 for m in MONTHS},
+            "ca":              {m: data.get(r["id"], {}).get(m, 0) or 0 for m in ALL_MONTHS},
+            "commandes":       {m: data.get("commandes", {}).get(r["id"], {}).get(m, 0) or 0 for m in ALL_MONTHS},
+            "charges":         {m: data.get("charges", {}).get(r["id"], {}).get(m, 0) or 0 for m in ALL_MONTHS},
+            "couts_fixes":     {m: data.get("couts_fixes", {}).get(r["id"], {}).get(m, 0) or 0 for m in ALL_MONTHS},
+            "couts_variables": {m: data.get("couts_variables", {}).get(r["id"], {}).get(m, 0) or 0 for m in ALL_MONTHS},
+            "cout_matieres":   {m: data.get("cout_matieres", {}).get(r["id"], {}).get(m, 0) or 0 for m in ALL_MONTHS},
+            "cout_personnel":  {m: data.get("cout_personnel", {}).get(r["id"], {}).get(m, 0) or 0 for m in ALL_MONTHS},
         }
 
     return render_template(
@@ -1500,11 +1550,13 @@ def donnees():
         import_brands=list(BRAND_COLORS.keys()),
         selected_import_brand=selected_import_brand,
         product_sales_summary=_product_sales_summary(data, selected, selected_import_brand),
-        months=MONTHS,
-        month_labels=MONTH_LABELS,
+        months=ALL_MONTHS,
+        month_labels=ALL_MONTH_LABELS,
         months_with_labels=list(zip(months_avail, labels_avail)),
+        months_2025=months_2025_avail,
+        months_2026=months_2026_avail,
         selected_month=selected,
-        selected_month_label=MONTH_LABELS[sel_idx],
+        selected_month_label=ALL_MONTH_LABELS[sel_idx],
         all_data=all_data,
         brand_colors=BRAND_COLORS,
     )
@@ -1808,7 +1860,7 @@ def donnees_bulk():
     mois       = payload.get("mois", "")
     grid_data  = payload.get("data", {})
 
-    if mois not in MONTHS:
+    if mois not in ALL_MONTHS:
         return jsonify({"success": False, "error": "Mois invalide"}), 400
 
     data       = load_data()
@@ -1821,18 +1873,23 @@ def donnees_bulk():
             continue
 
         ca  = int(vals.get("ca")  or 0)
-        cmd = int(vals.get("commandes")  or 0)
-        chg = int(vals.get("charges")    or 0)
-        cm  = int(vals.get("cout_matieres")  or 0)
+        cmd = int(vals.get("commandes")     or 0)
+        chg = int(vals.get("charges")       or 0)
+        cf  = int(vals.get("couts_fixes")   or 0)
+        cv  = int(vals.get("couts_variables") or 0)
+        cm  = int(vals.get("cout_matieres") or 0)
         cp  = int(vals.get("cout_personnel") or 0)
 
         old_ca  = data.get(resto_id, {}).get(mois, 0) or 0
-        old_cmd = data.get("commandes", {}).get(resto_id, {}).get(mois, 0) or 0
-        old_chg = data.get("charges",   {}).get(resto_id, {}).get(mois, 0) or 0
+        old_cmd = data.get("commandes",      {}).get(resto_id, {}).get(mois, 0) or 0
+        old_chg = data.get("charges",        {}).get(resto_id, {}).get(mois, 0) or 0
+        old_cf  = data.get("couts_fixes",    {}).get(resto_id, {}).get(mois, 0) or 0
+        old_cv  = data.get("couts_variables",{}).get(resto_id, {}).get(mois, 0) or 0
         old_cm  = data.get("cout_matieres",  {}).get(resto_id, {}).get(mois, 0) or 0
         old_cp  = data.get("cout_personnel", {}).get(resto_id, {}).get(mois, 0) or 0
 
-        changed = any([ca != old_ca, cmd != old_cmd, chg != old_chg, cm != old_cm, cp != old_cp])
+        changed = any([ca != old_ca, cmd != old_cmd, chg != old_chg,
+                       cf != old_cf, cv != old_cv, cm != old_cm, cp != old_cp])
         if not changed:
             continue
 
@@ -1846,11 +1903,21 @@ def donnees_bulk():
 
         # Champs optionnels : enregistrer si > 0, supprimer si remis à 0
         for key, val in [("commandes", cmd), ("charges", chg),
+                         ("couts_fixes", cf), ("couts_variables", cv),
                          ("cout_matieres", cm), ("cout_personnel", cp)]:
             if val > 0:
                 data.setdefault(key, {}).setdefault(resto_id, {})[mois] = val
             else:
                 data.get(key, {}).get(resto_id, {}).pop(mois, None)
+
+        # Propagation automatique des coûts fixes aux mois suivants
+        # (uniquement si le mois suivant n'a pas encore de valeur saisie)
+        if cf > 0 and cf != old_cf:
+            mois_idx = ALL_MONTHS.index(mois)
+            for future_m in ALL_MONTHS[mois_idx + 1:]:
+                existing_cf = data.get("couts_fixes", {}).get(resto_id, {}).get(future_m, 0) or 0
+                if existing_cf == 0:
+                    data.setdefault("couts_fixes", {}).setdefault(resto_id, {})[future_m] = cf
 
     _save_data(data)
 
@@ -2039,19 +2106,24 @@ def restaurant_profil(profil_id):
     if not resto:
         return "Restaurant introuvable", 404
 
-    data     = load_data()
+    data        = load_data()
     export_mode = request.args.get("export") == "pdf"
-    rid      = resto["id"]
-    brand    = resto["brand"]
-    color    = BRAND_COLORS.get(brand, "#888")
+    selected_month = request.args.get("mois")  # e.g. "2026-04" or None
+    rid         = resto["id"]
+    brand       = resto["brand"]
+    color       = BRAND_COLORS.get(brand, "#888")
 
-    cm_data  = data.get("cout_matieres",  {}).get(rid, {})
-    cp_data  = data.get("cout_personnel", {}).get(rid, {})
-    chg_data = data.get("charges",        {}).get(rid, {})
-    cmd_data = data.get("commandes",      {}).get(rid, {})
+    today_m  = datetime.now().strftime("%Y-%m")
+
+    cm_data  = data.get("cout_matieres",   {}).get(rid, {})
+    cp_data  = data.get("cout_personnel",  {}).get(rid, {})
+    chg_data = data.get("charges",         {}).get(rid, {})
+    cf_data  = data.get("couts_fixes",     {}).get(rid, {})
+    cv_data  = data.get("couts_variables", {}).get(rid, {})
+    cmd_data = data.get("commandes",       {}).get(rid, {})
     ca_data  = data.get(rid, {})
 
-    # ── Données mensuelles ────────────────────────────────────────────────────
+    # ── Helpers ───────────────────────────────────────────────────────────────
     def _safe_pct(num, den):
         return round(num / den * 100, 1) if den and den > 0 and num and num > 0 else None
 
@@ -2061,64 +2133,259 @@ def restaurant_profil(profil_id):
     def _evol_pts(v, vp):
         return round(v - vp, 1) if v is not None and vp is not None else None
 
-    mois_data = []
-    for i, m in enumerate(MONTHS):
-        ca  = ca_data.get(m) or 0
+    def _evol_abs(v, vp):
+        """Variation absolue arrondie à l'entier."""
+        return round(v - vp) if v is not None and vp is not None else None
+
+    # ── Helper : données d'un mois ────────────────────────────────────────────
+    def _month_kpis(m):
+        """Retourne les KPIs bruts pour un mois donné (ou None si CA=0)."""
+        ca = ca_data.get(m) or 0
         if ca <= 0:
-            continue
+            return None
         cmd = cmd_data.get(m) or 0
-        chg = chg_data.get(m) or 0
         cm  = cm_data.get(m)  or 0
         cp  = cp_data.get(m)  or 0
+        cf  = cf_data.get(m)  or 0
+        cv  = cv_data.get(m)  or 0
+        chg_legacy = chg_data.get(m) or 0
+        chg = (cf + cv) if (cf > 0 or cv > 0) else chg_legacy
+        tkt = round(ca / cmd, 2)      if cmd > 0 else None
+        mb  = _safe_pct(ca - chg, ca) if chg > 0 else None
+        fc  = _safe_pct(cm, ca)
+        lc  = _safe_pct(cp, ca)
+        pc  = round((cm + cp) / ca * 100, 1) if ca > 0 and (cm > 0 or cp > 0) else None
+        mn     = ca - cm - cp - chg
+        mn_pct = round(mn / ca * 100, 1) if ca > 0 else None
+        return dict(ca=ca, cmd=cmd, cm=cm, cp=cp, cf=cf, cv=cv, chg=chg,
+                    tkt=tkt, mb=mb, fc=fc, lc=lc, pc=pc, mn=mn, mn_pct=mn_pct)
 
-        tkt  = round(ca / cmd, 2)       if cmd > 0             else None
-        mb   = _safe_pct(ca - chg, ca)  if chg > 0             else None
-        fc   = _safe_pct(cm, ca)
-        lc   = _safe_pct(cp, ca)
-        pc   = round((cm + cp) / ca * 100, 1) if ca > 0 and (cm > 0 or cp > 0) else None
+    # ── Données mensuelles (tous les mois 2025+2026 avec CA > 0) ─────────────
+    mois_data = []
+    for i, m in enumerate(ALL_MONTHS):
+        if m > today_m:          # bloquer les mois futurs
+            continue
+        k = _month_kpis(m)
+        if k is None:
+            continue
 
-        # Évolution vs M-1
-        prev_m  = MONTHS[i - 1] if i > 0 else None
-        ca_p    = (ca_data.get(prev_m) or 0) if prev_m else 0
-        cmd_p   = (cmd_data.get(prev_m) or 0) if prev_m else 0
-        cm_p    = (cm_data.get(prev_m) or 0) if prev_m else 0
-        cp_p    = (cp_data.get(prev_m) or 0) if prev_m else 0
-        chg_p   = (chg_data.get(prev_m) or 0) if prev_m else 0
+        ca, cmd, cm, cp, cf, cv, chg = k["ca"], k["cmd"], k["cm"], k["cp"], k["cf"], k["cv"], k["chg"]
+        tkt, mb, fc, lc, pc, mn, mn_pct = k["tkt"], k["mb"], k["fc"], k["lc"], k["pc"], k["mn"], k["mn_pct"]
 
-        tkt_p = round(ca_p / cmd_p, 2)    if cmd_p > 0 and ca_p > 0 else None
-        mb_p  = _safe_pct(ca_p - chg_p, ca_p) if ca_p > 0 and chg_p > 0 else None
-        fc_p  = _safe_pct(cm_p, ca_p)
-        lc_p  = _safe_pct(cp_p, ca_p)
-        pc_p  = round((cm_p + cp_p) / ca_p * 100, 1) if ca_p > 0 and (cm_p > 0 or cp_p > 0) else None
+        # ── M-1 (mois précédent calendaire) ──────────────────────────────────
+        prev_m = ALL_MONTHS[i - 1] if i > 0 else None
+        p  = _month_kpis(prev_m) if prev_m else None
+        ca_p    = p["ca"]  if p else 0
+        tkt_p   = p["tkt"] if p else None
+        mb_p    = p["mb"]  if p else None
+        fc_p    = p["fc"]  if p else None
+        lc_p    = p["lc"]  if p else None
+        pc_p    = p["pc"]  if p else None
+        mn_p    = p["mn"]  if p else None
+        mn_pct_p = p["mn_pct"] if p else None
+        cm_p    = p["cm"]  if p else 0
+        cp_p    = p["cp"]  if p else 0
+        cf_p    = p["cf"]  if p else 0
+        cv_p    = p["cv"]  if p else 0
+        chg_p   = p["chg"] if p else 0
+        has_prev = ca_p > 0
+
+        # ── N-1 (même mois l'année précédente) ───────────────────────────────
+        year   = int(m[:4])
+        n1_m   = f"{year - 1}{m[4:]}"  # e.g. "2026-04" → "2025-04"
+        n1     = _month_kpis(n1_m) if n1_m in ALL_MONTHS else None
+        ca_n1       = n1["ca"]     if n1 else None
+        mn_n1       = n1["mn"]     if n1 else None
+        mn_pct_n1   = n1["mn_pct"] if n1 else None
+        fc_n1       = n1["fc"]     if n1 else None
+        lc_n1       = n1["lc"]     if n1 else None
+        tkt_n1      = n1["tkt"]    if n1 else None
+        cf_n1       = n1["cf"]     if n1 else None
+        cv_n1       = n1["cv"]     if n1 else None
 
         mois_data.append({
-            "mois":     m,
-            "label":    MONTH_LABELS[i],
-            "ca":       ca,
-            "cmd":      cmd,
-            "tkt":      tkt,
-            "mb":       mb,
-            "fc":       fc,
-            "lc":       lc,
-            "pc":       pc,
-            "evol_ca":  _evol_pct(ca, ca_p)   if ca_p > 0 else None,
-            "evol_tkt": _evol_pct(tkt, tkt_p) if tkt and tkt_p else None,
-            "evol_mb":  _evol_pts(mb, mb_p),
-            "evol_fc":  _evol_pts(fc, fc_p),
-            "evol_lc":  _evol_pts(lc, lc_p),
-            "evol_pc":  _evol_pts(pc, pc_p),
+            "mois":         m,
+            "label":        ALL_MONTH_LABELS[i],
+            "annee":        str(year),
+            "ca":           ca,
+            "cmd":          cmd,
+            "cm":           cm,
+            "cp":           cp,
+            "cf":           cf,
+            "cv":           cv,
+            "chg":          chg,
+            "tkt":          tkt,
+            "mb":           mb,
+            "fc":           fc,
+            "lc":           lc,
+            "pc":           pc,
+            "mn":           mn,
+            "mn_pct":       mn_pct,
+            # M-1 (mois précédent)
+            "evol_ca":      _evol_pct(ca,  ca_p)      if has_prev else None,
+            "evol_ca_abs":  _evol_abs(ca,  ca_p)      if has_prev else None,
+            "evol_tkt":     _evol_pct(tkt, tkt_p)     if (tkt and tkt_p) else None,
+            "evol_tkt_abs": _evol_abs(tkt, tkt_p)     if (tkt and tkt_p) else None,
+            "evol_mb":      _evol_pts(mb,  mb_p),
+            "evol_fc":      _evol_pts(fc,  fc_p),
+            "evol_lc":      _evol_pts(lc,  lc_p),
+            "evol_pc":      _evol_pts(pc,  pc_p),
+            "evol_mn_pct":  _evol_pts(mn_pct, mn_pct_p),
+            "evol_cm_abs":  _evol_abs(cm,  cm_p)      if has_prev else None,
+            "evol_cp_abs":  _evol_abs(cp,  cp_p)      if has_prev else None,
+            "evol_chg_abs": _evol_abs(chg, chg_p)     if has_prev else None,
+            "evol_mn_abs":  _evol_abs(mn,  mn_p)      if (mn_p is not None) else None,
+            "evol_mn_rel":  _evol_pct(mn,  mn_p)      if (mn_p and mn_p > 0) else None,
+            # N-1 (même mois année précédente)
+            "n1_ca":        ca_n1,
+            "n1_ca_abs":    _evol_abs(ca,  ca_n1)     if ca_n1 else None,
+            "n1_ca_pct":    _evol_pct(ca,  ca_n1)     if ca_n1 else None,
+            "n1_mn":        mn_n1,
+            "n1_mn_abs":    _evol_abs(mn,  mn_n1)     if mn_n1 is not None else None,
+            "n1_mn_pct":    _evol_pct(mn,  mn_n1)     if (mn_n1 is not None and mn_n1 != 0) else None,
+            "n1_mn_pct_pts":_evol_pts(mn_pct, mn_pct_n1),
+            "n1_fc_pts":    _evol_pts(fc,  fc_n1),
+            "n1_lc_pts":    _evol_pts(lc,  lc_n1),
+            "n1_tkt_abs":   _evol_abs(tkt, tkt_n1)    if (tkt and tkt_n1) else None,
+            "n1_tkt_pct":   _evol_pct(tkt, tkt_n1)    if (tkt and tkt_n1) else None,
+            "n1_label":     ALL_MONTH_LABELS[ALL_MONTHS.index(n1_m)] if (n1_m in ALL_MONTHS and n1) else None,
+            # M-1 coûts fixes / variables
+            "evol_cf_abs":  _evol_abs(cf, cf_p)                      if has_prev else None,
+            "evol_cf_pct":  _evol_pct(cf, cf_p)                      if (has_prev and cf_p > 0) else None,
+            "evol_cv_abs":  _evol_abs(cv, cv_p)                      if has_prev else None,
+            "evol_cv_pct":  _evol_pct(cv, cv_p)                      if (has_prev and cv_p > 0) else None,
+            # N-1 coûts fixes / variables
+            "n1_cf_abs":    _evol_abs(cf, cf_n1)                     if cf_n1 else None,
+            "n1_cf_pct":    _evol_pct(cf, cf_n1)                     if cf_n1 else None,
+            "n1_cv_abs":    _evol_abs(cv, cv_n1)                     if cv_n1 else None,
+            "n1_cv_pct":    _evol_pct(cv, cv_n1)                     if cv_n1 else None,
         })
 
-    # ── KPIs du mois le plus récent ───────────────────────────────────────────
+    # ── Mois disponibles pour le sélecteur ────────────────────────────────────
+    available_months = [{"key": m["mois"], "label": m["label"]} for m in mois_data]
+    valid_keys       = {m["mois"] for m in mois_data}
+
+    # Par défaut (aucun paramètre URL) → mois précédent (M-1) ou dernier 2026 dispo
+    _url_mois = request.args.get("mois")
+    if _url_mois is None:
+        _yr, _mo = int(today_m[:4]), int(today_m[5:])
+        _prev_m  = f"{_yr - 1}-12" if _mo == 1 else f"{_yr}-{_mo - 1:02d}"
+        if _prev_m in valid_keys:
+            selected_month = _prev_m
+        else:
+            _avail_2026 = sorted(k for k in valid_keys if k.startswith("2026"))
+            selected_month = _avail_2026[-1] if _avail_2026 else (max(valid_keys) if valid_keys else None)
+    elif selected_month not in valid_keys:
+        selected_month = None
+
+    # ── CA cumulé (toujours le total global) ─────────────────────────────────
+    ca_cumule = sum(m["ca"] for m in mois_data)
+
+    # ── KPI du contexte sélectionné ──────────────────────────────────────────
+    if selected_month and mois_data:
+        kpi = next((m for m in mois_data if m["mois"] == selected_month), None)
+        kpi_label = kpi["label"] if kpi else selected_month
+        kpi_is_global = False
+    else:
+        # Vue globale : agréger les totaux, M-1 depuis le dernier mois disponible
+        kpi_is_global = True
+        kpi_label     = "Vue globale"
+        if mois_data:
+            ca_g   = ca_cumule
+            cm_g   = sum(m["cm"]  for m in mois_data)
+            cp_g   = sum(m["cp"]  for m in mois_data)
+            cf_g   = sum(m["cf"]  for m in mois_data)
+            cv_g   = sum(m["cv"]  for m in mois_data)
+            chg_g  = sum(m["chg"] for m in mois_data)
+            cmd_g  = sum(m["cmd"] for m in mois_data)
+            tkt_g  = round(ca_g / cmd_g, 2) if cmd_g > 0 else None
+            fc_g   = _safe_pct(cm_g,  ca_g)
+            lc_g   = _safe_pct(cp_g,  ca_g)
+            pc_g   = round((cm_g + cp_g) / ca_g * 100, 1) if ca_g > 0 and (cm_g > 0 or cp_g > 0) else None
+            mn_g   = ca_g - cm_g - cp_g - chg_g
+            mn_pct_g = round(mn_g / ca_g * 100, 1) if ca_g > 0 else None
+            last   = mois_data[-1]  # M-1 référence = dernier mois
+            kpi = {
+                "ca":           ca_g,
+                "cmd":          cmd_g,
+                "cm":           cm_g,
+                "cp":           cp_g,
+                "cf":           cf_g,
+                "cv":           cv_g,
+                "chg":          chg_g,
+                "tkt":          tkt_g,
+                "fc":           fc_g,
+                "lc":           lc_g,
+                "pc":           pc_g,
+                "mn":           mn_g,
+                "mn_pct":       mn_pct_g,
+                # M-1 repris du dernier mois
+                "evol_ca":      last.get("evol_ca"),
+                "evol_ca_abs":  last.get("evol_ca_abs"),
+                "evol_tkt":     last.get("evol_tkt"),
+                "evol_tkt_abs": last.get("evol_tkt_abs"),
+                "evol_fc":      last.get("evol_fc"),
+                "evol_cm_abs":  last.get("evol_cm_abs"),
+                "evol_lc":      last.get("evol_lc"),
+                "evol_cp_abs":  last.get("evol_cp_abs"),
+                "evol_chg_abs": last.get("evol_chg_abs"),
+                "evol_mn_pct":  last.get("evol_mn_pct"),
+                "evol_mn_abs":  last.get("evol_mn_abs"),
+                "evol_mn_rel":  last.get("evol_mn_rel"),
+                # N-1 global : CA 2025 vs CA 2026 (tous mois)
+                "n1_ca":        sum(m["ca"] for m in mois_data if m["annee"] == "2025") or None,
+                "n1_ca_abs":    None,  # calculé après
+                "n1_ca_pct":    None,
+                "n1_mn":        None,
+                "n1_mn_abs":    None,
+                "n1_mn_pct":    None,
+                "n1_mn_pct_pts":None,
+                "n1_fc_pts":    None,
+                "n1_lc_pts":    None,
+                "n1_tkt_abs":   None,
+                "n1_tkt_pct":   None,
+                "n1_label":     "2025",
+                # cf/cv évolutions — non calculées en vue globale
+                "evol_cf_abs":  None, "evol_cf_pct":  None,
+                "evol_cv_abs":  None, "evol_cv_pct":  None,
+                "n1_cf_abs":    None, "n1_cf_pct":    None,
+                "n1_cv_abs":    None, "n1_cv_pct":    None,
+            }
+            # Compléter n1 global : CA 2026 vs CA 2025
+            if kpi and kpi.get("n1_ca"):
+                ca_2026 = sum(m["ca"] for m in mois_data if m["annee"] == "2026")
+                ca_2025 = kpi["n1_ca"]
+                kpi["n1_ca_abs"] = ca_2026 - ca_2025
+                kpi["n1_ca_pct"] = round((ca_2026 - ca_2025) / ca_2025 * 100, 1) if ca_2025 else None
+        else:
+            kpi = None
+
+    # ── Classement CA parmi la même marque ───────────────────────────────────
+    all_restos = _get_all_restaurants(data)
+    brand_restos = [r for r in all_restos if r.get("brand") == brand]
+    brand_ca_rank = []
+    for r in brand_restos:
+        r_ca_raw = data.get(r["id"], {})
+        if selected_month:
+            r_ca_val = r_ca_raw.get(selected_month) or 0
+        else:
+            r_ca_val = sum((r_ca_raw.get(mo) or 0) for mo in ALL_MONTHS)
+        brand_ca_rank.append({"id": r["id"], "ca": r_ca_val})
+    brand_ca_rank.sort(key=lambda x: x["ca"], reverse=True)
+    total_brand   = len(brand_ca_rank)
+    ranking_pos   = next((i + 1 for i, r in enumerate(brand_ca_rank) if r["id"] == rid), None)
+    ranking       = {"pos": ranking_pos, "total": total_brand, "brand": brand} if ranking_pos else None
+
+    # ── Dernier mois (pour hero section) ─────────────────────────────────────
     dernier = mois_data[-1] if mois_data else None
 
     # ── Meilleur / Pire mois ──────────────────────────────────────────────────
     meilleur_mois = max(mois_data, key=lambda x: x["ca"]) if mois_data else None
     pire_mois     = min(mois_data, key=lambda x: x["ca"]) if mois_data else None
 
-    # ── Moyennes ─────────────────────────────────────────────────────────────
+    # ── Moyennes ──────────────────────────────────────────────────────────────
     def _avg(field):
-        vals = [m[field] for m in mois_data if m[field] is not None]
+        vals = [m[field] for m in mois_data if m.get(field) is not None]
         return round(sum(vals) / len(vals), 1) if vals else None
 
     moyennes = {
@@ -2145,9 +2412,176 @@ def restaurant_profil(profil_id):
     # ── Tableau trié décroissant ──────────────────────────────────────────────
     tableau = list(reversed(mois_data))
 
-    # ── Données Chart.js ──────────────────────────────────────────────────────
-    chart_labels = [m["label"] for m in mois_data]
-    chart_ca     = [m["ca"]    for m in mois_data]
+    # ── Données Chart.js — 2 séries : 2025 et 2026 ───────────────────────────
+    # On aligne par mois (Jan→Déc) pour comparer les deux années
+    chart_labels   = [l for l in MONTH_LABELS_2025]  # Jan–Déc (court)
+    chart_labels_s = ["Jan","Fév","Mar","Avr","Mai","Juin","Juil","Août","Sep","Oct","Nov","Déc"]
+    data_by_month  = {m["mois"]: m["ca"] for m in mois_data}
+    chart_ca_2025  = [data_by_month.get(m, 0) for m in MONTHS_2025]
+    chart_ca_2026  = [data_by_month.get(m, 0) for m in MONTHS]
+    # Série linéaire complète (tous mois confondus, pour compatibilité)
+    chart_ca       = [m["ca"] for m in mois_data]
+    chart_labels_full = [m["label"] for m in mois_data]
+
+    # ── CA cumulé 2025 (pour comparaison globale) ─────────────────────────────
+    ca_cumule_2025 = sum(data_by_month.get(m, 0) for m in MONTHS_2025)
+    ca_cumule_2026 = sum(data_by_month.get(m, 0) for m in MONTHS)
+
+    # ── TOP5 / FLOP5 produits ─────────────────────────────────────────────────
+    prod_raw = []
+
+    # Source 1 : produits saisis manuellement (data["produits"][rid])
+    for m, items in data.get("produits", {}).get(rid, {}).items():
+        if not isinstance(items, list):
+            continue
+        for item in items:
+            nom = str(item.get("nom", "")).strip()
+            quantite = _product_number(item.get("quantite"))
+            prix_u   = _product_number(item.get("prix_unitaire"))
+            if not nom or quantite <= 0:
+                continue
+            prod_raw.append({
+                "nom":      nom,
+                "quantite": round(quantite, 2),
+                "ca":       round(quantite * max(prix_u, 0), 2),
+                "month":    m,
+            })
+
+    # Source 2 : imports Excel (data["ventes_produits"][month][brand]["restaurants"][rid])
+    for m, by_brand in data.get("ventes_produits", {}).items():
+        if not isinstance(by_brand, dict):
+            continue
+        articles = by_brand.get(brand, {}).get("restaurants", {}).get(rid, {})
+        if not isinstance(articles, dict):
+            continue
+        for article in articles.values():
+            if not isinstance(article, dict):
+                continue
+            nom    = str(article.get("article", "")).strip()
+            ventes = _product_number(article.get("ventes"))
+            q      = _product_number(article.get("quantite")) if article.get("quantite") is not None else 0.0
+            if not nom or (ventes <= 0 and q <= 0):
+                continue
+            prod_raw.append({
+                "nom":      nom,
+                "quantite": round(q, 2),
+                "ca":       round(ventes, 2),
+                "month":    m,
+            })
+
+    # Filtre sur le mois sélectionné
+    if selected_month:
+        prod_raw = [r for r in prod_raw if r["month"] == selected_month]
+
+    # Agrégation par nom de produit
+    prod_agg: dict = {}
+    for r in prod_raw:
+        key = r["nom"]
+        bucket = prod_agg.setdefault(key, {"nom": key, "quantite": 0.0, "ca": 0.0})
+        bucket["quantite"] += r["quantite"]
+        bucket["ca"]       += r["ca"]
+
+    all_products = [
+        {"nom": v["nom"], "quantite": round(v["quantite"], 2), "ca": round(v["ca"], 2)}
+        for v in prod_agg.values()
+        if v["quantite"] > 0 or v["ca"] > 0
+    ]
+
+    # TOP5 / FLOP5 quantité (uniquement produits avec qty > 0)
+    by_qty     = sorted([p for p in all_products if p["quantite"] > 0],
+                        key=lambda x: x["quantite"], reverse=True)
+    top5_qty   = by_qty[:5]
+    flop5_qty  = list(reversed(by_qty[-5:])) if by_qty else []
+
+    # TOP5 / FLOP5 CA (uniquement produits avec ca > 0)
+    by_ca      = sorted([p for p in all_products if p["ca"] > 0],
+                        key=lambda x: x["ca"], reverse=True)
+    top5_ca    = by_ca[:5]
+    flop5_ca   = list(reversed(by_ca[-5:])) if by_ca else []
+
+    products_data = {
+        "top5_qty":  top5_qty,
+        "flop5_qty": flop5_qty,
+        "top5_ca":   top5_ca,
+        "flop5_ca":  flop5_ca,
+        "has_data":  bool(all_products),
+    }
+
+    # ── Benchmarking interne (comparaison enseigne) ───────────────────────────
+    bench_months = [selected_month] if selected_month else [m["mois"] for m in mois_data]
+
+    def _bench_kpis(r_id, months):
+        """Agrège CA, FC, LC pour un restaurant sur une liste de mois."""
+        r_ca  = data.get(r_id, {})
+        r_cm  = data.get("cout_matieres",  {}).get(r_id, {})
+        r_cp  = data.get("cout_personnel", {}).get(r_id, {})
+        r_cmd = data.get("commandes",      {}).get(r_id, {})
+        ca_t = cm_t = cp_t = cmd_t = 0.0
+        for m in months:
+            ca_v = r_ca.get(m) or 0
+            if ca_v <= 0:
+                continue
+            ca_t  += ca_v
+            cm_t  += r_cm.get(m) or 0
+            cp_t  += r_cp.get(m) or 0
+            cmd_t += r_cmd.get(m) or 0
+        if ca_t <= 0:
+            return None
+        return {
+            "ca":  round(ca_t),
+            "fc":  round(cm_t / ca_t * 100, 1) if cm_t > 0 else None,
+            "lc":  round(cp_t / ca_t * 100, 1) if cp_t > 0 else None,
+        }
+
+    bench_rows = []
+    for r in brand_restos:
+        bk = _bench_kpis(r["id"], bench_months)
+        if bk:
+            bk["id"]   = r["id"]
+            bk["name"] = r["name"]
+            bench_rows.append(bk)
+
+    def _bench_stat(field, higher_is_better=True):
+        """Calcule min/avg/max/best pour un champ sur bench_rows."""
+        vals = [(b["name"], b[field]) for b in bench_rows if b.get(field) is not None]
+        if not vals:
+            return None
+        v_list = [v for _, v in vals]
+        avg  = round(sum(v_list) / len(v_list), 1 if field != "ca" else 0)
+        mn   = min(v_list)
+        mx   = max(v_list)
+        best_name, best_val = (max if higher_is_better else min)(vals, key=lambda x: x[1])
+        me   = kpi.get(field) if kpi else None
+        gap  = round(me - avg, 1 if field != "ca" else 0) if me is not None else None
+        gap_pct = round((me - avg) / avg * 100, 1) if (me is not None and avg and field == "ca") else None
+        # Position sur l'échelle min–max (%)
+        pos_pct = round((me - mn) / (mx - mn) * 100) if (me is not None and mx != mn) else (50 if me is not None else None)
+        better  = (gap > 0) if (higher_is_better and gap is not None) else (gap < 0 if gap is not None else None)
+        return {
+            "me":        me,
+            "avg":       avg,
+            "best":      best_val,
+            "best_name": best_name,
+            "min":       mn,
+            "max":       mx,
+            "gap":       gap,
+            "gap_pct":   gap_pct,
+            "pos_pct":   pos_pct,
+            "better":    better,
+            "n":         len(vals),
+        }
+
+    if len(bench_rows) >= 2:
+        bench_data = {
+            "has_data":  True,
+            "brand":     brand,
+            "n":         len(bench_rows),
+            "ca":        _bench_stat("ca",  higher_is_better=True),
+            "fc":        _bench_stat("fc",  higher_is_better=False),
+            "lc":        _bench_stat("lc",  higher_is_better=False),
+        }
+    else:
+        bench_data = {"has_data": False, "brand": brand, "n": len(bench_rows)}
 
     return render_template(
         "restaurant_profil.html",
@@ -2161,10 +2595,24 @@ def restaurant_profil(profil_id):
         pire_mois=pire_mois,
         moyennes=moyennes,
         tendance=tendance,
-        chart_labels=chart_labels,
+        chart_labels=chart_labels_full,
         chart_ca=chart_ca,
+        chart_labels_short=chart_labels_s,
+        chart_ca_2025=chart_ca_2025,
+        chart_ca_2026=chart_ca_2026,
         brand_colors=BRAND_COLORS,
         nb_mois=len(mois_data),
+        kpi=kpi,
+        kpi_label=kpi_label,
+        kpi_is_global=kpi_is_global,
+        available_months=available_months,
+        selected_month=selected_month,
+        ca_cumule=ca_cumule,
+        ca_cumule_2025=ca_cumule_2025,
+        ca_cumule_2026=ca_cumule_2026,
+        ranking=ranking,
+        products_data=products_data,
+        bench_data=bench_data,
     )
 
 
